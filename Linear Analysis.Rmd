@@ -1,0 +1,124 @@
+---
+title: "Linear Analysis"
+author: "Henry Stoddard"
+date: "11/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(tidyverse)
+library(readxl)
+library(maps)
+library(plotly)
+library(patchwork)
+library(corrr)
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+Cleaning datasets
+
+```{r}
+whr_df = 
+  read_excel("./data/WHR20_Data.xls") %>% 
+  janitor::clean_names() %>% 
+  arrange(country_name) %>% 
+  rename(countries = country_name) %>% 
+  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
+
+hfi_df = 
+  read_excel("./data/human-freedom-index-2019.xlsx",
+             skip = 4, na = "-") %>% 
+  janitor::clean_names() %>% 
+  filter(year == "2017") %>% 
+  arrange(countries) %>% 
+  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
+
+
+```
+
+Merging datasets
+
+```{r}
+merged_df = 
+  left_join(whr_df, hfi_df, by = "countries")
+```
+
+NOTE Current dataset not fully cleaned, creating basic linear analysis
+NOTE Change above code to match other file for data
+
+```{r}
+scatter_plot = 
+merged_df %>% 
+ggplot(aes(x=ladder_score, y = human_freedom_score)) +
+  geom_point() +
+  stat_smooth(method = "lm")
+```
+
+The above l=plot suggests a mostly positive, linear relationship between happiness score
+and freedom score
+
+Boxplot check for outliers
+```{r}
+box_plot1 =
+  merged_df %>% 
+  ggplot(aes(y = ladder_score)) +
+  geom_boxplot()
+box_plot2 =
+  merged_df %>% 
+  ggplot(aes(y = human_freedom_score)) +
+  geom_boxplot()
+box_plot1 + box_plot2
+```
+Looks like maybe some outliers for HFS
+
+Density plots for normality
+```{r}
+den_plot1 =
+  merged_df %>% 
+  ggplot(aes(x = ladder_score)) +
+  geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)
+den_plot2 =
+  merged_df %>% 
+  ggplot(aes(x = human_freedom_score)) +
+  geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)
+den_plot1 + den_plot2
+```
+
+Checking correlation
+```{r}
+complete_df = 
+  merged_df %>% 
+  drop_na(ladder_score, human_freedom_score) 
+cor = cor(complete_df$ladder_score, complete_df$human_freedom_score)
+
+```
+
+corrln with uncleaned data and only complete cases = 0.67, indicating corrln
+
+now running linear model just ladder score and HFI
+```{r}
+linear_model = 
+  lm(ladder_score ~ human_freedom_score, data = complete_df)
+linear_stats = 
+  summary(linear_model)
+
+broom::tidy(linear_model)
+
+broom::glance(linear_model)
+```
+
