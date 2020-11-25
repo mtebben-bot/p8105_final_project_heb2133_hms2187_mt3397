@@ -122,3 +122,6 @@ broom::tidy(linear_model)
 broom::glance(linear_model)
 ```
 
+Things to add: bootstrapping, more advanced models, 
+
+advanced models: subtypes of freedom - assembly, religion, association, movement, security_safety, inheritance rights, disappearances_conflicts_terrorism, rule of law, homicide
