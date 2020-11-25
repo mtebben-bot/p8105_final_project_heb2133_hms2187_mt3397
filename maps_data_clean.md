@@ -24,7 +24,7 @@ Merging datasets
 
 ``` r
 merged_df = 
-  left_join(whr_df, hfi_df, by = "countries")
+  full_join(whr_df, hfi_df, by = "countries")
 ```
 
 First attempt at making a world map
