@@ -1,0 +1,15 @@
+---
+title: "Project Intro"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+##  Introduction:
+
+- introducing project goals/objectives
+- what data we used, ect.; code to merge and clean df
+- outlining what we did, where to find what analyses
+

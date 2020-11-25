@@ -1,0 +1,66 @@
+---
+title: "Nordic Exceptionalism"
+output: github_document
+---
+
+Change output later 
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(readxl)
+library(maps)
+library(plotly)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+Clean/Merge -- to be cut out in final page; use exported merged file instead
+
+```{r}
+whr_df = 
+  read_excel("./data/WHR20_Data.xls") %>% 
+  janitor::clean_names() %>% 
+  arrange(country_name) %>% 
+  rename(countries = country_name) %>% 
+  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
+
+hfi_df = 
+  read_excel("./data/human-freedom-index-2019.xlsx",
+             skip = 4, na = "-") %>% 
+  janitor::clean_names() %>% 
+  filter(year == "2017") %>% 
+  arrange(countries) %>% 
+  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
+
+merged_df = 
+  left_join(whr_df, hfi_df, by = "countries")
+
+```
+
+Filtering out Nordic countries:
+
+Do we need to show code checking that these countries are in the df?
+
+The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.
+
+```{r}
+nordic_df = 
+  merged_df %>% 
+  filter (countries %in% c("Norway", "Denmark",
+                  "Finland", "Sweden", "Iceland"))
+```
+
