@@ -1,0 +1,120 @@
+---
+title: "Top 5 Countries"
+output: github_document
+---
+
+
+
+
+```{r setup, include = F, echo = F}
+library(tidyverse)
+library(readxl)
+library(patchwork)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Read in data
+
+```{r, warning = F, message = F}
+merged_df = 
+  read_csv("./data/merged_df.csv") %>% 
+  mutate(world_happiness_score = ladder_score) %>% 
+  select(-X1, -ladder_score) %>% 
+  drop_na(world_happiness_score, human_freedom_score) %>% 
+  select(countries, world_happiness_score, everything())
+```
+
+## Ladder Score Bottom 5
+
+```{r}
+bot5_whr = 
+  merged_df %>% 
+  arrange(world_happiness_score) %>% 
+  top_n(world_happiness_score, n = -5)
+
+```
+
+## Ladder Score Top 5
+
+```{r}
+top5_whr = 
+  merged_df %>% 
+  arrange(world_happiness_score) %>% 
+  top_n(world_happiness_score, n = 5) %>% 
+  arrange(desc(world_happiness_score))
+
+```
+
+## HFI Top 5
+
+```{r}
+top5_hfi = 
+  merged_df %>% 
+  select(countries, human_freedom_score, everything()) %>% 
+  arrange(human_freedom_score) %>% 
+  top_n(human_freedom_score, n = 5) %>% 
+  arrange(desc(human_freedom_score))
+```
+
+## HFI Bottom 5
+
+```{r}
+bot5_hfi = 
+  merged_df %>% 
+  select(countries, human_freedom_score, everything()) %>%
+  arrange(human_freedom_score) %>% 
+  top_n(human_freedom_score, n = -5)
+```
+
+## Tables n Plots
+
+```{r}
+bot5_hfi %>% knitr::kable()
+top5_hfi %>% knitr::kable()
+
+hfi_combo = full_join(bot5_hfi, top5_hfi)
+
+hfi_plot = 
+  hfi_combo %>% 
+  ggplot(aes(x = human_freedom_score, y = world_happiness_score))+
+  geom_point()+
+  geom_label(aes(label = countries), hjust = 0, vjust = 0)+
+  xlim(min = 0, max = 10)+
+  ylim(min = 0, max = 10)
+
+bot5_whr %>% knitr::kable()
+top5_whr %>% knitr::kable()
+
+whr_combo = full_join(bot5_whr, top5_whr)
+
+whr_plot = 
+  whr_combo %>% 
+  ggplot(aes(x = world_happiness_score, y = human_freedom_score))+
+  geom_point()+
+  geom_label(aes(label = countries), hjust = 0, vjust = 0)+
+  xlim(min = 0, max = 10)+
+  ylim(min = 0, max = 10)
+
+hfi_plot + whr_plot
+```
+
+
+
+
+
+
