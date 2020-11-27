@@ -31,41 +31,49 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-Clean/Merge -- to be cut out in final page; use exported merged file instead
+The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. Tables comparing the Nordic country, as well as the averages from the Nordic region and global averages for each score. Note that the human freedom score is a composite score of the personal and economic freedom scores. 
 
-```{r}
-whr_df = 
-  read_excel("./data/WHR20_Data.xls") %>% 
-  janitor::clean_names() %>% 
-  arrange(country_name) %>% 
-  rename(countries = country_name) %>% 
-  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
-
-hfi_df = 
-  read_excel("./data/human-freedom-index-2019.xlsx",
-             skip = 4, na = "-") %>% 
-  janitor::clean_names() %>% 
-  filter(year == "2017") %>% 
-  arrange(countries) %>% 
-  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
-
-merged_df = 
-  left_join(whr_df, hfi_df, by = "countries")
-
-```
-
-Filtering out Nordic countries:
-
-Do we need to show code checking that these countries are in the df?
-
-The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.
-
-
-```{r}
-nordic_data = 
-  merged_df %>% 
+```{r warnings = FALSE}
+nordic_only = 
+  read_csv("./data/merged_df.csv") %>% 
   filter(countries %in% c("Denmark", "Norway", "Sweden", 
-           "Finland", "Iceland")) 
+           "Finland", "Iceland")) %>% 
+  select(-X1)
 ```
 
 
+```{r warnings = FLASE}
+merged_df = read_csv("./data/merged_df.csv") %>% 
+  select(-X1)
+
+nordic_averages = summarise_all(nordic_only, mean)
+global_averages = summarise_all(merged_df, mean, na.rm = TRUE)
+
+nordic_averages[is.na(nordic_averages)] = 0
+global_averages[is.na(global_averages)] = 1
+                          
+nordic_data = 
+  rbind(nordic_df, nordic_averages, global_averages) %>% 
+  mutate(
+    countries = as.character(countries),
+    countries = 
+      str_replace(countries, "0", "nordic_average"),
+    countries = 
+      str_replace(countries, "1", "global_average")
+    )
+
+```
+
+```{r}
+nordic_data %>% 
+  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %>% 
+  knitr::kable()
+
+nordic_data %>% 
+  select(countries, ladder_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>% 
+  knitr::kable()
+```
+
+
+plan - t/test with nordic vs 'rest of world' on happiness and freedom score
+plots scatter plots with sub freedoms 

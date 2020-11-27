@@ -13,6 +13,7 @@ library(plotly)
 library(patchwork)
 library(corrr)
 library(purrr)
+library(modelr)
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,
@@ -30,36 +31,13 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-Cleaning datasets
+Importing cleaned and merged dataset
 
 ```{r}
-whr_df = 
-  read_excel("./data/WHR20_Data.xls") %>% 
-  janitor::clean_names() %>% 
-  arrange(country_name) %>% 
-  rename(countries = country_name) %>% 
-  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
-
-hfi_df = 
-  read_excel("./data/human-freedom-index-2019.xlsx",
-             skip = 4, na = "-") %>% 
-  janitor::clean_names() %>% 
-  filter(year == "2017") %>% 
-  arrange(countries) %>% 
-  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
-
-
+merged_df =
+  read_csv("./data/merged_df.csv")
 ```
 
-Merging datasets
-
-```{r}
-merged_df = 
-  left_join(whr_df, hfi_df, by = "countries")
-```
-
-NOTE Current dataset not fully cleaned, creating basic linear analysis
-NOTE Change above code to match other file for data
 
 ```{r}
 scatter_plot = 
@@ -84,7 +62,7 @@ box_plot2 =
   geom_boxplot()
 box_plot1 + box_plot2
 ```
-Looks like maybe some outliers for HFS
+Looks like maybe one outlier for HFS
 
 Density plots for normality
 ```{r}
@@ -101,26 +79,143 @@ den_plot1 + den_plot2
 
 Checking correlation
 ```{r}
-complete_df = 
+complete_df1 = 
   merged_df %>% 
   drop_na(ladder_score, human_freedom_score) 
-cor = cor(complete_df$ladder_score, complete_df$human_freedom_score)
+cor = cor(complete_df1$ladder_score, complete_df1$human_freedom_score)
 
 ```
 
-corrln with uncleaned data and only complete cases = 0.67, indicating corrln
+corrln with uncleaned data and only complete cases = 0.69, indicating corrln
 
 now running linear model just ladder score and HFI
 ```{r}
 linear_model = 
-  lm(ladder_score ~ human_freedom_score, data = complete_df)
+  lm(ladder_score ~ human_freedom_score, data = complete_df1)
 linear_stats = 
   summary(linear_model)
 
-broom::tidy(linear_model)
+broom::tidy(linear_model) %>% 
+  select(-std.error, -statistic) %>% 
+  knitr::kable(digits = 3)
 
 broom::glance(linear_model)
+
+complete_df1 %>% 
+  modelr::add_residuals(linear_model) %>% 
+  ggplot(aes(x = human_freedom_score, y = resid)) + 
+  geom_violin()
 ```
+
+Linear Model 2: world happiness with personal freedom and economic freedom
+
+```{r}
+complete_df2 = 
+  merged_df %>% 
+  drop_na(ladder_score, personal_freedom_score, economic_freedom_score)
+linear_model2 = 
+  lm(ladder_score ~ personal_freedom_score + economic_freedom_score, data = complete_df2)
+linear_stats = 
+  summary(linear_model2)
+
+broom::tidy(linear_model2) %>% 
+  select(-std.error, -statistic) %>% 
+  knitr::kable(digits = 3)
+
+broom::glance(linear_model2)
+
+complete_df2 %>% 
+  modelr::add_residuals(linear_model2) %>% 
+  ggplot(aes(x = personal_freedom_score, y = resid)) + 
+  geom_violin()
+
+complete_df2 %>% 
+  modelr::add_residuals(linear_model2) %>% 
+  ggplot(aes(x = economic_freedom_score, y = resid)) + 
+  geom_violin()
+```
+
+Linear Model 3: world happiness with freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide.
+
+```{r}
+complete_df3 = 
+  merged_df %>% 
+  drop_na(ladder_score, assembly, religion, association, movement, security_safety, inheritance_rights, disapperances_conflicts_and_terrorism, rule_of_law, homicide)
+
+linear_model3 = 
+  lm(ladder_score ~ assembly + religion + association + movement + security_safety + inheritance_rights + disapperances_conflicts_and_terrorism + rule_of_law + homicide, data = complete_df3)
+
+linear_stats = 
+  summary(linear_model3)
+
+broom::tidy(linear_model3) %>% 
+  select(-std.error, -statistic) %>% 
+  knitr::kable(digits = 3)
+
+broom::glance(linear_model3)
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = assembly, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = religion, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = association, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = movement, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = security_safety, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = inheritance_rights, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = disapperances_conflicts_and_terrorism, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = rule_of_law, y = resid)) + 
+  geom_violin()
+
+complete_df3 %>% 
+  modelr::add_residuals(linear_model3) %>% 
+  ggplot(aes(x = homicide, y = resid)) + 
+  geom_violin()
+```
+
+```{r}
+merged_df %>% 
+  bootstrap(1000, id = "strap_number") %>% 
+  mutate(
+    models = map(.x = strap, ~lm(ladder_score ~ human_freedom_score, data = .x)), 
+    results = map(models, broom::tidy)
+  ) %>% 
+  select(strap_number, results) %>% 
+  unnest(results) %>% 
+  group_by(term) %>% 
+  summarize(
+    mean_est = mean(estimate),
+    sd_est = sd(estimate)
+  )
+```
+
 
 Things to add: bootstrapping, more advanced models 
 
