@@ -60,15 +60,12 @@ Do we need to show code checking that these countries are in the df?
 
 The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.
 
-Getting map data for the countries 
 
 ```{r}
-
 nordic_data = 
   merged_df %>% 
   filter(countries %in% c("Denmark", "Norway", "Sweden", 
-           "Finland", "Iceland"))
-
+           "Finland", "Iceland")) 
 ```
 
 
