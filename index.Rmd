@@ -1,5 +1,5 @@
 ---
-title: "Project Intro"
+title: "About"
 output: 
   html_document:
     toc: true
@@ -7,7 +7,7 @@ output:
     code_folding: hide
 ---
 
-## Project Objectives
+## Project Objective
 
 Using data from the World Happiness Report (WHR) and Human Freedom Index (HFI), we set out to explore how citizens' perceived happiness connects to the degree of human freedom in their corresponding countries.
 
