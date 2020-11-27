@@ -8,8 +8,11 @@ Change output later
 ```{r setup, include = FALSE}
 library(tidyverse)
 library(readxl)
-library(maps)
 library(plotly)
+
+library(ggplot2)
+library(grid)
+library(rworldmap)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -57,10 +60,15 @@ Do we need to show code checking that these countries are in the df?
 
 The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.
 
+Getting map data for the countries 
+
 ```{r}
-nordic_df = 
+
+nordic_data = 
   merged_df %>% 
-  filter (countries %in% c("Norway", "Denmark",
-                  "Finland", "Sweden", "Iceland"))
+  filter(countries %in% c("Denmark", "Norway", "Sweden", 
+           "Finland", "Iceland"))
+
 ```
+
 
