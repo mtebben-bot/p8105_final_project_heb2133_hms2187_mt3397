@@ -24,7 +24,10 @@ Merging datasets
 
 ``` r
 merged_df = 
-  full_join(whr_df, hfi_df, by = "countries")
+  full_join(whr_df, hfi_df, by = "countries") %>% 
+  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
+         religion, association, assembly, movement, inheritance_rights, security_safety, 
+         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government)
 
 write.csv(merged_df, "./data/merged_df.csv")
 ```
