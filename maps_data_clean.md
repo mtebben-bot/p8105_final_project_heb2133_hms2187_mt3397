@@ -1,4 +1,4 @@
-Is Happiness Real?
+Cleaned Data & Maps
 ================
 
 Cleaning datasets
@@ -25,6 +25,8 @@ Merging datasets
 ``` r
 merged_df = 
   full_join(whr_df, hfi_df, by = "countries")
+
+write.csv(merged_df, "./data/merged_df.csv")
 ```
 
 First attempt at making a world map
