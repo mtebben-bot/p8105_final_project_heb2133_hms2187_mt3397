@@ -33,24 +33,24 @@ scale_fill_discrete = scale_fill_viridis_d
 
 Importing cleaned and merged dataset
 
-```{r}
+```{r include = FALSE}
 merged_df =
   read_csv("./data/merged_df.csv")
 ```
 
-
+Let's start with a scatterplot of happiness (ladder score) by human freedom score.
 ```{r}
 scatter_plot = 
 merged_df %>% 
 ggplot(aes(x=ladder_score, y = human_freedom_score)) +
   geom_point() +
   stat_smooth(method = "lm")
+scatter_plot
 ```
 
-The above plot suggests a mostly positive, linear relationship between happiness score
-and freedom score
+The above plot suggests a mostly positive, linear relationship between happiness score and freedom score.
 
-Boxplot check for outliers
+Now, a boxplot check for outliers:
 ```{r}
 box_plot1 =
   merged_df %>% 
@@ -62,9 +62,10 @@ box_plot2 =
   geom_boxplot()
 box_plot1 + box_plot2
 ```
-Looks like maybe one outlier for HFS
 
-Density plots for normality
+Looks like maybe one outlier for freedom score.
+
+Now, some density plots to check normality of happiness and freedom.
 ```{r}
 den_plot1 =
   merged_df %>% 
@@ -76,6 +77,7 @@ den_plot2 =
   geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)
 den_plot1 + den_plot2
 ```
+Ladder score looks mostly normal, HFI less so (large peak around HFI=6.5, smaller peak around HFI= 8.5)
 
 Checking correlation
 ```{r}
@@ -83,12 +85,15 @@ complete_df1 =
   merged_df %>% 
   drop_na(ladder_score, human_freedom_score) 
 cor = cor(complete_df1$ladder_score, complete_df1$human_freedom_score)
-
+cor
 ```
 
-corrln with uncleaned data and only complete cases = 0.69, indicating corrln
+Correlation with cleaned data and only complete cases = 0.69, indicating moderate correlation between ladder score and human freedom score.
 
-now running linear model just ladder score and HFI
+
+# Linear Models
+## Linear Model 1
+Now running linear model just ladder score and freedom score
 ```{r}
 linear_model = 
   lm(ladder_score ~ human_freedom_score, data = complete_df1)
@@ -99,7 +104,8 @@ broom::tidy(linear_model) %>%
   select(-std.error, -statistic) %>% 
   knitr::kable(digits = 3)
 
-broom::glance(linear_model)
+broom::glance(linear_model) %>% 
+  knitr::kable(digits = 3)
 
 complete_df1 %>% 
   modelr::add_residuals(linear_model) %>% 
@@ -107,7 +113,12 @@ complete_df1 %>%
   geom_violin()
 ```
 
-Linear Model 2: world happiness with personal freedom and economic freedom
+On average, for every one unit increase in freedom score, happiness increases by .68 units.
+The freedom score term does have a significant p-value, meaning we can reject the null hypothesis and say that there is a relationship between happiness and freedom.
+It also appears that the residuals are normally distributed.
+
+## Linear Model 2
+The second linear model will model world happiness with freedom split into two subtypes: personal freedom and economic freedom.
 
 ```{r}
 complete_df2 = 
@@ -135,7 +146,12 @@ complete_df2 %>%
   geom_violin()
 ```
 
-Linear Model 3: world happiness with freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide.
+On average, for every one unit increase in personal freedom score, happiness increases by .41 units. For every one unit increase in economic freedom score, happiness increases by .23 units.
+Both freedom scores have a significant p-value, meaning we can reject the null hypothesis and say that there is a relationship between happiness and both economic and personal freedom.Interestingly, it seems that personal freedom is more influential on happiness than economic freedom.
+It also appears that the residuals are normally distributed.
+
+## Linear Model 3
+The third model will model  happiness with multiple subtypes of freedom: freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide.
 
 ```{r}
 complete_df3 = 
@@ -200,23 +216,6 @@ complete_df3 %>%
   geom_violin()
 ```
 
-```{r}
-merged_df %>% 
-  bootstrap(1000, id = "strap_number") %>% 
-  mutate(
-    models = map(.x = strap, ~lm(ladder_score ~ human_freedom_score, data = .x)), 
-    results = map(models, broom::tidy)
-  ) %>% 
-  select(strap_number, results) %>% 
-  unnest(results) %>% 
-  group_by(term) %>% 
-  summarize(
-    mean_est = mean(estimate),
-    sd_est = sd(estimate)
-  )
-```
+On average, for every one unit increase in rule of law freedom score, happiness increases by .45 units. For every one unit increase in homicide score, happiness decreases by .19 units. These were the only two terms with significant p-values, indicating that there is a relationship between rule of law and happiness, as well as homicide and happiness. However, it is worth noting that the disappearances, conflicts, and terrorism term and the security and safety term were both very close to the cutoff value of p < .05.
 
-
-Things to add: bootstrapping, more advanced models 
-
-advanced models: subtypes of freedom - assembly, religion, association, movement, security_safety, inheritance_rights, disappearances_conflicts_terrorism, rule_of_law, homicide
+It also appears that the residuals are not as normally distributed as in previous models.
