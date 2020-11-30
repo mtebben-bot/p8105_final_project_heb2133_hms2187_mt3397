@@ -1,62 +1,7 @@
 Top 5 Countries
 ================
 
-## Read in data
-
-``` r
-merged_df = 
-  read_csv("./data/merged_df.csv") %>% 
-  mutate(world_happiness_score = ladder_score) %>% 
-  select(-X1, -ladder_score) %>% 
-  drop_na(world_happiness_score, human_freedom_score) %>% 
-  select(countries, world_happiness_score, everything())
-```
-
-## Ladder Score Bottom 5
-
-``` r
-bot5_whr = 
-  merged_df %>% 
-  arrange(world_happiness_score) %>% 
-  top_n(world_happiness_score, n = -5)
-```
-
-## Ladder Score Top 5
-
-``` r
-top5_whr = 
-  merged_df %>% 
-  arrange(world_happiness_score) %>% 
-  top_n(world_happiness_score, n = 5) %>% 
-  arrange(desc(world_happiness_score))
-```
-
-## HFI Top 5
-
-``` r
-top5_hfi = 
-  merged_df %>% 
-  select(countries, human_freedom_score, everything()) %>% 
-  arrange(human_freedom_score) %>% 
-  top_n(human_freedom_score, n = 5) %>% 
-  arrange(desc(human_freedom_score))
-```
-
-## HFI Bottom 5
-
-``` r
-bot5_hfi = 
-  merged_df %>% 
-  select(countries, human_freedom_score, everything()) %>%
-  arrange(human_freedom_score) %>% 
-  top_n(human_freedom_score, n = -5)
-```
-
 ## Tables n Plots
-
-``` r
-bot5_hfi %>% knitr::kable()
-```
 
 | countries | human\_freedom\_score | world\_happiness\_score | personal\_freedom\_score | economic\_freedom\_score | religion | association | assembly | movement | inheritance\_rights | security\_safety | disapperances\_conflicts\_and\_terrorism | rule\_of\_law | homicide | size\_of\_government |
 | :-------- | --------------------: | ----------------------: | -----------------------: | -----------------------: | -------: | ----------: | -------: | -------: | ------------------: | ---------------: | ---------------------------------------: | ------------: | -------: | -------------------: |
@@ -66,9 +11,7 @@ bot5_hfi %>% knitr::kable()
 | Egypt     |                  4.50 |                  4.1514 |                 3.946335 |                     5.05 | 3.733333 |         5.0 |      2.5 | 4.166667 |                 0.0 |         4.983010 |                                 5.304344 |      3.626148 | 8.994685 |             4.862935 |
 | Libya     |                  4.64 |                  5.4888 |                 4.833050 |                     4.45 | 6.938889 |         2.5 |      2.5 | 5.833333 |                 7.5 |         6.891814 |                                 2.926994 |      2.321973 | 8.998449 |             3.654235 |
 
-``` r
-top5_hfi %>% knitr::kable()
-```
+Insert comments on bot 5 hfi
 
 | countries   | human\_freedom\_score | world\_happiness\_score | personal\_freedom\_score | economic\_freedom\_score | religion | association | assembly | movement | inheritance\_rights | security\_safety | disapperances\_conflicts\_and\_terrorism | rule\_of\_law | homicide | size\_of\_government |
 | :---------- | --------------------: | ----------------------: | -----------------------: | -----------------------: | -------: | ----------: | -------: | -------: | ------------------: | ---------------: | ---------------------------------------: | ------------: | -------: | -------------------: |
@@ -78,23 +21,11 @@ top5_hfi %>% knitr::kable()
 | Canada      |                  8.65 |                  7.2321 |                 9.222964 |                     8.08 | 9.003704 |        10.0 |     10.0 |       10 |                  10 |         9.747287 |                                 9.961861 |      7.738324 |     9.28 |             6.484464 |
 | Australia   |                  8.62 |                  7.2228 |                 9.160533 |                     8.07 | 9.075926 |        10.0 |     10.0 |       10 |                  10 |         9.878339 |                                 9.955017 |      7.776279 |     9.68 |             6.959863 |
 
-``` r
-hfi_combo = full_join(bot5_hfi, top5_hfi)
-```
+Insert comments on top 5 hfi
 
-    ## Joining, by = c("countries", "human_freedom_score", "world_happiness_score", "personal_freedom_score", "economic_freedom_score", "religion", "association", "assembly", "movement", "inheritance_rights", "security_safety", "disapperances_conflicts_and_terrorism", "rule_of_law", "homicide", "size_of_government")
+<img src="top_5_bottom_5_files/figure-gfm/unnamed-chunk-8-1.png" width="90%" />
 
-``` r
-hfi_plot = 
-  hfi_combo %>% 
-  ggplot(aes(x = human_freedom_score, y = world_happiness_score))+
-  geom_point()+
-  geom_label(aes(label = countries), hjust = 0, vjust = 0)+
-  xlim(min = 0, max = 10)+
-  ylim(min = 0, max = 10)
-
-bot5_whr %>% knitr::kable()
-```
+Insert comments about the plot hfi
 
 | countries                | world\_happiness\_score | human\_freedom\_score | personal\_freedom\_score | economic\_freedom\_score | religion | association | assembly | movement | inheritance\_rights | security\_safety | disapperances\_conflicts\_and\_terrorism | rule\_of\_law | homicide | size\_of\_government |
 | :----------------------- | ----------------------: | --------------------: | -----------------------: | -----------------------: | -------: | ----------: | -------: | -------: | ------------------: | ---------------: | ---------------------------------------: | ------------: | -------: | -------------------: |
@@ -104,9 +35,7 @@ bot5_whr %>% knitr::kable()
 | Tanzania                 |                  3.4762 |                  6.26 |                 5.748136 |                     6.77 | 6.447778 |         7.5 |      5.0 | 8.333333 |                 0.0 |         6.835967 |                                 8.487902 |      4.244131 | 7.520000 |             6.658225 |
 | Botswana                 |                  3.4789 |                  7.17 |                 6.970084 |                     7.37 | 9.008333 |          NA |       NA | 7.500000 |                 7.5 |         7.578237 |                                10.000000 |      5.641684 | 3.984712 |             6.366563 |
 
-``` r
-top5_whr %>% knitr::kable()
-```
+Insert comments about bot 5 whr
 
 | countries   | world\_happiness\_score | human\_freedom\_score | personal\_freedom\_score | economic\_freedom\_score | religion | association | assembly | movement | inheritance\_rights | security\_safety | disapperances\_conflicts\_and\_terrorism | rule\_of\_law | homicide | size\_of\_government |
 | :---------- | ----------------------: | --------------------: | -----------------------: | -----------------------: | -------: | ----------: | -------: | -------: | ------------------: | ---------------: | ---------------------------------------: | ------------: | -------: | -------------------: |
@@ -116,22 +45,8 @@ top5_whr %>% knitr::kable()
 | Iceland     |                  7.5045 |                  8.41 |                 9.084634 |                     7.74 | 8.122222 |          10 |       10 |       10 |                  10 |         9.880000 |                                10.000000 |      7.757267 |     9.64 |             5.811087 |
 | Norway      |                  7.4880 |                  8.44 |                 9.259625 |                     7.62 | 7.407407 |          10 |       10 |       10 |                  10 |         9.933333 |                                10.000000 |      8.556488 |     9.80 |             4.927812 |
 
-``` r
-whr_combo = full_join(bot5_whr, top5_whr)
-```
+Insert comments about top 5 whr
 
-    ## Joining, by = c("countries", "world_happiness_score", "human_freedom_score", "personal_freedom_score", "economic_freedom_score", "religion", "association", "assembly", "movement", "inheritance_rights", "security_safety", "disapperances_conflicts_and_terrorism", "rule_of_law", "homicide", "size_of_government")
+<img src="top_5_bottom_5_files/figure-gfm/unnamed-chunk-11-1.png" width="90%" />
 
-``` r
-whr_plot = 
-  whr_combo %>% 
-  ggplot(aes(x = world_happiness_score, y = human_freedom_score))+
-  geom_point()+
-  geom_label(aes(label = countries), hjust = 0, vjust = 0)+
-  xlim(min = 0, max = 10)+
-  ylim(min = 0, max = 10)
-
-hfi_plot + whr_plot
-```
-
-<img src="top_5_bottom_5_files/figure-gfm/unnamed-chunk-6-1.png" width="90%" />
+Insert comments about whr plot
