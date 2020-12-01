@@ -11,7 +11,7 @@
 
 
 
-<title>Nordic Exceptionalism</title>
+<title>nordic_except</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -363,7 +363,7 @@ div.tocify {
   <a href="Linear-Analysis.html">Linear Analyses</a>
 </li>
 <li>
-  <a href="nordic_subanalysis.html">Nordic Analyses</a>
+  <a href="nordic_except.html">Nordic Exceptionalism</a>
 </li>
 <li>
   <a href="maps_data_clean.html">World Maps</a>
@@ -400,12 +400,12 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Nordic Exceptionalism</h1>
+<h1 class="title toc-ignore">nordic_except</h1>
 
 </div>
 
 
-<p>&lt;img src=“location-nordic-council.png” style="width:75%&gt;</p>
+<p><img src="images/nordic_map.png" /></p>
 <p>(Add info on idea of “nordic exceptionalism” and outline of anaylsis/exploration)</p>
 <p>The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.</p>
 <p>Generating dataset with nordic countries and overall group averages.</p>
@@ -417,25 +417,6 @@ nordic_only =
   select(-X1) %&gt;% 
   rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)</code></pre>
 <pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   countries = col_character(),
-##   ladder_score = col_double(),
-##   human_freedom_score = col_double(),
-##   personal_freedom_score = col_double(),
-##   economic_freedom_score = col_double(),
-##   religion = col_double(),
-##   association = col_double(),
-##   assembly = col_double(),
-##   movement = col_double(),
-##   inheritance_rights = col_double(),
-##   security_safety = col_double(),
-##   disapperances_conflicts_and_terrorism = col_double(),
-##   rule_of_law = col_double(),
-##   homicide = col_double(),
-##   size_of_government = col_double()
-## )</code></pre>
 <pre class="r"><code># Creating dataset with all other countries
 global_other = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
   select(-X1) %&gt;% 
@@ -445,25 +426,6 @@ global_other = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;%
     ) %&gt;% 
   rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)</code></pre>
 <pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   countries = col_character(),
-##   ladder_score = col_double(),
-##   human_freedom_score = col_double(),
-##   personal_freedom_score = col_double(),
-##   economic_freedom_score = col_double(),
-##   religion = col_double(),
-##   association = col_double(),
-##   assembly = col_double(),
-##   movement = col_double(),
-##   inheritance_rights = col_double(),
-##   security_safety = col_double(),
-##   disapperances_conflicts_and_terrorism = col_double(),
-##   rule_of_law = col_double(),
-##   homicide = col_double(),
-##   size_of_government = col_double()
-## )</code></pre>
 <pre class="r"><code>#Getting averages across dataframes
 nordic_averages = summarise_all(nordic_only, mean)</code></pre>
 <pre><code>## Warning in mean.default(countries): argument is not numeric or logical:
@@ -694,25 +656,6 @@ merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;%
     )) %&gt;% 
   mutate(countries = as.character(countries))</code></pre>
 <pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   countries = col_character(),
-##   ladder_score = col_double(),
-##   human_freedom_score = col_double(),
-##   personal_freedom_score = col_double(),
-##   economic_freedom_score = col_double(),
-##   religion = col_double(),
-##   association = col_double(),
-##   assembly = col_double(),
-##   movement = col_double(),
-##   inheritance_rights = col_double(),
-##   security_safety = col_double(),
-##   disapperances_conflicts_and_terrorism = col_double(),
-##   rule_of_law = col_double(),
-##   homicide = col_double(),
-##   size_of_government = col_double()
-## )</code></pre>
 <pre class="r"><code>merged_setup$countries[is.na(merged_setup$countries)] = &quot;other&quot;
 
 #Group means, counts, and SD for happiness score
@@ -722,7 +665,6 @@ group_by(merged_setup, countries) %&gt;%
     mean = mean(overall_happiness_score, na.rm = TRUE),
     sd = sd(overall_happiness_score, na.rm = TRUE)
   )</code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 2 x 4
 ##   countries count  mean    sd
 ##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -735,7 +677,6 @@ group_by(merged_setup, countries) %&gt;%
     mean = mean(human_freedom_score, na.rm = TRUE),
     sd = sd(human_freedom_score, na.rm = TRUE)
   )</code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 2 x 4
 ##   countries count  mean     sd
 ##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;

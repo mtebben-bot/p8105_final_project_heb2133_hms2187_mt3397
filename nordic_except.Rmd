@@ -38,7 +38,7 @@ The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and
 
 Generating dataset with nordic countries and overall group averages.
 
-```{r warnings = FALSE, message = FALSE}
+```{r, warnings = FALSE, message = FALSE}
 # Creating nordic only dataset
 nordic_only = 
   read_csv("./data/merged_df.csv") %>% 
@@ -79,7 +79,7 @@ nordic_data =
 
 Nordic countries vs rest of the world on happiness and freedom scores. Note that "human freedom score" is a composite score of personal and economic freedom. 
 
-```{r warnings = FALSE, message = FALSE}
+```{r, warnings = FALSE, message = FALSE}
 nordic_data %>% 
   select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %>% 
   knitr::kable()
@@ -87,7 +87,7 @@ nordic_data %>%
 
 Nordic countries vs rest of the world with additionally included sub freedoms.
 
-```{r warnings = FALSE, message = FALSE}
+```{r, warnings = FALSE, message = FALSE}
 nordic_data %>% 
   select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>%
   knitr::kable()
@@ -95,7 +95,7 @@ nordic_data %>%
 
 Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. Tables showing summary data of means, SD, and n for nordic vs other countries.
 
-```{r warnings = FALSE, message = FALSE}
+```{r, warnings = FALSE, message = FALSE}
 
 #Reformatting data for tests 
 
@@ -135,7 +135,7 @@ group_by(merged_setup, countries) %>%
 
 t-test for overall happiness nordic vs other. Assume unequal variance due to difference in sample size. 
 
-```{r warnings = FALSE, message = FALSE}
+```{r, warnings = FALSE, message = FALSE}
 t.test(overall_happiness_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %>% 
   broom::tidy() %>% 
@@ -145,7 +145,7 @@ t.test(overall_happiness_score ~ countries,
 
 t-test for human freedom score nordic vs other. Assume unequal variance due to difference in sample size. 
 
-```{r warnings = FALSE, message = FALSE}
+```{r, warnings = FALSE, message = FALSE}
 t.test(human_freedom_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %>% 
   broom::tidy() %>% 
