@@ -11,7 +11,7 @@ navbar:
       href: nordic-subanalysis.html
     - text: "Data Cleaning and Basic Maps"
       href: maps_data_clean.html
-    - text: "top 5 bottom 5"
+    - text: "Top 5 Bottom 5"
       href: top_5_bottom_5.html
     - icon: fa-envelope fa-lg
       href: mailto:<hms2187@cumc.columbia.edu>
