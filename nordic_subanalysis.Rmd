@@ -1,6 +1,6 @@
 ---
 title: "Nordic Exceptionalism"
-output: github_document
+output: html_document
 ---
 
 Change output later 
@@ -42,7 +42,7 @@ nordic_only =
 ```
 
 
-```{r warnings = FLASE}
+```{r warnings = FALSE}
 merged_df = read_csv("./data/merged_df.csv") %>% 
   select(-X1)
 
@@ -53,7 +53,7 @@ nordic_averages[is.na(nordic_averages)] = 0
 global_averages[is.na(global_averages)] = 1
                           
 nordic_data = 
-  rbind(nordic_df, nordic_averages, global_averages) %>% 
+  rbind(nordic_only, nordic_averages, global_averages) %>% 
   mutate(
     countries = as.character(countries),
     countries = 
