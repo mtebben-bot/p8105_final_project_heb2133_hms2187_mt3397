@@ -38,30 +38,101 @@ merged_df =
   select(countries, world_happiness_score, everything())
 ```
 
-## Map of World Happiness Scores
+```{r, message = F, warning = F}
+#Plotly has master datasets that contain three-digit ISO codes for each country. We need to merge the ISO codes in with our dataset in order to produce a map in plotly. This requires us to read in the master dataset and mutate so that the variable name for countries matches the variable name in our dataset. We also selected just the countries and the ISO codes, as we are not interested in any of the rest of the variables.
 
-```{r, warning=FALSE}
-world = 
-  map_data("world")
+df <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(countries = country) %>% 
+  select(countries, code)
 
-whr_map =
-  merged_df %>% 
-  select(countries, world_happiness_score)
+#We noticed that some countries that have data in our merged dataset were not appearing in the maps and realized that there is a difference in the way certain country names are written. To correct this, we use the function anti_join to find which countries in our merged dataset are not corresponding with countries in the master plotly dataset for the world map. I saved this as a dataframe to be able to quickly refer to the list.
 
+recode_df = anti_join(merged_df, df)
 
-ggplot()+
-  geom_map(data = world, map = world, aes(x = long, y = lat, group = group, map_id = region))+
-  geom_map(data = whr_map, map = world, aes(fill = world_happiness_score, map_id = countries))
+#Now, we must find how these countries are labeled in the master plotly dataset.
+  
+df %>% 
+filter(str_detect(countries, c("Congo", "Gambia", "Ivo", "Burma", "Cyprus", "Korea", "Trinidad", "United", 
+                             "Bahamas", "Brunei", "Verde", "Kyrgy")))
+
+#This code helped us find the names for both the Republic of Congo and the Democratic Republic of the Congo in the plotly dataset.
+df %>% 
+  filter(str_detect(countries, "Congo"))
+
+df %>% 
+  filter(str_detect(countries, "Gambia"))
+
+# Since Ivory Coast can also be referred to as Cote D'Ivoire, we searched for "Ivo" to try to yield either result.
+df %>% 
+  filter(str_detect(countries, "Ivo"))
+
+#Upon first search for Myanmar, no results were found. However, Myanmar is sometimes referred to as Burma, so I searched for Burma as well, which gave us a result.
+df %>% 
+  filter(str_detect(countries, "Burma"))
+
+df %>% 
+  filter(str_detect(countries, "Cyprus"))
+
+#Upon searching, there was no label for Palestine in the plotly master dataset.
+
+df %>% 
+  filter(str_detect(countries, "Korea"))
+
+df %>% 
+  filter(str_detect(countries, "Trinidad"))
+
+#This code helped us find the plotly master dataset names for the UK and the USA.
+df %>% 
+  filter(str_detect(countries, "United"))
+
+df %>% 
+  filter(str_detect(countries, "Bahamas"))
+
+df %>% 
+  filter(str_detect(countries, "Brunei"))
+
+#Since Cape Verde is also known as Cabo Verde, we searched only for Verde.
+df %>% 
+  filter(str_detect(countries, "Verde"))
+
+#We were not sure why there was a missing value for Kyrgyzstan at first. We realized that some sources keep the s while others do not, so we searched only for "Kyrgy".
+df %>% 
+  filter(str_detect(countries, "Kyrgy"))
+
+#Now we need to overwrite our merged dataset with the recoded country names to ensure that the merge with the plotly dataset will work properly.
+
+merged_df = merged_df %>% 
+  mutate(countries = recode(countries, "Democratic Republic of the Congo" = "Congo, Democratic Republic of the", 
+  "Gambia" = "Gambia, The", "Ivory Coast" = "Cote d'Ivoire", "Myanmar" = "Burma", "North Cyprus" = "Cyprus", 
+  "Republic of the Congo" = "Congo, Republic of the", "South Korea" = "Korea, South", 
+  "Trinidad" = "Trinidad and Tobago", "UK" = "United Kingdom", "USA" = "United States", "Bahamas" = "Bahamas, The",
+  "Brunei Darussalam" = "Brunei", "Cape Verde" = "Cabo Verde", "Kyrgyztan" = "Kyrgyzstan") 
+         )
+
+#We are doing a left_join to keep only the countries in our merged dataset rather than having a bunch of NAs in the map creation step.
+
+map_df = left_join(merged_df, df)
 ```
 
-## Map of Human Freedom Scores
+```{r}
+whr_map =
+  plot_geo(map_df) %>% 
+  add_trace(z = ~world_happiness_score, text = ~countries, locations = ~code, color = ~world_happiness_score,
+            colors = 'viridis') %>% 
+ layout(title = "Map of World Happiness Scores") %>% 
+  colorbar(title = "World Happiness Score")
+
+whr_map
+```
 
 ```{r, warning=FALSE}
-hfi_map = 
-  merged_df %>% 
-  select(countries, human_freedom_score)
+hfi_map =
+  plot_geo(map_df) %>% 
+  add_trace(z = ~human_freedom_score, text = ~countries, locations = ~code, color = ~human_freedom_score,
+            colors = 'viridis') %>% 
+  layout(title = "World Map of Human Freedom Index Scores") %>% 
+  colorbar(title = "Human Freedom Score")
 
-ggplot()+
-  geom_map(data = world, map = world, aes(x = long, y = lat, group = group, map_id = region))+
-  geom_map(data = hfi_map, map = world, aes(fill = human_freedom_score, map_id = countries))
+hfi_map
 ```
