@@ -3,16 +3,11 @@ title: "Nordic Exceptionalism"
 output: github_document
 ---
 
-Change output later 
-
 ```{r setup, include = FALSE}
 library(tidyverse)
 library(readxl)
-library(plotly)
-
-library(ggplot2)
-library(grid)
-library(rworldmap)
+library(patchwork)
+library(ggrepel)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -31,49 +26,115 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. Tables comparing the Nordic country, as well as the averages from the Nordic region and global averages for each score. Note that the human freedom score is a composite score of the personal and economic freedom scores. 
+The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. Tables comparing the Nordic country, as well as the averages from the Nordic region and the rest of the world. Note that the human freedom score is a composite score of the personal and economic freedom scores. 
 
 ```{r warnings = FALSE}
 nordic_only = 
   read_csv("./data/merged_df.csv") %>% 
   filter(countries %in% c("Denmark", "Norway", "Sweden", 
            "Finland", "Iceland")) %>% 
-  select(-X1)
+  select(-X1) %>% 
+  rename("overall_happiness_score" = "ladder_score")
 ```
 
 
-```{r warnings = FLASE}
-merged_df = read_csv("./data/merged_df.csv") %>% 
-  select(-X1)
+```{r warnings = FALSE}
+global_other = read_csv("./data/merged_df.csv") %>% 
+  select(-X1) %>% 
+  mutate(
+    countries = str_remove(
+      countries, "Denmark|Norway|Sweden|Finland|Icedland")
+  ) %>% 
+  rename("overall_happiness_score" = "ladder_score")
 
+#Getting averages across dataframes
 nordic_averages = summarise_all(nordic_only, mean)
-global_averages = summarise_all(merged_df, mean, na.rm = TRUE)
+global_averages = summarise_all(global_other, mean, na.rm = TRUE)
 
+#Removing "NAs from last step
 nordic_averages[is.na(nordic_averages)] = 0
 global_averages[is.na(global_averages)] = 1
-                          
+
+#Binding dataframes                          
 nordic_data = 
-  rbind(nordic_df, nordic_averages, global_averages) %>% 
+  rbind(nordic_only, nordic_averages, global_averages) %>% 
   mutate(
     countries = as.character(countries),
     countries = 
       str_replace(countries, "0", "nordic_average"),
     countries = 
-      str_replace(countries, "1", "global_average")
+      str_replace(countries, "1", "other_global_average")
     )
 
 ```
 
 ```{r}
 nordic_data %>% 
-  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %>% 
+  select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %>% 
   knitr::kable()
 
 nordic_data %>% 
-  select(countries, ladder_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>% 
+  select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>%
   knitr::kable()
 ```
 
+Two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. 
 
-plan - t/test with nordic vs 'rest of world' on happiness and freedom score
-plots scatter plots with sub freedoms 
+```{r}
+#Reformatting data for tests 
+
+merged_setup = read_csv("./data/merged_df.csv") %>% 
+  select(-X1) %>% 
+  rename("overall_happiness_score" = "ladder_score") %>%
+  select(countries, overall_happiness_score,
+         human_freedom_score) %>% 
+  mutate(
+    countries = case_when(
+      countries == "Denmark"     ~ "nordic",
+      countries == "Norway"      ~ "nordic",
+      countries == "Sweden"      ~ "nordic",
+      countries == "Finland"     ~ "nordic",
+      countries == "Iceland"     ~ "nordic"
+    )) %>% 
+  mutate(countries = as.character(countries))
+
+merged_setup$countries[is.na(merged_setup$countries)] = "other"
+
+#Group means, counts, and SD for happiness score
+group_by(merged_setup, countries) %>%
+  summarise(
+    count = n(),
+    mean = mean(overall_happiness_score, na.rm = TRUE),
+    sd = sd(overall_happiness_score, na.rm = TRUE)
+  )
+
+#Group means, counts, and SD for happiness score
+group_by(merged_setup, countries) %>%
+  summarise(
+    count = n(),
+    mean = mean(human_freedom_score, na.rm = TRUE),
+    sd = sd(human_freedom_score, na.rm = TRUE)
+  )
+```
+
+t-test for overall happiness nordic vs other. Assume unequal variance due to difference in sample size. 
+
+```{r}
+t.test(overall_happiness_score ~ countries, 
+              data = merged_setup, var.equal = FALSE) %>% 
+  broom::tidy() %>% 
+  select(estimate:estimate2, statistic, p.value) %>% 
+  knitr::kable()
+```
+
+t-test for human freedom score nordic vs other. Assume unequal variance due to difference in sample size. 
+
+```{r}
+t.test(human_freedom_score ~ countries, 
+              data = merged_setup, var.equal = FALSE) %>% 
+  broom::tidy() %>% 
+  select(estimate:estimate2, statistic, p.value) %>% 
+  knitr::kable()
+```
+
+To-do: potentially scatter plots with sub freedoms nordic countries 
