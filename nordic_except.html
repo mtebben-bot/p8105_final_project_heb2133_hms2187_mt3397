@@ -19,7 +19,11 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -247,7 +251,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -257,6 +327,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -283,13 +363,13 @@ $(document).ready(function () {
   <a href="Linear-Analysis.html">Linear Analyses</a>
 </li>
 <li>
-  <a href="nordic-subanalysis.html">Nordic Analyses</a>
+  <a href="nordic_except.html">Nordic Exceptionalism</a>
 </li>
 <li>
-  <a href="maps_data_clean.html">Data Cleaning and Basic Maps</a>
+  <a href="maps_data_clean.html">World Maps</a>
 </li>
 <li>
-  <a href="top_5_bottom_5.html">top 5 bottom 5</a>
+  <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
 </li>
 <li>
   <a href="mailto:&lt;hms2187@cumc.columbia.edu&gt;">
@@ -298,7 +378,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="http://github.com/&lt;hms2187&gt;/">
+  <a href="http://github.com/mtebben-bot/p8105_final_project_heb2133_hms2187_mt3397">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -310,6 +390,14 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Nordic Exceptionalism</h1>
@@ -317,64 +405,35 @@ $(document).ready(function () {
 </div>
 
 
-<p>Change output later</p>
-<p>The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. Tables comparing the Nordic country, as well as the averages from the Nordic region and global averages for each score. Note that the human freedom score is a composite score of the personal and economic freedom scores.</p>
-<pre class="r"><code>nordic_only = 
+<p><img src="images/nordic_map.png" /></p>
+<p>(Add info on idea of “nordic exceptionalism” and outline of anaylsis/exploration) The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.</p>
+<p>Code for generating dataset with group averages is embedded.</p>
+<pre class="r"><code># Creating nordic only dataset
+nordic_only = 
   read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
   filter(countries %in% c(&quot;Denmark&quot;, &quot;Norway&quot;, &quot;Sweden&quot;, 
            &quot;Finland&quot;, &quot;Iceland&quot;)) %&gt;% 
-  select(-X1)</code></pre>
-<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   countries = col_character(),
-##   ladder_score = col_double(),
-##   human_freedom_score = col_double(),
-##   personal_freedom_score = col_double(),
-##   economic_freedom_score = col_double(),
-##   religion = col_double(),
-##   association = col_double(),
-##   assembly = col_double(),
-##   movement = col_double(),
-##   inheritance_rights = col_double(),
-##   security_safety = col_double(),
-##   disapperances_conflicts_and_terrorism = col_double(),
-##   rule_of_law = col_double(),
-##   homicide = col_double(),
-##   size_of_government = col_double()
-## )</code></pre>
-<pre class="r"><code>merged_df = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
-  select(-X1)</code></pre>
-<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   countries = col_character(),
-##   ladder_score = col_double(),
-##   human_freedom_score = col_double(),
-##   personal_freedom_score = col_double(),
-##   economic_freedom_score = col_double(),
-##   religion = col_double(),
-##   association = col_double(),
-##   assembly = col_double(),
-##   movement = col_double(),
-##   inheritance_rights = col_double(),
-##   security_safety = col_double(),
-##   disapperances_conflicts_and_terrorism = col_double(),
-##   rule_of_law = col_double(),
-##   homicide = col_double(),
-##   size_of_government = col_double()
-## )</code></pre>
-<pre class="r"><code>nordic_averages = summarise_all(nordic_only, mean)</code></pre>
-<pre><code>## Warning in mean.default(countries): argument is not numeric or logical:
-## returning NA</code></pre>
-<pre class="r"><code>global_averages = summarise_all(merged_df, mean, na.rm = TRUE)</code></pre>
-<pre><code>## Warning in mean.default(countries, na.rm = TRUE): argument is not numeric or
-## logical: returning NA</code></pre>
-<pre class="r"><code>nordic_averages[is.na(nordic_averages)] = 0
+  select(-X1) %&gt;% 
+  rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)
+
+# Creating dataset with all other countries
+global_other = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
+  select(-X1) %&gt;% 
+  mutate(
+    countries = str_remove(
+      countries, &quot;Denmark|Norway|Sweden|Finland|Icedland&quot;)
+    ) %&gt;% 
+  rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)
+
+#Getting averages across dataframes
+nordic_averages = summarise_all(nordic_only, mean)
+global_averages = summarise_all(global_other, mean, na.rm = TRUE)
+
+#Removing NAs in &#39;countries&#39; from last step 
+nordic_averages[is.na(nordic_averages)] = 0
 global_averages[is.na(global_averages)] = 1
-                          
+
+#Binding dataframes                          
 nordic_data = 
   rbind(nordic_only, nordic_averages, global_averages) %&gt;% 
   mutate(
@@ -382,23 +441,24 @@ nordic_data =
     countries = 
       str_replace(countries, &quot;0&quot;, &quot;nordic_average&quot;),
     countries = 
-      str_replace(countries, &quot;1&quot;, &quot;global_average&quot;)
+      str_replace(countries, &quot;1&quot;, &quot;other_global_average&quot;)
     )</code></pre>
+<p>Nordic countries vs rest of the world on happiness and freedom scores.</p>
 <pre class="r"><code>nordic_data %&gt;% 
-  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %&gt;% 
+  select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %&gt;% 
   knitr::kable()</code></pre>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="15%" />
-<col width="13%" />
+<col width="18%" />
 <col width="21%" />
-<col width="24%" />
-<col width="24%" />
+<col width="18%" />
+<col width="20%" />
+<col width="20%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">countries</th>
-<th align="right">ladder_score</th>
+<th align="right">overall_happiness_score</th>
 <th align="right">human_freedom_score</th>
 <th align="right">personal_freedom_score</th>
 <th align="right">economic_freedom_score</th>
@@ -448,7 +508,7 @@ nordic_data =
 <td align="right">7.722000</td>
 </tr>
 <tr class="odd">
-<td align="left">global_average</td>
+<td align="left">other_global_average</td>
 <td align="right">5.47324</td>
 <td align="right">6.887963</td>
 <td align="right">6.976827</td>
@@ -456,26 +516,28 @@ nordic_data =
 </tr>
 </tbody>
 </table>
+<p>Note that “human freedom score” is a composite score of personal and economic freedom.</p>
+<p>Nordic countries vs rest of the world with additionally included sub freedoms.</p>
 <pre class="r"><code>nordic_data %&gt;% 
-  select(countries, ladder_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %&gt;% 
+  select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %&gt;%
   knitr::kable()</code></pre>
 <table>
 <colgroup>
-<col width="11%" />
-<col width="9%" />
-<col width="14%" />
-<col width="6%" />
-<col width="8%" />
+<col width="13%" />
+<col width="15%" />
+<col width="13%" />
+<col width="5%" />
 <col width="7%" />
-<col width="11%" />
-<col width="8%" />
 <col width="6%" />
-<col width="14%" />
+<col width="10%" />
+<col width="7%" />
+<col width="5%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">countries</th>
-<th align="right">ladder_score</th>
+<th align="right">overall_happiness_score</th>
 <th align="right">human_freedom_score</th>
 <th align="right">religion</th>
 <th align="right">association</th>
@@ -560,7 +622,7 @@ nordic_data =
 <td align="right">4.940059</td>
 </tr>
 <tr class="odd">
-<td align="left">global_average</td>
+<td align="left">other_global_average</td>
 <td align="right">5.47324</td>
 <td align="right">6.887963</td>
 <td align="right">7.476429</td>
@@ -573,10 +635,148 @@ nordic_data =
 </tr>
 </tbody>
 </table>
-<p>plan - t/test with nordic vs ‘rest of world’ on happiness and freedom score plots scatter plots with sub freedoms</p>
+<p>Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world.</p>
+<pre class="r"><code>#Reformatting data for tests 
+
+merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
+  select(-X1) %&gt;% 
+  rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;) %&gt;%
+  select(countries, overall_happiness_score,
+         human_freedom_score) %&gt;% 
+  mutate(
+    countries = case_when(
+      countries == &quot;Denmark&quot;     ~ &quot;nordic&quot;,
+      countries == &quot;Norway&quot;      ~ &quot;nordic&quot;,
+      countries == &quot;Sweden&quot;      ~ &quot;nordic&quot;,
+      countries == &quot;Finland&quot;     ~ &quot;nordic&quot;,
+      countries == &quot;Iceland&quot;     ~ &quot;nordic&quot;
+    )) %&gt;% 
+  mutate(countries = as.character(countries))
+
+merged_setup$countries[is.na(merged_setup$countries)] = &quot;other&quot;</code></pre>
+<p>Group means, counts, and standard deviation for happiness score.</p>
+<pre class="r"><code>group_by(merged_setup, countries) %&gt;%
+  summarise(
+    count = n(),
+    mean = mean(overall_happiness_score, na.rm = TRUE),
+    sd = sd(overall_happiness_score, na.rm = TRUE)
+  ) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">count</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">nordic</td>
+<td align="right">5</td>
+<td align="right">7.560060</td>
+<td align="right">0.1732669</td>
+</tr>
+<tr class="even">
+<td align="left">other</td>
+<td align="right">167</td>
+<td align="right">5.402739</td>
+<td align="right">1.0607924</td>
+</tr>
+</tbody>
+</table>
+<p>Group means, counts, and standard deviation for freedom score.</p>
+<pre class="r"><code>#Group means, counts, and SD for freedom score
+group_by(merged_setup, countries) %&gt;%
+  summarise(
+    count = n(),
+    mean = mean(human_freedom_score, na.rm = TRUE),
+    sd = sd(human_freedom_score, na.rm = TRUE)
+  ) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">count</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">nordic</td>
+<td align="right">5</td>
+<td align="right">8.488000</td>
+<td align="right">0.0622093</td>
+</tr>
+<tr class="even">
+<td align="left">other</td>
+<td align="right">167</td>
+<td align="right">6.837006</td>
+<td align="right">1.0832267</td>
+</tr>
+</tbody>
+</table>
+<p>t-test for overall happiness nordic vs other. Assume unequal variance due to difference in sample size.</p>
+<pre class="r"><code>t.test(overall_happiness_score ~ countries, 
+              data = merged_setup, var.equal = FALSE) %&gt;% 
+  broom::tidy() %&gt;% 
+  select(estimate:estimate2, statistic, p.value) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">estimate</th>
+<th align="right">estimate1</th>
+<th align="right">estimate2</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2.157321</td>
+<td align="right">7.56006</td>
+<td align="right">5.402739</td>
+<td align="right">18.49376</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>t-test for human freedom score nordic vs other. Assume unequal variance due to difference in sample size.</p>
+<pre class="r"><code>t.test(human_freedom_score ~ countries, 
+              data = merged_setup, var.equal = FALSE) %&gt;% 
+  broom::tidy() %&gt;% 
+  select(estimate:estimate2, statistic, p.value) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">estimate</th>
+<th align="right">estimate1</th>
+<th align="right">estimate2</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1.650994</td>
+<td align="right">8.488</td>
+<td align="right">6.837006</td>
+<td align="right">18.17931</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>To-do: potentially scatter plots with sub freedoms nordic countries</p>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -608,7 +808,38 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

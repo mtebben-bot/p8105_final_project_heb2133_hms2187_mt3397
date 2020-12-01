@@ -13,9 +13,10 @@ Using data from the World Happiness Report (WHR) and Human Freedom Index (HFI), 
 
 We begin by presenting a broad visual of how happiness and human freedom are distributed on a global scale, noting particularly high and low ranked countries. We use linear analysis to explore the relationship of human freedom and citizen happiness, including the impact of various subtypes of human freedom. Finally, we investigate the story of "Nordic exceptionalism" by offering a closer look at Nordic countries and how human freedoms may play a role in this narrative. 
 
-Our process of cleaning and merging these datasets is outline in ....
+Our process of cleaning and merging these datasets is outlined below.
 
 ## About our Data
+
 
 ### The World Happiness Report 
 
@@ -24,6 +25,7 @@ The WHR contains survey results from participants in 156 countries on their subj
 The report and corresponding data can be found at: 
 
 * [The 2019 World Happiness Report ](https://worldhappiness.report/ed/2019/)
+
 
 ### The Human Freedom Index
 

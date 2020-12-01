@@ -7,8 +7,8 @@ navbar:
       href: index.html
     - text: "Linear Analyses"
       href: Linear-Analysis.html
-    - text: "Nordic Analyses"
-      href: nordic_subanalysis.html
+    - text: "Nordic Exceptionalism"
+      href: nordic_except.html
     - text: "World Maps"
       href: maps_data_clean.html
     - text: "Top 5 Bottom 5"

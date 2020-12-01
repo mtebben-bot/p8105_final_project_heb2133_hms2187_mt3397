@@ -2,6 +2,8 @@
 title: "Nordic Exceptionalism"
 output: 
   html_document:
+    toc: true
+    toc_float: true
     code_folding: hide
 ---
 
@@ -28,13 +30,12 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-(Add info on idea of "nordic exceptionalism" and outline of anaylsis/exploration)
+![](images/nordic_map.png)
 
-The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. 
+(Add info on idea of "nordic exceptionalism" and outline of anaylsis/exploration) The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. 
 
-Generating dataset with nordic countries and overall group averages.
-
-```{r warnings = FALSE}
+Code for generating dataset with group averages is embedded.
+```{r, warning = FALSE, message = FALSE}
 # Creating nordic only dataset
 nordic_only = 
   read_csv("./data/merged_df.csv") %>% 
@@ -70,28 +71,26 @@ nordic_data =
     countries = 
       str_replace(countries, "1", "other_global_average")
     )
-
 ```
 
-Nordic countries vs rest of the world on happiness and freedom scores. Note that "human freedom score" is a composite score of personal and economic freedom. 
-
-```{r}
+Nordic countries vs rest of the world on happiness and freedom scores.  
+```{r, warning = FALSE, message = FALSE}
 nordic_data %>% 
   select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %>% 
   knitr::kable()
 ```
+Note that "human freedom score" is a composite score of personal and economic freedom.
 
 Nordic countries vs rest of the world with additionally included sub freedoms.
-
-```{r}
+```{r, warning = FALSE, message = FALSE}
 nordic_data %>% 
   select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>%
   knitr::kable()
 ```
 
-Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. Tables showing summary data of means, SD, and n for nordic vs other countries.
+Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. 
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 
 #Reformatting data for tests 
 
@@ -112,26 +111,34 @@ merged_setup = read_csv("./data/merged_df.csv") %>%
 
 merged_setup$countries[is.na(merged_setup$countries)] = "other"
 
-#Group means, counts, and SD for happiness score
+```
+
+Group means, counts, and standard deviation for happiness score.
+```{r, warning = FALSE, message = FALSE}
 group_by(merged_setup, countries) %>%
   summarise(
     count = n(),
     mean = mean(overall_happiness_score, na.rm = TRUE),
     sd = sd(overall_happiness_score, na.rm = TRUE)
-  )
+  ) %>% 
+  knitr::kable()
+```
 
+Group means, counts, and standard deviation for freedom score.
+```{r, warning = FALSE, message = FALSE}
 #Group means, counts, and SD for freedom score
 group_by(merged_setup, countries) %>%
   summarise(
     count = n(),
     mean = mean(human_freedom_score, na.rm = TRUE),
     sd = sd(human_freedom_score, na.rm = TRUE)
-  )
+  ) %>% 
+  knitr::kable()
 ```
 
 t-test for overall happiness nordic vs other. Assume unequal variance due to difference in sample size. 
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 t.test(overall_happiness_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %>% 
   broom::tidy() %>% 
@@ -141,7 +148,7 @@ t.test(overall_happiness_score ~ countries,
 
 t-test for human freedom score nordic vs other. Assume unequal variance due to difference in sample size. 
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 t.test(human_freedom_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %>% 
   broom::tidy() %>% 
