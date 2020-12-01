@@ -1,0 +1,22 @@
+name: "R Final Project"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: index.html
+    - text: "Linear Analyses"
+      href: Linear-Analysis.html
+    - text: "Nordic Analyses"
+      href: nordic-subanalysis.html
+    - text: "Data Cleaning and Basic Maps"
+      href: maps_data_clean.html
+    - text: "top 5 bottom 5"
+      href: top_5_bottom_5.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<hms2187@cumc.columbia.edu>
+    - icon: fa-github fa-lg
+      href: http://github.com/<hms2187>/
+output:
+  html_document:
+    theme: yeti
