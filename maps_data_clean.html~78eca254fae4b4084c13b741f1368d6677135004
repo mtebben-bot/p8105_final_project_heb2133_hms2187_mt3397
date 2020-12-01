@@ -11,7 +11,7 @@
 
 
 
-<title>About</title>
+<title>Cleaned Data &amp; Maps</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,11 +19,7 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -251,73 +247,7 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
 
 
 
@@ -327,16 +257,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -390,53 +310,71 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">About</h1>
+<h1 class="title toc-ignore">Cleaned Data &amp; Maps</h1>
 
 </div>
 
 
-<div id="project-objective" class="section level2">
-<h2>Project Objective</h2>
-<p>Using data from the World Happiness Report (WHR) and Human Freedom Index (HFI), we set out to explore how citizens’ perceived happiness connects to the degree of human freedom in their corresponding countries.</p>
-<p>We begin by presenting a broad visual of how happiness and human freedom are distributed on a global scale, noting particularly high and low ranked countries. We use linear analysis to explore the relationship of human freedom and citizen happiness, including the impact of various subtypes of human freedom. Finally, we investigate the story of “Nordic exceptionalism” by offering a closer look at Nordic countries and how human freedoms may play a role in this narrative.</p>
-<p>Our process of cleaning and merging these datasets is outline in ….</p>
-</div>
-<div id="about-our-data" class="section level2">
-<h2>About our Data</h2>
-<div id="the-world-happiness-report" class="section level3">
-<h3>The World Happiness Report</h3>
-<p>The WHR contains survey results from participants in 156 countries on their subjective wellbeing - in other words, how happy citizens perceive themselves to be. It explores how citizen wellbeing connects to, and can be explained by, various other influencing factors – such as GDP, government, conflicts, and social support. The 2019 report utilizes data from the Gallup World Poll (years 2005 – 2018).</p>
-<p>The report and corresponding data can be found at:</p>
-<ul>
-<li><a href="https://worldhappiness.report/ed/2019/">The 2019 World Happiness Report</a></li>
-</ul>
-</div>
-<div id="the-human-freedom-index" class="section level3">
-<h3>The Human Freedom Index</h3>
-<p>The 2019 Human Freedom Index broadly measures the degree of human freedom in 162 countries using various indicators of social and economic freedom including, security, size of government, religion, and civil rights. It then ranks the included countries by their overall “human freedom score”.</p>
-<p>The report and corresponding data can be found at:</p>
-<ul>
-<li><a href="https://www.cato.org/human-freedom-index-new">The Human Freedom Index - 2019</a></li>
-</ul>
-<p>Here are some linear analyses of freedom and happiness: <a href="Linear-Analysis.html">Linear Analyses</a></p>
-<p>Here is an analysis on Nordic countries happiness and freedom: <a href="nordic">Nordic Subanalysis</a></p>
-</div>
-</div>
+<p>Cleaning datasets</p>
+<pre class="r"><code>whr_df = 
+  read_excel(&quot;./data/WHR20_Data.xls&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  arrange(country_name) %&gt;% 
+  rename(countries = country_name) %&gt;% 
+  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
+
+hfi_df = 
+  read_excel(&quot;./data/human-freedom-index-2019.xlsx&quot;,
+             skip = 4, na = &quot;-&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(year == &quot;2017&quot;) %&gt;% 
+  arrange(countries) %&gt;% 
+  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)</code></pre>
+<p>Merging datasets</p>
+<pre class="r"><code>merged_df = 
+  full_join(whr_df, hfi_df, by = &quot;countries&quot;) %&gt;% 
+  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
+         religion, association, assembly, movement, inheritance_rights, security_safety, 
+         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government)
+
+write.csv(merged_df, &quot;./data/merged_df.csv&quot;)</code></pre>
+<p>First attempt at making a world map</p>
+<pre class="r"><code>world = 
+  map_data(&quot;world&quot;)
+
+whr_map =
+  merged_df %&gt;% 
+  select(countries, ladder_score)
+
+
+ggplot()+
+  geom_map(data = world, map = world, aes(x = long, y = lat, group = group, map_id = region))+
+  geom_map(data = whr_map, map = world, aes(fill = ladder_score, map_id = countries))</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: x, y</code></pre>
+<p><img src="maps_data_clean_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<pre class="r"><code>hfi_map = 
+  merged_df %&gt;% 
+  select(countries, human_freedom_score)
+
+ggplot()+
+  geom_map(data = world, map = world, aes(x = long, y = lat, group = group, map_id = region))+
+  geom_map(data = hfi_map, map = world, aes(fill = human_freedom_score, map_id = countries))</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: x, y</code></pre>
+<p><img src="maps_data_clean_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<p>These maps have a couple of flaws:<br />
+1. Not interactive<br />
+2. Some of the country names do not match with the way they are written in the world map data, so need to recode different country names in one of the two datasets<br />
+3. They’re cute but not THAT cute</p>
+<p>Thoughts/ideas:<br />
+- I believe there are some interactive tools (shiny, plotly) that we could use, but we need to have the longitude and latitude information for the countries in our dataset to build some of the maps that I encountered in my search. Should consider merging the world dataset in with ours (once country names match) for the map so that is not an issue.<br />
+- Could look into using leaflet. I spent a bit of time examining but was not able to find anything useful. There are some projections, but the code looks complex and I am not sure what the best mechanism is for this.<br />
+- Tried using plotly, was very slow to process and giving me an error (Error: vector memory exhausted(limit reached?)) that I believe is related to the amount of memory being asked for by plotly from my computer, so, yeah, not great.</p>
+<p>Things to add: - html website creation - video creation - linear regression - nordic exceptionalism subanalysis</p>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -468,38 +406,7 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

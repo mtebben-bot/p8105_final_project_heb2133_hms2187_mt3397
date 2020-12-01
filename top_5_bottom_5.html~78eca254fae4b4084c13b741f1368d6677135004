@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Top 5 Countries</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">About</a>
+</li>
+<li>
+  <a href="Linear-Analysis.html">Linear Analyses</a>
+</li>
+<li>
+  <a href="nordic-subanalysis.html">Nordic Analyses</a>
+</li>
+<li>
+  <a href="maps_data_clean.html">Data Cleaning and Basic Maps</a>
+</li>
+<li>
+  <a href="top_5_bottom_5.html">top 5 bottom 5</a>
+</li>
+<li>
+  <a href="mailto:&lt;hms2187@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/&lt;hms2187&gt;/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Top 5 Countries</h1>
+
+</div>
+
+
+<div id="tables-n-plots" class="section level2">
+<h2>Tables n Plots</h2>
+<table>
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="3%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+<col width="6%" />
+<col width="15%" />
+<col width="4%" />
+<col width="3%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">human_freedom_score</th>
+<th align="right">world_happiness_score</th>
+<th align="right">personal_freedom_score</th>
+<th align="right">economic_freedom_score</th>
+<th align="right">religion</th>
+<th align="right">association</th>
+<th align="right">assembly</th>
+<th align="right">movement</th>
+<th align="right">inheritance_rights</th>
+<th align="right">security_safety</th>
+<th align="right">disapperances_conflicts_and_terrorism</th>
+<th align="right">rule_of_law</th>
+<th align="right">homicide</th>
+<th align="right">size_of_government</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Venezuela</td>
+<td align="right">3.80</td>
+<td align="right">5.0532</td>
+<td align="right">5.027017</td>
+<td align="right">2.58</td>
+<td align="right">6.884815</td>
+<td align="right">10.0</td>
+<td align="right">10.0</td>
+<td align="right">6.666667</td>
+<td align="right">10.0</td>
+<td align="right">6.316516</td>
+<td align="right">8.949547</td>
+<td align="right">2.060257</td>
+<td align="right">0.000000</td>
+<td align="right">4.578746</td>
+</tr>
+<tr class="even">
+<td align="left">Yemen</td>
+<td align="right">4.30</td>
+<td align="right">3.5274</td>
+<td align="right">2.750150</td>
+<td align="right">5.84</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1.666667</td>
+<td align="right">0.0</td>
+<td align="right">4.188703</td>
+<td align="right">1.179511</td>
+<td align="right">2.371872</td>
+<td align="right">7.336599</td>
+<td align="right">7.108343</td>
+</tr>
+<tr class="odd">
+<td align="left">Iraq</td>
+<td align="right">4.34</td>
+<td align="right">4.7848</td>
+<td align="right">3.467836</td>
+<td align="right">5.21</td>
+<td align="right">5.327778</td>
+<td align="right">5.0</td>
+<td align="right">7.5</td>
+<td align="right">4.166667</td>
+<td align="right">0.0</td>
+<td align="right">3.552739</td>
+<td align="right">0.000000</td>
+<td align="right">2.557224</td>
+<td align="right">6.058217</td>
+<td align="right">5.043282</td>
+</tr>
+<tr class="even">
+<td align="left">Egypt</td>
+<td align="right">4.50</td>
+<td align="right">4.1514</td>
+<td align="right">3.946335</td>
+<td align="right">5.05</td>
+<td align="right">3.733333</td>
+<td align="right">5.0</td>
+<td align="right">2.5</td>
+<td align="right">4.166667</td>
+<td align="right">0.0</td>
+<td align="right">4.983010</td>
+<td align="right">5.304344</td>
+<td align="right">3.626148</td>
+<td align="right">8.994685</td>
+<td align="right">4.862935</td>
+</tr>
+<tr class="odd">
+<td align="left">Libya</td>
+<td align="right">4.64</td>
+<td align="right">5.4888</td>
+<td align="right">4.833050</td>
+<td align="right">4.45</td>
+<td align="right">6.938889</td>
+<td align="right">2.5</td>
+<td align="right">2.5</td>
+<td align="right">5.833333</td>
+<td align="right">7.5</td>
+<td align="right">6.891814</td>
+<td align="right">2.926994</td>
+<td align="right">2.321973</td>
+<td align="right">8.998449</td>
+<td align="right">3.654235</td>
+</tr>
+</tbody>
+</table>
+<p>Insert comments on bot 5 hfi</p>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="7%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="3%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+<col width="6%" />
+<col width="15%" />
+<col width="4%" />
+<col width="3%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">human_freedom_score</th>
+<th align="right">world_happiness_score</th>
+<th align="right">personal_freedom_score</th>
+<th align="right">economic_freedom_score</th>
+<th align="right">religion</th>
+<th align="right">association</th>
+<th align="right">assembly</th>
+<th align="right">movement</th>
+<th align="right">inheritance_rights</th>
+<th align="right">security_safety</th>
+<th align="right">disapperances_conflicts_and_terrorism</th>
+<th align="right">rule_of_law</th>
+<th align="right">homicide</th>
+<th align="right">size_of_government</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">New Zealand</td>
+<td align="right">8.88</td>
+<td align="right">7.2996</td>
+<td align="right">9.269332</td>
+<td align="right">8.50</td>
+<td align="right">9.731481</td>
+<td align="right">10.0</td>
+<td align="right">10.0</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.906667</td>
+<td align="right">10.000000</td>
+<td align="right">7.868546</td>
+<td align="right">9.72</td>
+<td align="right">6.635921</td>
+</tr>
+<tr class="even">
+<td align="left">Switzerland</td>
+<td align="right">8.82</td>
+<td align="right">7.5599</td>
+<td align="right">9.236934</td>
+<td align="right">8.40</td>
+<td align="right">8.188519</td>
+<td align="right">10.0</td>
+<td align="right">10.0</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.933333</td>
+<td align="right">10.000000</td>
+<td align="right">8.272328</td>
+<td align="right">9.80</td>
+<td align="right">7.595275</td>
+</tr>
+<tr class="odd">
+<td align="left">Hong Kong</td>
+<td align="right">8.81</td>
+<td align="right">5.5104</td>
+<td align="right">8.700343</td>
+<td align="right">8.91</td>
+<td align="right">8.592222</td>
+<td align="right">7.5</td>
+<td align="right">7.5</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.960000</td>
+<td align="right">10.000000</td>
+<td align="right">7.137817</td>
+<td align="right">9.88</td>
+<td align="right">8.192663</td>
+</tr>
+<tr class="even">
+<td align="left">Canada</td>
+<td align="right">8.65</td>
+<td align="right">7.2321</td>
+<td align="right">9.222964</td>
+<td align="right">8.08</td>
+<td align="right">9.003704</td>
+<td align="right">10.0</td>
+<td align="right">10.0</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.747287</td>
+<td align="right">9.961861</td>
+<td align="right">7.738324</td>
+<td align="right">9.28</td>
+<td align="right">6.484464</td>
+</tr>
+<tr class="odd">
+<td align="left">Australia</td>
+<td align="right">8.62</td>
+<td align="right">7.2228</td>
+<td align="right">9.160533</td>
+<td align="right">8.07</td>
+<td align="right">9.075926</td>
+<td align="right">10.0</td>
+<td align="right">10.0</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.878339</td>
+<td align="right">9.955017</td>
+<td align="right">7.776279</td>
+<td align="right">9.68</td>
+<td align="right">6.959863</td>
+</tr>
+</tbody>
+</table>
+<p>Insert comments on top 5 hfi</p>
+<p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
+<p>Insert comments about the plot hfi</p>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="3%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+<col width="6%" />
+<col width="14%" />
+<col width="4%" />
+<col width="3%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">world_happiness_score</th>
+<th align="right">human_freedom_score</th>
+<th align="right">personal_freedom_score</th>
+<th align="right">economic_freedom_score</th>
+<th align="right">religion</th>
+<th align="right">association</th>
+<th align="right">assembly</th>
+<th align="right">movement</th>
+<th align="right">inheritance_rights</th>
+<th align="right">security_safety</th>
+<th align="right">disapperances_conflicts_and_terrorism</th>
+<th align="right">rule_of_law</th>
+<th align="right">homicide</th>
+<th align="right">size_of_government</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Zimbabwe</td>
+<td align="right">3.2992</td>
+<td align="right">5.65</td>
+<td align="right">5.608024</td>
+<td align="right">5.69</td>
+<td align="right">6.427778</td>
+<td align="right">2.5</td>
+<td align="right">2.5</td>
+<td align="right">6.666667</td>
+<td align="right">7.5</td>
+<td align="right">8.360052</td>
+<td align="right">8.997580</td>
+<td align="right">3.507599</td>
+<td align="right">7.332577</td>
+<td align="right">5.491676</td>
+</tr>
+<tr class="even">
+<td align="left">Rwanda</td>
+<td align="right">3.3123</td>
+<td align="right">6.82</td>
+<td align="right">6.377693</td>
+<td align="right">7.26</td>
+<td align="right">6.040370</td>
+<td align="right">2.5</td>
+<td align="right">2.5</td>
+<td align="right">8.333333</td>
+<td align="right">7.5</td>
+<td align="right">8.568363</td>
+<td align="right">7.962867</td>
+<td align="right">5.388166</td>
+<td align="right">8.992223</td>
+<td align="right">5.248773</td>
+</tr>
+<tr class="odd">
+<td align="left">Central African Republic</td>
+<td align="right">3.4759</td>
+<td align="right">5.41</td>
+<td align="right">5.592765</td>
+<td align="right">5.23</td>
+<td align="right">8.288889</td>
+<td align="right">7.5</td>
+<td align="right">10.0</td>
+<td align="right">5.000000</td>
+<td align="right">7.5</td>
+<td align="right">4.549016</td>
+<td align="right">4.000000</td>
+<td align="right">2.406486</td>
+<td align="right">2.097050</td>
+<td align="right">6.504289</td>
+</tr>
+<tr class="even">
+<td align="left">Tanzania</td>
+<td align="right">3.4762</td>
+<td align="right">6.26</td>
+<td align="right">5.748136</td>
+<td align="right">6.77</td>
+<td align="right">6.447778</td>
+<td align="right">7.5</td>
+<td align="right">5.0</td>
+<td align="right">8.333333</td>
+<td align="right">0.0</td>
+<td align="right">6.835967</td>
+<td align="right">8.487902</td>
+<td align="right">4.244131</td>
+<td align="right">7.520000</td>
+<td align="right">6.658225</td>
+</tr>
+<tr class="odd">
+<td align="left">Botswana</td>
+<td align="right">3.4789</td>
+<td align="right">7.17</td>
+<td align="right">6.970084</td>
+<td align="right">7.37</td>
+<td align="right">9.008333</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">7.500000</td>
+<td align="right">7.5</td>
+<td align="right">7.578237</td>
+<td align="right">10.000000</td>
+<td align="right">5.641684</td>
+<td align="right">3.984712</td>
+<td align="right">6.366563</td>
+</tr>
+</tbody>
+</table>
+<p>Insert comments about bot 5 whr</p>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="8%" />
+<col width="7%" />
+<col width="9%" />
+<col width="9%" />
+<col width="3%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+<col width="6%" />
+<col width="15%" />
+<col width="4%" />
+<col width="3%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">world_happiness_score</th>
+<th align="right">human_freedom_score</th>
+<th align="right">personal_freedom_score</th>
+<th align="right">economic_freedom_score</th>
+<th align="right">religion</th>
+<th align="right">association</th>
+<th align="right">assembly</th>
+<th align="right">movement</th>
+<th align="right">inheritance_rights</th>
+<th align="right">security_safety</th>
+<th align="right">disapperances_conflicts_and_terrorism</th>
+<th align="right">rule_of_law</th>
+<th align="right">homicide</th>
+<th align="right">size_of_government</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Finland</td>
+<td align="right">7.8087</td>
+<td align="right">8.53</td>
+<td align="right">9.268558</td>
+<td align="right">7.80</td>
+<td align="right">7.901482</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.807725</td>
+<td align="right">9.903175</td>
+<td align="right">8.639248</td>
+<td align="right">9.52</td>
+<td align="right">4.711377</td>
+</tr>
+<tr class="even">
+<td align="left">Denmark</td>
+<td align="right">7.6456</td>
+<td align="right">8.56</td>
+<td align="right">9.238444</td>
+<td align="right">7.89</td>
+<td align="right">7.702222</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.840000</td>
+<td align="right">10.000000</td>
+<td align="right">8.687101</td>
+<td align="right">9.52</td>
+<td align="right">4.707251</td>
+</tr>
+<tr class="odd">
+<td align="left">Switzerland</td>
+<td align="right">7.5599</td>
+<td align="right">8.82</td>
+<td align="right">9.236934</td>
+<td align="right">8.40</td>
+<td align="right">8.188519</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.933333</td>
+<td align="right">10.000000</td>
+<td align="right">8.272328</td>
+<td align="right">9.80</td>
+<td align="right">7.595275</td>
+</tr>
+<tr class="even">
+<td align="left">Iceland</td>
+<td align="right">7.5045</td>
+<td align="right">8.41</td>
+<td align="right">9.084634</td>
+<td align="right">7.74</td>
+<td align="right">8.122222</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.880000</td>
+<td align="right">10.000000</td>
+<td align="right">7.757267</td>
+<td align="right">9.64</td>
+<td align="right">5.811087</td>
+</tr>
+<tr class="odd">
+<td align="left">Norway</td>
+<td align="right">7.4880</td>
+<td align="right">8.44</td>
+<td align="right">9.259625</td>
+<td align="right">7.62</td>
+<td align="right">7.407407</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">9.933333</td>
+<td align="right">10.000000</td>
+<td align="right">8.556488</td>
+<td align="right">9.80</td>
+<td align="right">4.927812</td>
+</tr>
+</tbody>
+</table>
+<p>Insert comments about top 5 whr</p>
+<p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
+<p>Insert comments about whr plot</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
