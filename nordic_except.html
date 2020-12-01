@@ -11,7 +11,7 @@
 
 
 
-<title>nordic_except</title>
+<title>Nordic Exceptionalism</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -400,40 +400,36 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">nordic_except</h1>
+<h1 class="title toc-ignore">Nordic Exceptionalism</h1>
 
 </div>
 
 
 <p><img src="images/nordic_map.png" /></p>
-<p>(Add info on idea of “nordic exceptionalism” and outline of anaylsis/exploration)</p>
-<p>The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.</p>
-<p>Generating dataset with nordic countries and overall group averages.</p>
+<p>(Add info on idea of “nordic exceptionalism” and outline of anaylsis/exploration) The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.</p>
+<p>Code for generating dataset with group averages is embedded.</p>
 <pre class="r"><code># Creating nordic only dataset
 nordic_only = 
   read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
   filter(countries %in% c(&quot;Denmark&quot;, &quot;Norway&quot;, &quot;Sweden&quot;, 
            &quot;Finland&quot;, &quot;Iceland&quot;)) %&gt;% 
   select(-X1) %&gt;% 
-  rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)</code></pre>
-<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre class="r"><code># Creating dataset with all other countries
+  rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)
+
+# Creating dataset with all other countries
 global_other = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
   select(-X1) %&gt;% 
   mutate(
     countries = str_remove(
       countries, &quot;Denmark|Norway|Sweden|Finland|Icedland&quot;)
     ) %&gt;% 
-  rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)</code></pre>
-<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre class="r"><code>#Getting averages across dataframes
-nordic_averages = summarise_all(nordic_only, mean)</code></pre>
-<pre><code>## Warning in mean.default(countries): argument is not numeric or logical:
-## returning NA</code></pre>
-<pre class="r"><code>global_averages = summarise_all(global_other, mean, na.rm = TRUE)</code></pre>
-<pre><code>## Warning in mean.default(countries, na.rm = TRUE): argument is not numeric or
-## logical: returning NA</code></pre>
-<pre class="r"><code>#Removing NAs in &#39;countries&#39; from last step 
+  rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)
+
+#Getting averages across dataframes
+nordic_averages = summarise_all(nordic_only, mean)
+global_averages = summarise_all(global_other, mean, na.rm = TRUE)
+
+#Removing NAs in &#39;countries&#39; from last step 
 nordic_averages[is.na(nordic_averages)] = 0
 global_averages[is.na(global_averages)] = 1
 
@@ -447,7 +443,7 @@ nordic_data =
     countries = 
       str_replace(countries, &quot;1&quot;, &quot;other_global_average&quot;)
     )</code></pre>
-<p>Nordic countries vs rest of the world on happiness and freedom scores. Note that “human freedom score” is a composite score of personal and economic freedom.</p>
+<p>Nordic countries vs rest of the world on happiness and freedom scores.</p>
 <pre class="r"><code>nordic_data %&gt;% 
   select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %&gt;% 
   knitr::kable()</code></pre>
@@ -520,6 +516,7 @@ nordic_data =
 </tr>
 </tbody>
 </table>
+<p>Note that “human freedom score” is a composite score of personal and economic freedom.</p>
 <p>Nordic countries vs rest of the world with additionally included sub freedoms.</p>
 <pre class="r"><code>nordic_data %&gt;% 
   select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %&gt;%
@@ -638,7 +635,7 @@ nordic_data =
 </tr>
 </tbody>
 </table>
-<p>Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. Tables showing summary data of means, SD, and n for nordic vs other countries.</p>
+<p>Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world.</p>
 <pre class="r"><code>#Reformatting data for tests 
 
 merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
@@ -654,34 +651,74 @@ merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;%
       countries == &quot;Finland&quot;     ~ &quot;nordic&quot;,
       countries == &quot;Iceland&quot;     ~ &quot;nordic&quot;
     )) %&gt;% 
-  mutate(countries = as.character(countries))</code></pre>
-<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre class="r"><code>merged_setup$countries[is.na(merged_setup$countries)] = &quot;other&quot;
+  mutate(countries = as.character(countries))
 
-#Group means, counts, and SD for happiness score
-group_by(merged_setup, countries) %&gt;%
+merged_setup$countries[is.na(merged_setup$countries)] = &quot;other&quot;</code></pre>
+<p>Group means, counts, and standard deviation for happiness score.</p>
+<pre class="r"><code>group_by(merged_setup, countries) %&gt;%
   summarise(
     count = n(),
     mean = mean(overall_happiness_score, na.rm = TRUE),
     sd = sd(overall_happiness_score, na.rm = TRUE)
-  )</code></pre>
-<pre><code>## # A tibble: 2 x 4
-##   countries count  mean    sd
-##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 nordic        5  7.56 0.173
-## 2 other       167  5.40 1.06</code></pre>
+  ) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">count</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">nordic</td>
+<td align="right">5</td>
+<td align="right">7.560060</td>
+<td align="right">0.1732669</td>
+</tr>
+<tr class="even">
+<td align="left">other</td>
+<td align="right">167</td>
+<td align="right">5.402739</td>
+<td align="right">1.0607924</td>
+</tr>
+</tbody>
+</table>
+<p>Group means, counts, and standard deviation for freedom score.</p>
 <pre class="r"><code>#Group means, counts, and SD for freedom score
 group_by(merged_setup, countries) %&gt;%
   summarise(
     count = n(),
     mean = mean(human_freedom_score, na.rm = TRUE),
     sd = sd(human_freedom_score, na.rm = TRUE)
-  )</code></pre>
-<pre><code>## # A tibble: 2 x 4
-##   countries count  mean     sd
-##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 nordic        5  8.49 0.0622
-## 2 other       167  6.84 1.08</code></pre>
+  ) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">count</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">nordic</td>
+<td align="right">5</td>
+<td align="right">8.488000</td>
+<td align="right">0.0622093</td>
+</tr>
+<tr class="even">
+<td align="left">other</td>
+<td align="right">167</td>
+<td align="right">6.837006</td>
+<td align="right">1.0832267</td>
+</tr>
+</tbody>
+</table>
 <p>t-test for overall happiness nordic vs other. Assume unequal variance due to difference in sample size.</p>
 <pre class="r"><code>t.test(overall_happiness_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %&gt;% 
