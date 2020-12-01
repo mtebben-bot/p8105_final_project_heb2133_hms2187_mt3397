@@ -1,6 +1,6 @@
 ---
 title: "Top 5 Countries"
-output: github_document
+output: html_document
 ---
 
 
