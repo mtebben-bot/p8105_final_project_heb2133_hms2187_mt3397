@@ -1,6 +1,8 @@
 ---
 title: "Nordic Exceptionalism"
-output: html_document
+output: 
+  html_document:
+    code_folding: hide
 ---
 
 ```{r setup, include = FALSE}
@@ -26,37 +28,35 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. Tables comparing the Nordic country, as well as the averages from the Nordic region and the rest of the world. Note that the human freedom score is a composite score of the personal and economic freedom scores. 
+(Add info on idea of "nordic exceptionalism" and outline of anaylsis/exploration)
+
+The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. 
+
+Generating dataset with nordic countries and overall group averages.
 
 ```{r warnings = FALSE}
+# Creating nordic only dataset
 nordic_only = 
   read_csv("./data/merged_df.csv") %>% 
   filter(countries %in% c("Denmark", "Norway", "Sweden", 
            "Finland", "Iceland")) %>% 
   select(-X1) %>% 
   rename("overall_happiness_score" = "ladder_score")
-```
 
-
-```{r warnings = FALSE}
-<<<<<<< HEAD
+# Creating dataset with all other countries
 global_other = read_csv("./data/merged_df.csv") %>% 
   select(-X1) %>% 
   mutate(
     countries = str_remove(
       countries, "Denmark|Norway|Sweden|Finland|Icedland")
-  ) %>% 
+    ) %>% 
   rename("overall_happiness_score" = "ladder_score")
-=======
-merged_df = read_csv("./data/merged_df.csv") %>% 
-  select(-X1)
->>>>>>> 59f082512aee7e51905c729c4275b1b937e524c2
 
 #Getting averages across dataframes
 nordic_averages = summarise_all(nordic_only, mean)
 global_averages = summarise_all(global_other, mean, na.rm = TRUE)
 
-#Removing "NAs from last step
+#Removing NAs in 'countries' from last step 
 nordic_averages[is.na(nordic_averages)] = 0
 global_averages[is.na(global_averages)] = 1
 
@@ -73,19 +73,26 @@ nordic_data =
 
 ```
 
+Nordic countries vs rest of the world on happiness and freedom scores. Note that "human freedom score" is a composite score of personal and economic freedom. 
+
 ```{r}
 nordic_data %>% 
   select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %>% 
   knitr::kable()
+```
 
+Nordic countries vs rest of the world with additionally included sub freedoms.
+
+```{r}
 nordic_data %>% 
   select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>%
   knitr::kable()
 ```
 
-Two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. 
+Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. Tables showing summary data of means, SD, and n for nordic vs other countries.
 
 ```{r}
+
 #Reformatting data for tests 
 
 merged_setup = read_csv("./data/merged_df.csv") %>% 
@@ -113,7 +120,7 @@ group_by(merged_setup, countries) %>%
     sd = sd(overall_happiness_score, na.rm = TRUE)
   )
 
-#Group means, counts, and SD for happiness score
+#Group means, counts, and SD for freedom score
 group_by(merged_setup, countries) %>%
   summarise(
     count = n(),
