@@ -30,6 +30,8 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
+<img src="location-nordic-council.png" style="width:75%>
+
 (Add info on idea of "nordic exceptionalism" and outline of anaylsis/exploration)
 
 The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. 
