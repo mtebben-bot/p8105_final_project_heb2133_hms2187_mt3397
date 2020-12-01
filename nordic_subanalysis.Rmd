@@ -1,6 +1,6 @@
 ---
 title: "Nordic Exceptionalism"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include = FALSE}
@@ -39,6 +39,7 @@ nordic_only =
 
 
 ```{r warnings = FALSE}
+<<<<<<< HEAD
 global_other = read_csv("./data/merged_df.csv") %>% 
   select(-X1) %>% 
   mutate(
@@ -46,6 +47,10 @@ global_other = read_csv("./data/merged_df.csv") %>%
       countries, "Denmark|Norway|Sweden|Finland|Icedland")
   ) %>% 
   rename("overall_happiness_score" = "ladder_score")
+=======
+merged_df = read_csv("./data/merged_df.csv") %>% 
+  select(-X1)
+>>>>>>> 59f082512aee7e51905c729c4275b1b937e524c2
 
 #Getting averages across dataframes
 nordic_averages = summarise_all(nordic_only, mean)
