@@ -19,11 +19,7 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -251,73 +247,7 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
 
 
 
@@ -327,16 +257,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -357,7 +277,6 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-<<<<<<< HEAD
   <a href="index.html">About</a>
 </li>
 <li>
@@ -370,10 +289,7 @@ div.tocify {
   <a href="maps_data_clean.html">Data Cleaning and Basic Maps</a>
 </li>
 <li>
-  <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
-=======
-  <a href="index.html">Home</a>
->>>>>>> 3853298a1d81cdcbe2341269673c7e41087a0eb1
+  <a href="top_5_bottom_5.html">top 5 bottom 5</a>
 </li>
 <li>
   <a href="mailto:&lt;hms2187@cumc.columbia.edu&gt;">
@@ -394,14 +310,6 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
-
 
 
 <h1 class="title toc-ignore">Top 5 Countries</h1>
@@ -409,32 +317,6 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>merged_df = 
-  read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
-  mutate(world_happiness_score = ladder_score) %&gt;% 
-  select(-X1, -ladder_score) %&gt;% 
-  drop_na(world_happiness_score, human_freedom_score) %&gt;% 
-  select(countries, world_happiness_score, everything())</code></pre>
-<pre class="r"><code>bot5_whr = 
-  merged_df %&gt;% 
-  arrange(world_happiness_score) %&gt;% 
-  top_n(world_happiness_score, n = -5)</code></pre>
-<pre class="r"><code>top5_whr = 
-  merged_df %&gt;% 
-  arrange(world_happiness_score) %&gt;% 
-  top_n(world_happiness_score, n = 5) %&gt;% 
-  arrange(desc(world_happiness_score))</code></pre>
-<pre class="r"><code>top5_hfi = 
-  merged_df %&gt;% 
-  select(countries, human_freedom_score, everything()) %&gt;% 
-  arrange(human_freedom_score) %&gt;% 
-  top_n(human_freedom_score, n = 5) %&gt;% 
-  arrange(desc(human_freedom_score))</code></pre>
-<pre class="r"><code>bot5_hfi = 
-  merged_df %&gt;% 
-  select(countries, human_freedom_score, everything()) %&gt;%
-  arrange(human_freedom_score) %&gt;% 
-  top_n(human_freedom_score, n = -5)</code></pre>
 <div id="tables-n-plots" class="section level2">
 <h2>Tables n Plots</h2>
 <table>
@@ -689,21 +571,6 @@ div.tocify {
 </tbody>
 </table>
 <p>Insert comments on top 5 hfi</p>
-<pre class="r"><code>hfi_combo = full_join(bot5_hfi, top5_hfi)%&gt;% 
-  mutate(low_high = if_else(human_freedom_score &gt; 5, &quot;high&quot;, &quot;low&quot;))
-
-hfi_plot = 
-  hfi_combo %&gt;% 
-  ggplot(aes(x = human_freedom_score, y = world_happiness_score))+
-  geom_point(aes(color = countries), show.legend = F)+
-  geom_text_repel(aes(label = countries))+
-  xlim(min = 0, max = 10)+
-  ylim(min = 0, max = 10)+  
-  ggtitle(&quot;Comparing Human Freedom Scores and World Happiness Scores for Top 5 and Bottom 5 Human Freedom Scores&quot;)+
-  ylab(&quot;World Happiness Score&quot;)+
-  xlab(&quot;Human Freedom Score&quot;)
-
-hfi_plot</code></pre>
 <p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 <p>Insert comments about the plot hfi</p>
 <table style="width:100%;">
@@ -958,29 +825,12 @@ hfi_plot</code></pre>
 </tbody>
 </table>
 <p>Insert comments about top 5 whr</p>
-<pre class="r"><code>whr_combo = full_join(bot5_whr, top5_whr)%&gt;% 
-  mutate(low_high = if_else(world_happiness_score &gt; 5, &quot;high&quot;, &quot;low&quot;))
-
-whr_plot = 
-  whr_combo %&gt;% 
-  ggplot(aes(x = world_happiness_score, y = human_freedom_score))+
-  geom_point(aes(color = countries), show.legend = F)+
-  geom_text_repel(aes(label = countries))+
-  xlim(min = 0, max = 10)+
-  ylim(min = 0, max = 10)+
-  ggtitle(&quot;Comparing World Happiness Scores and Human Freedom Scores for Top 5 and Bottom 5 Happiness Scores&quot;)+
-  xlab(&quot;World Happiness Score&quot;)+
-  ylab(&quot;Human Freedom Score&quot;)
-
-whr_plot</code></pre>
 <p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 <p>Insert comments about whr plot</p>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -1012,38 +862,7 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

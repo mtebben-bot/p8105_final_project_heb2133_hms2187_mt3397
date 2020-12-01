@@ -8,7 +8,7 @@ navbar:
     - text: "Linear Analyses"
       href: Linear-Analysis.html
     - text: "Nordic Analyses"
-      href: nordic-subanalysis.html
+      href: nordic_subanalysis.html
     - text: "Data Cleaning and Basic Maps"
       href: maps_data_clean.html
     - text: "Top 5 Bottom 5"
