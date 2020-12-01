@@ -38,7 +38,7 @@ merged_df =
   select(countries, world_happiness_score, everything())
 ```
 
-```{r, message = F, warning = F}
+```{r, message = F, warning = F, results='hide'}
 #Plotly has master datasets that contain three-digit ISO codes for each country. We need to merge the ISO codes in with our dataset in order to produce a map in plotly. This requires us to read in the master dataset and mutate so that the variable name for countries matches the variable name in our dataset. We also selected just the countries and the ISO codes, as we are not interested in any of the rest of the variables.
 
 df <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv") %>% 
@@ -115,7 +115,7 @@ merged_df = merged_df %>%
 map_df = left_join(merged_df, df)
 ```
 
-```{r}
+```{r, warning = F}
 whr_map =
   plot_geo(map_df) %>% 
   add_trace(z = ~world_happiness_score, text = ~countries, locations = ~code, color = ~world_happiness_score,
