@@ -9,14 +9,14 @@ navbar:
       href: Linear-Analysis.html
     - text: "Nordic Analyses"
       href: nordic_subanalysis.html
-    - text: "Data Cleaning and Basic Maps"
+    - text: "World Maps"
       href: maps_data_clean.html
-    - text: "top 5 bottom 5"
+    - text: "Top 5 Bottom 5"
       href: top_5_bottom_5.html
     - icon: fa-envelope fa-lg
       href: mailto:<hms2187@cumc.columbia.edu>
     - icon: fa-github fa-lg
-      href: http://github.com/<hms2187>/
+      href: http://github.com/mtebben-bot/p8105_final_project_heb2133_hms2187_mt3397
 output:
   html_document:
     theme: yeti

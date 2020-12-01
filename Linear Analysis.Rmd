@@ -1,11 +1,10 @@
 ---
 title: "Linear Analysis"
-author: "Henry Stoddard"
-date: "11/19/2020"
-output: 
+output:
   html_document:
     toc: true
     toc_float: true
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}

@@ -38,3 +38,44 @@ Here are some linear analyses of freedom and happiness:
 
 Here is an analysis on Nordic countries happiness and freedom:
 [Nordic Subanalysis](nordic)
+
+## Managing Data
+
+### Importing and Cleaning Datasets
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+
+whr_df = 
+  read_excel("./data/WHR20_Data.xls") %>% 
+  janitor::clean_names() %>% 
+  arrange(country_name) %>% 
+  rename(countries = country_name) %>% 
+  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
+
+hfi_df = 
+  read_excel("./data/human-freedom-index-2019.xlsx",
+             skip = 4, na = "-") %>% 
+  janitor::clean_names() %>% 
+  filter(year == "2017") %>% 
+  arrange(countries) %>% 
+  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
+
+```
+
+Before running any analyses, we needed to import each dataset and do some basic data cleaning. We needed to ensure that we were arranging alphabetically by country and matching the name of the variable for countries in each dataset to successfully merge the data from each index. We selected most variables in each dataset to get a sense of which variables we want to include in the analysis. 
+
+### Merging Datasets
+
+```{r}
+merged_df = 
+  full_join(whr_df, hfi_df, by = "countries") %>% 
+  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
+         religion, association, assembly, movement, inheritance_rights, security_safety, 
+         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government)
+
+write.csv(merged_df, "./data/merged_df.csv")
+```
+
+We merged in using a full_join to have all country data from each dataset represented, even if one dataset contains a country but the other does not. For the purpose of the world maps, we wanted to include all countries available for each dataset. For the purpose of other analyses in which we wanted to assess the relationship between World Happiness Scores and Human Freedom Scores, countries that did not have data for both indices were removed from analysis. This merged dataset was exported as a CSV to the data folder and used as the dataset for all other analyses.

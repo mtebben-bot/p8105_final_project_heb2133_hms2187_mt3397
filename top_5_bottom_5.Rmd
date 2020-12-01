@@ -1,15 +1,13 @@
 ---
 title: "Top 5 Countries"
-output: 
+output:
   html_document:
     toc: true
     toc_float: true
+    code_folding: hide
 ---
 
-
-
-
-```{r setup, include = F, echo = F}
+```{r setup, include = F}
 library(tidyverse)
 library(readxl)
 library(patchwork)
@@ -32,7 +30,7 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-```{r, warning = F, message = F, echo = F}
+```{r, warning = F, message = F}
 merged_df = 
   read_csv("./data/merged_df.csv") %>% 
   mutate(world_happiness_score = ladder_score) %>% 
@@ -41,15 +39,14 @@ merged_df =
   select(countries, world_happiness_score, everything())
 ```
 
-```{r, echo = F}
+```{r}
 bot5_whr = 
   merged_df %>% 
   arrange(world_happiness_score) %>% 
   top_n(world_happiness_score, n = -5)
-
 ```
 
-```{r, echo = F}
+```{r}
 top5_whr = 
   merged_df %>% 
   arrange(world_happiness_score) %>% 
@@ -58,7 +55,7 @@ top5_whr =
 
 ```
 
-```{r, echo = F}
+```{r}
 top5_hfi = 
   merged_df %>% 
   select(countries, human_freedom_score, everything()) %>% 
@@ -67,7 +64,7 @@ top5_hfi =
   arrange(desc(human_freedom_score))
 ```
 
-```{r, echo = F}
+```{r}
 bot5_hfi = 
   merged_df %>% 
   select(countries, human_freedom_score, everything()) %>%
@@ -92,7 +89,7 @@ Insert comments on top 5 hfi
 
 
 
-```{r, message = F, warning = F, echo = F}
+```{r, message = F, warning = F}
 hfi_combo = full_join(bot5_hfi, top5_hfi)%>% 
   mutate(low_high = if_else(human_freedom_score > 5, "high", "low"))
 
@@ -124,7 +121,7 @@ top5_whr %>% knitr::kable()
 
 Insert comments about top 5 whr
 
-```{r, echo = F, message = F}
+```{r, message = F}
 whr_combo = full_join(bot5_whr, top5_whr)%>% 
   mutate(low_high = if_else(world_happiness_score > 5, "high", "low"))
 

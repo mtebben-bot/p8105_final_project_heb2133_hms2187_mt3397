@@ -11,7 +11,7 @@
 
 
 
-<title>Cleaned Data &amp; Maps</title>
+<title>World Maps</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,11 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -247,7 +251,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -257,6 +327,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -277,7 +357,23 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
+<<<<<<< HEAD
+  <a href="index.html">About</a>
+</li>
+<li>
+  <a href="Linear-Analysis.html">Linear Analyses</a>
+</li>
+<li>
+  <a href="nordic-subanalysis.html">Nordic Analyses</a>
+</li>
+<li>
+  <a href="maps_data_clean.html">Data Cleaning and Basic Maps</a>
+</li>
+<li>
+  <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
+=======
   <a href="index.html">Home</a>
+>>>>>>> 3853298a1d81cdcbe2341269673c7e41087a0eb1
 </li>
 <li>
   <a href="mailto:&lt;hms2187@cumc.columbia.edu&gt;">
@@ -298,50 +394,38 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Cleaned Data &amp; Maps</h1>
+
+<h1 class="title toc-ignore">World Maps</h1>
 
 </div>
 
 
-<p>Cleaning datasets</p>
-<pre class="r"><code>whr_df = 
-  read_excel(&quot;./data/WHR20_Data.xls&quot;) %&gt;% 
-  janitor::clean_names() %&gt;% 
-  arrange(country_name) %&gt;% 
-  rename(countries = country_name) %&gt;% 
-  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
-
-hfi_df = 
-  read_excel(&quot;./data/human-freedom-index-2019.xlsx&quot;,
-             skip = 4, na = &quot;-&quot;) %&gt;% 
-  janitor::clean_names() %&gt;% 
-  filter(year == &quot;2017&quot;) %&gt;% 
-  arrange(countries) %&gt;% 
-  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)</code></pre>
-<p>Merging datasets</p>
-<pre class="r"><code>merged_df = 
-  full_join(whr_df, hfi_df, by = &quot;countries&quot;) %&gt;% 
-  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
-         religion, association, assembly, movement, inheritance_rights, security_safety, 
-         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government)
-
-write.csv(merged_df, &quot;./data/merged_df.csv&quot;)</code></pre>
-<p>First attempt at making a world map</p>
+<div id="map-of-world-happiness-scores" class="section level2">
+<h2>Map of World Happiness Scores</h2>
 <pre class="r"><code>world = 
   map_data(&quot;world&quot;)
 
 whr_map =
   merged_df %&gt;% 
-  select(countries, ladder_score)
+  select(countries, world_happiness_score)
 
 
 ggplot()+
   geom_map(data = world, map = world, aes(x = long, y = lat, group = group, map_id = region))+
-  geom_map(data = whr_map, map = world, aes(fill = ladder_score, map_id = countries))</code></pre>
-<pre><code>## Warning: Ignoring unknown aesthetics: x, y</code></pre>
-<p><img src="maps_data_clean_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+  geom_map(data = whr_map, map = world, aes(fill = world_happiness_score, map_id = countries))</code></pre>
+<p><img src="maps_data_clean_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+</div>
+<div id="map-of-human-freedom-scores" class="section level2">
+<h2>Map of Human Freedom Scores</h2>
 <pre class="r"><code>hfi_map = 
   merged_df %&gt;% 
   select(countries, human_freedom_score)
@@ -349,20 +433,13 @@ ggplot()+
 ggplot()+
   geom_map(data = world, map = world, aes(x = long, y = lat, group = group, map_id = region))+
   geom_map(data = hfi_map, map = world, aes(fill = human_freedom_score, map_id = countries))</code></pre>
-<pre><code>## Warning: Ignoring unknown aesthetics: x, y</code></pre>
-<p><img src="maps_data_clean_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
-<p>These maps have a couple of flaws:<br />
-1. Not interactive<br />
-2. Some of the country names do not match with the way they are written in the world map data, so need to recode different country names in one of the two datasets<br />
-3. They’re cute but not THAT cute</p>
-<p>Thoughts/ideas:<br />
-- I believe there are some interactive tools (shiny, plotly) that we could use, but we need to have the longitude and latitude information for the countries in our dataset to build some of the maps that I encountered in my search. Should consider merging the world dataset in with ours (once country names match) for the map so that is not an issue.<br />
-- Could look into using leaflet. I spent a bit of time examining but was not able to find anything useful. There are some projections, but the code looks complex and I am not sure what the best mechanism is for this.<br />
-- Tried using plotly, was very slow to process and giving me an error (Error: vector memory exhausted(limit reached?)) that I believe is related to the amount of memory being asked for by plotly from my computer, so, yeah, not great.</p>
-<p>Things to add: - html website creation - video creation - linear regression - nordic exceptionalism subanalysis</p>
+<p><img src="maps_data_clean_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -394,7 +471,38 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

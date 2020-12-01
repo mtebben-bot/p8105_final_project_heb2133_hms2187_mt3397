@@ -369,7 +369,7 @@ div.tocify {
   <a href="maps_data_clean.html">Data Cleaning and Basic Maps</a>
 </li>
 <li>
-  <a href="top_5_bottom_5.html">top 5 bottom 5</a>
+  <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
 </li>
 <li>
   <a href="mailto:&lt;hms2187@cumc.columbia.edu&gt;">
@@ -430,6 +430,41 @@ div.tocify {
 </ul>
 <p>Here are some linear analyses of freedom and happiness: <a href="Linear-Analysis.html">Linear Analyses</a></p>
 <p>Here is an analysis on Nordic countries happiness and freedom: <a href="nordic">Nordic Subanalysis</a></p>
+</div>
+</div>
+<div id="managing-data" class="section level2">
+<h2>Managing Data</h2>
+<div id="importing-and-cleaning-datasets" class="section level3">
+<h3>Importing and Cleaning Datasets</h3>
+<pre class="r"><code>library(tidyverse)
+library(readxl)
+
+whr_df = 
+  read_excel(&quot;./data/WHR20_Data.xls&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  arrange(country_name) %&gt;% 
+  rename(countries = country_name) %&gt;% 
+  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
+
+hfi_df = 
+  read_excel(&quot;./data/human-freedom-index-2019.xlsx&quot;,
+             skip = 4, na = &quot;-&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(year == &quot;2017&quot;) %&gt;% 
+  arrange(countries) %&gt;% 
+  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)</code></pre>
+<p>Before running any analyses, we needed to import each dataset and do some basic data cleaning. We needed to ensure that we were arranging alphabetically by country and matching the name of the variable for countries in each dataset to successfully merge the data from each index. We selected most variables in each dataset to get a sense of which variables we want to include in the analysis.</p>
+</div>
+<div id="merging-datasets" class="section level3">
+<h3>Merging Datasets</h3>
+<pre class="r"><code>merged_df = 
+  full_join(whr_df, hfi_df, by = &quot;countries&quot;) %&gt;% 
+  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
+         religion, association, assembly, movement, inheritance_rights, security_safety, 
+         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government)
+
+write.csv(merged_df, &quot;./data/merged_df.csv&quot;)</code></pre>
+<p>We merged in using a full_join to have all country data from each dataset represented, even if one dataset contains a country but the other does not. For the purpose of the world maps, we wanted to include all countries available for each dataset. For the purpose of other analyses in which we wanted to assess the relationship between World Happiness Scores and Human Freedom Scores, countries that did not have data for both indices were removed from analysis. This merged dataset was exported as a CSV to the data folder and used as the dataset for all other analyses.</p>
 </div>
 </div>
 
