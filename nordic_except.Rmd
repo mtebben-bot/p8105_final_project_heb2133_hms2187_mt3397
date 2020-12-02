@@ -34,9 +34,10 @@ scale_fill_discrete = scale_fill_viridis_d
 
 (Add info on idea of "nordic exceptionalism" and outline of anaylsis/exploration) The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. 
 
-Code for generating dataset with group averages is embedded.
+## Comparing Nordic Countries' Happiness and Freedom Scores 
+
 ```{r, warning = FALSE, message = FALSE}
-# Creating nordic only dataset
+# Creating Nordic only dataset
 nordic_only = 
   read_csv("./data/merged_df.csv") %>% 
   filter(countries %in% c("Denmark", "Norway", "Sweden", 
@@ -49,7 +50,7 @@ global_other = read_csv("./data/merged_df.csv") %>%
   select(-X1) %>% 
   mutate(
     countries = str_remove(
-      countries, "Denmark|Norway|Sweden|Finland|Icedland")
+      countries, "Denmark|Norway|Sweden|Finland|Iceland")
     ) %>% 
   rename("overall_happiness_score" = "ladder_score")
 
@@ -62,7 +63,7 @@ nordic_averages[is.na(nordic_averages)] = 0
 global_averages[is.na(global_averages)] = 1
 
 #Binding dataframes                          
-nordic_data = 
+nordic_compare = 
   rbind(nordic_only, nordic_averages, global_averages) %>% 
   mutate(
     countries = as.character(countries),
@@ -73,26 +74,77 @@ nordic_data =
     )
 ```
 
-Nordic countries vs rest of the world on happiness and freedom scores.  
+The below table demonstrates happiness and freedom scores for the five Nordic countries. Notably the human freedom score is an overall, composite score of the economic and social freedom measurements. We can also compare these to the average scores for the all other countries in the world.  
 ```{r, warning = FALSE, message = FALSE}
-nordic_data %>% 
-  select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %>% 
+nordic_compare %>% 
+  select(countries, overall_happiness_score, human_freedom_score, 
+         personal_freedom_score, economic_freedom_score) %>% 
   knitr::kable()
 ```
-Note that "human freedom score" is a composite score of personal and economic freedom.
+We can observe in this table ......
 
-Nordic countries vs rest of the world with additionally included sub freedoms.
+
+The below table similarly shows data for the happiness and freedom scores within Nordic countries and comparitvily to the rest of the world - though now demonstrating scores for other sub groups within human freedom, such as freedom of religion or assembly. 
 ```{r, warning = FALSE, message = FALSE}
-nordic_data %>% 
+nordic_compare %>% 
   select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>%
   knitr::kable()
 ```
+We can observe in this table....
 
-Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world. 
+```{r, warning = FALSE, message = FALSE}
+nordic_compare %>% 
+  select(-overall_happiness_score) %>% 
+  pivot_longer(
+    human_freedom_score:size_of_government,
+    names_to = "freedom_subgroup",
+    values_to = "score"
+  ) %>% 
+  mutate(
+    countries = str_remove(
+      countries, "nordic_average|other_global_average")
+    ) %>% 
+  filter(str_detect(countries, "Denmark|Norway|Sweden|Finland|Iceland"),
+    str_detect(freedom_subgroup, 
+                    "religion|rule_of_law|size_of_government")) %>% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = "identity", collor = "black",
+           position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  labs(
+    title = "Average scores of different types of freedoms among Nordic countries"
+  )
+```
+
+
+```{r}
+nordic_compare %>% 
+  select(-overall_happiness_score) %>% 
+  pivot_longer(
+    human_freedom_score:size_of_government,
+    names_to = "freedom_subgroup",
+    values_to = "score"
+  ) %>% 
+  filter(str_detect(countries, 
+                    "nordic_average|other_global_average"), 
+         str_detect(freedom_subgroup, 
+                    "religion|rule_of_law|size_of_government")) %>% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = "identity", color = "black",
+           position = position_dodge(), width = 0.5) +
+  ylim(min = 0, max = 10) + 
+  labs(
+    title = "Average scores of different types of freedoms between Nordic and all other countries",
+    x = "group"
+  )
+```
+
+
+## Statistical Testing: Nordic region vs Other countries
 
 ```{r, warning = FALSE, message = FALSE}
 
-#Reformatting data for tests 
+#Reformatting data for tests and some visuals
 
 merged_setup = read_csv("./data/merged_df.csv") %>% 
   select(-X1) %>% 
@@ -113,9 +165,34 @@ merged_setup$countries[is.na(merged_setup$countries)] = "other"
 
 ```
 
-Group means, counts, and standard deviation for happiness score.
 ```{r, warning = FALSE, message = FALSE}
-group_by(merged_setup, countries) %>%
+plot_freedom = 
+  merged_setup %>% 
+  ggplot(aes(y = human_freedom_score, 
+             x = countries,
+             fill = countries)) + 
+  geom_boxplot(stat = "boxplot", show.legend = FALSE) + 
+  labs(y = "human freedom score") + 
+  ylim(min = 0, max = 10)
+
+plot_happy = 
+  merged_setup %>% 
+  ggplot(aes(y = overall_happiness_score, 
+             x = countries,
+             fill = countries)) + 
+  geom_boxplot(stat = "boxplot", show.legend = FALSE) + 
+  labs(y = "overall happiness score") +
+  ylim(min = 0, max = 10)
+
+plot_happy | plot_freedom
+```
+
+We carried out a two-sample t-test to see whether the mean differences for overall happiness and freedom scores between Nordic countries and the rest of the world are statistically significant. 
+
+Group means, counts, and standard deviation for overall happiness score.
+```{r, warning = FALSE, message = FALSE}
+merged_setup %>% 
+  group_by(countries) %>%
   summarise(
     count = n(),
     mean = mean(overall_happiness_score, na.rm = TRUE),
@@ -124,10 +201,11 @@ group_by(merged_setup, countries) %>%
   knitr::kable()
 ```
 
-Group means, counts, and standard deviation for freedom score.
+Group means, counts, and standard deviation for overall freedom score.
 ```{r, warning = FALSE, message = FALSE}
 #Group means, counts, and SD for freedom score
-group_by(merged_setup, countries) %>%
+merged_setup %>% 
+  group_by(countries) %>%
   summarise(
     count = n(),
     mean = mean(human_freedom_score, na.rm = TRUE),
@@ -136,8 +214,7 @@ group_by(merged_setup, countries) %>%
   knitr::kable()
 ```
 
-t-test for overall happiness nordic vs other. Assume unequal variance due to difference in sample size. 
-
+Results from t-test comparing overall happiness in Nordic vs other countries.  
 ```{r, warning = FALSE, message = FALSE}
 t.test(overall_happiness_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %>% 
@@ -146,8 +223,7 @@ t.test(overall_happiness_score ~ countries,
   knitr::kable()
 ```
 
-t-test for human freedom score nordic vs other. Assume unequal variance due to difference in sample size. 
-
+Results from t-test comparing human freedom in Nordic vs other countries. 
 ```{r, warning = FALSE, message = FALSE}
 t.test(human_freedom_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %>% 
@@ -155,5 +231,7 @@ t.test(human_freedom_score ~ countries,
   select(estimate:estimate2, statistic, p.value) %>% 
   knitr::kable()
 ```
+
+According to the above resutls, we have sufficient evidence to say that mean citizen happiness in Nordic countries is significantly different from the rest of th world. And that mean human freedom in Nordic countries is significantly difference from the rest of the world. These results should be interpreted with caution. ******
 
 To-do: potentially scatter plots with sub freedoms nordic countries 

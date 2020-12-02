@@ -407,8 +407,9 @@ div.tocify {
 
 <p><img src="images/nordic_map.png" /></p>
 <p>(Add info on idea of “nordic exceptionalism” and outline of anaylsis/exploration) The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland.</p>
-<p>Code for generating dataset with group averages is embedded.</p>
-<pre class="r"><code># Creating nordic only dataset
+<div id="comparing-nordic-countries-happiness-and-freedom-scores" class="section level2">
+<h2>Comparing Nordic Countries’ Happiness and Freedom Scores</h2>
+<pre class="r"><code># Creating Nordic only dataset
 nordic_only = 
   read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
   filter(countries %in% c(&quot;Denmark&quot;, &quot;Norway&quot;, &quot;Sweden&quot;, 
@@ -421,7 +422,7 @@ global_other = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;%
   select(-X1) %&gt;% 
   mutate(
     countries = str_remove(
-      countries, &quot;Denmark|Norway|Sweden|Finland|Icedland&quot;)
+      countries, &quot;Denmark|Norway|Sweden|Finland|Iceland&quot;)
     ) %&gt;% 
   rename(&quot;overall_happiness_score&quot; = &quot;ladder_score&quot;)
 
@@ -434,7 +435,7 @@ nordic_averages[is.na(nordic_averages)] = 0
 global_averages[is.na(global_averages)] = 1
 
 #Binding dataframes                          
-nordic_data = 
+nordic_compare = 
   rbind(nordic_only, nordic_averages, global_averages) %&gt;% 
   mutate(
     countries = as.character(countries),
@@ -443,9 +444,10 @@ nordic_data =
     countries = 
       str_replace(countries, &quot;1&quot;, &quot;other_global_average&quot;)
     )</code></pre>
-<p>Nordic countries vs rest of the world on happiness and freedom scores.</p>
-<pre class="r"><code>nordic_data %&gt;% 
-  select(countries, overall_happiness_score, human_freedom_score, personal_freedom_score, economic_freedom_score) %&gt;% 
+<p>The below table demonstrates happiness and freedom scores for the five Nordic countries. Notably the human freedom score is an overall, composite score of the economic and social freedom measurements. We can also compare these to the average scores for the all other countries in the world.</p>
+<pre class="r"><code>nordic_compare %&gt;% 
+  select(countries, overall_happiness_score, human_freedom_score, 
+         personal_freedom_score, economic_freedom_score) %&gt;% 
   knitr::kable()</code></pre>
 <table>
 <colgroup>
@@ -516,9 +518,9 @@ nordic_data =
 </tr>
 </tbody>
 </table>
-<p>Note that “human freedom score” is a composite score of personal and economic freedom.</p>
-<p>Nordic countries vs rest of the world with additionally included sub freedoms.</p>
-<pre class="r"><code>nordic_data %&gt;% 
+<p>We can observe in this table ……</p>
+<p>The below table similarly shows data for the happiness and freedom scores within Nordic countries and comparitvily to the rest of the world - though now demonstrating scores for other sub groups within human freedom, such as freedom of religion or assembly.</p>
+<pre class="r"><code>nordic_compare %&gt;% 
   select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %&gt;%
   knitr::kable()</code></pre>
 <table>
@@ -635,8 +637,53 @@ nordic_data =
 </tr>
 </tbody>
 </table>
-<p>Plan for two sample t-test comparing Nordic happiness and human freedom score versus the rest of the world.</p>
-<pre class="r"><code>#Reformatting data for tests 
+<p>We can observe in this table….</p>
+<pre class="r"><code>nordic_compare %&gt;% 
+  select(-overall_happiness_score) %&gt;% 
+  pivot_longer(
+    human_freedom_score:size_of_government,
+    names_to = &quot;freedom_subgroup&quot;,
+    values_to = &quot;score&quot;
+  ) %&gt;% 
+  mutate(
+    countries = str_remove(
+      countries, &quot;nordic_average|other_global_average&quot;)
+    ) %&gt;% 
+  filter(str_detect(countries, &quot;Denmark|Norway|Sweden|Finland|Iceland&quot;),
+    str_detect(freedom_subgroup, 
+                    &quot;religion|rule_of_law|size_of_government&quot;)) %&gt;% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = &quot;identity&quot;, collor = &quot;black&quot;,
+           position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  labs(
+    title = &quot;Average scores of different types of freedoms among Nordic countries&quot;
+  )</code></pre>
+<p><img src="nordic_except_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<pre class="r"><code>nordic_compare %&gt;% 
+  select(-overall_happiness_score) %&gt;% 
+  pivot_longer(
+    human_freedom_score:size_of_government,
+    names_to = &quot;freedom_subgroup&quot;,
+    values_to = &quot;score&quot;
+  ) %&gt;% 
+  filter(str_detect(countries, 
+                    &quot;nordic_average|other_global_average&quot;), 
+         str_detect(freedom_subgroup, 
+                    &quot;religion|rule_of_law|size_of_government&quot;)) %&gt;% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;,
+           position = position_dodge(), width = 0.5) +
+  ylim(min = 0, max = 10) + 
+  labs(
+    title = &quot;Average scores of different types of freedoms between Nordic and all other countries&quot;,
+    x = &quot;group&quot;
+  )</code></pre>
+<p><img src="nordic_except_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+</div>
+<div id="statistical-testing-nordic-region-vs-other-countries" class="section level2">
+<h2>Statistical Testing: Nordic region vs Other countries</h2>
+<pre class="r"><code>#Reformatting data for tests and some visuals
 
 merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
   select(-X1) %&gt;% 
@@ -654,8 +701,30 @@ merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;%
   mutate(countries = as.character(countries))
 
 merged_setup$countries[is.na(merged_setup$countries)] = &quot;other&quot;</code></pre>
-<p>Group means, counts, and standard deviation for happiness score.</p>
-<pre class="r"><code>group_by(merged_setup, countries) %&gt;%
+<pre class="r"><code>plot_freedom = 
+  merged_setup %&gt;% 
+  ggplot(aes(y = human_freedom_score, 
+             x = countries,
+             fill = countries)) + 
+  geom_boxplot(stat = &quot;boxplot&quot;, show.legend = FALSE) + 
+  labs(y = &quot;human freedom score&quot;) + 
+  ylim(min = 0, max = 10)
+
+plot_happy = 
+  merged_setup %&gt;% 
+  ggplot(aes(y = overall_happiness_score, 
+             x = countries,
+             fill = countries)) + 
+  geom_boxplot(stat = &quot;boxplot&quot;, show.legend = FALSE) + 
+  labs(y = &quot;overall happiness score&quot;) +
+  ylim(min = 0, max = 10)
+
+plot_happy | plot_freedom</code></pre>
+<p><img src="nordic_except_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
+<p>We carried out a two-sample t-test to see whether the mean differences for overall happiness and freedom scores between Nordic countries and the rest of the world are statistically significant.</p>
+<p>Group means, counts, and standard deviation for overall happiness score.</p>
+<pre class="r"><code>merged_setup %&gt;% 
+  group_by(countries) %&gt;%
   summarise(
     count = n(),
     mean = mean(overall_happiness_score, na.rm = TRUE),
@@ -686,9 +755,10 @@ merged_setup$countries[is.na(merged_setup$countries)] = &quot;other&quot;</code>
 </tr>
 </tbody>
 </table>
-<p>Group means, counts, and standard deviation for freedom score.</p>
+<p>Group means, counts, and standard deviation for overall freedom score.</p>
 <pre class="r"><code>#Group means, counts, and SD for freedom score
-group_by(merged_setup, countries) %&gt;%
+merged_setup %&gt;% 
+  group_by(countries) %&gt;%
   summarise(
     count = n(),
     mean = mean(human_freedom_score, na.rm = TRUE),
@@ -719,7 +789,7 @@ group_by(merged_setup, countries) %&gt;%
 </tr>
 </tbody>
 </table>
-<p>t-test for overall happiness nordic vs other. Assume unequal variance due to difference in sample size.</p>
+<p>Results from t-test comparing overall happiness in Nordic vs other countries.</p>
 <pre class="r"><code>t.test(overall_happiness_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %&gt;% 
   broom::tidy() %&gt;% 
@@ -745,7 +815,7 @@ group_by(merged_setup, countries) %&gt;%
 </tr>
 </tbody>
 </table>
-<p>t-test for human freedom score nordic vs other. Assume unequal variance due to difference in sample size.</p>
+<p>Results from t-test comparing human freedom in Nordic vs other countries.</p>
 <pre class="r"><code>t.test(human_freedom_score ~ countries, 
               data = merged_setup, var.equal = FALSE) %&gt;% 
   broom::tidy() %&gt;% 
@@ -771,7 +841,9 @@ group_by(merged_setup, countries) %&gt;%
 </tr>
 </tbody>
 </table>
+<p>According to the above resutls, we have sufficient evidence to say that mean citizen happiness in Nordic countries is significantly different from the rest of th world. And that mean human freedom in Nordic countries is significantly difference from the rest of the world. These results should be interpreted with caution. ******</p>
 <p>To-do: potentially scatter plots with sub freedoms nordic countries</p>
+</div>
 
 
 
