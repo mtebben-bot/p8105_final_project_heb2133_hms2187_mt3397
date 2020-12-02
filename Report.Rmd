@@ -1,7 +1,4 @@
 ---
-title: "Report"
-author: "Henry Stoddard"
-date: "12/2/2020"
 output: html_document
 ---
 # Final Report
@@ -16,6 +13,12 @@ Anything that inspired you, such as a paper, a web site, or something we discuss
 ## Initial Questions
 What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
 
+Our primary questions were: How does happiness vary across nations?
+How does freedom vary across nations? 
+Does freedom have an impact on happiness/do freedom and happiness have a positive association?
+
+These questions evolved over the course of the project after we did initial mappings and exploratory analysis. Upon noticing certain high and low rankings, we wanted to further analyze the lowest and highest ranked countries, both for freedom and happiness. In addition, we wanted to see how different subtypes of freedom were connected to happiness, not just overall freedom.
+
 ## Data
 Source, scraping method, cleaning, etc.
 
@@ -24,6 +27,15 @@ Visualizations, summaries, and exploratory statistical analyses. Justify the ste
 
 ## Additional Analysis
 If you undertake formal statistical analyses, describe these in detail
+
+### Linear analysis
+HENRY
+
+### Top 5 Bottom 5
+MEGAN
+
+### Nordic Exceptionalism
+HANNAH
 
 ## Discussion
 What were your findings? Are they what you expect? What insights into the data can you make?
