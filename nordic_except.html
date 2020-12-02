@@ -341,7 +341,7 @@ div.tocify {
 
 
 
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -659,7 +659,7 @@ nordic_compare =
   labs(
     title = &quot;Average scores of different types of freedoms among Nordic countries&quot;
   )</code></pre>
-<p><img src="nordic_except_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<p><img src="nordic_except_files/figure-html/unnamed-chunk-4-1.png" width="75%" /></p>
 <pre class="r"><code>nordic_compare %&gt;% 
   select(-overall_happiness_score) %&gt;% 
   pivot_longer(
@@ -679,10 +679,11 @@ nordic_compare =
     title = &quot;Average scores of different types of freedoms between Nordic and all other countries&quot;,
     x = &quot;group&quot;
   )</code></pre>
-<p><img src="nordic_except_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+<p><img src="nordic_except_files/figure-html/unnamed-chunk-5-1.png" width="75%" /></p>
 </div>
 <div id="statistical-testing-nordic-region-vs-other-countries" class="section level2">
 <h2>Statistical Testing: Nordic region vs Other countries</h2>
+<p>Notably, we lack data on the variance within country measures in the original datasets, limiting our ability to conduct an ANOVA test and see if the any one of the Nordic countries’ mean happiness and freedom scores significantly differed from the others.</p>
 <pre class="r"><code>#Reformatting data for tests and some visuals
 
 merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
@@ -701,6 +702,7 @@ merged_setup = read_csv(&quot;./data/merged_df.csv&quot;) %&gt;%
   mutate(countries = as.character(countries))
 
 merged_setup$countries[is.na(merged_setup$countries)] = &quot;other&quot;</code></pre>
+<p>Comparing mean happiness and freedom scores between Nordic and all other countries:</p>
 <pre class="r"><code>plot_freedom = 
   merged_setup %&gt;% 
   ggplot(aes(y = human_freedom_score, 
@@ -720,87 +722,53 @@ plot_happy =
   ylim(min = 0, max = 10)
 
 plot_happy | plot_freedom</code></pre>
-<p><img src="nordic_except_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
+<p><img src="nordic_except_files/figure-html/unnamed-chunk-7-1.png" width="75%" /></p>
 <p>We carried out a two-sample t-test to see whether the mean differences for overall happiness and freedom scores between Nordic countries and the rest of the world are statistically significant.</p>
-<p>Group means, counts, and standard deviation for overall happiness score.</p>
-<pre class="r"><code>merged_setup %&gt;% 
-  group_by(countries) %&gt;%
-  summarise(
-    count = n(),
-    mean = mean(overall_happiness_score, na.rm = TRUE),
-    sd = sd(overall_happiness_score, na.rm = TRUE)
-  ) %&gt;% 
-  knitr::kable()</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">countries</th>
-<th align="right">count</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">nordic</td>
-<td align="right">5</td>
-<td align="right">7.560060</td>
-<td align="right">0.1732669</td>
-</tr>
-<tr class="even">
-<td align="left">other</td>
-<td align="right">167</td>
-<td align="right">5.402739</td>
-<td align="right">1.0607924</td>
-</tr>
-</tbody>
-</table>
-<p>Group means, counts, and standard deviation for overall freedom score.</p>
-<pre class="r"><code>#Group means, counts, and SD for freedom score
-merged_setup %&gt;% 
-  group_by(countries) %&gt;%
-  summarise(
-    count = n(),
-    mean = mean(human_freedom_score, na.rm = TRUE),
-    sd = sd(human_freedom_score, na.rm = TRUE)
-  ) %&gt;% 
-  knitr::kable()</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">countries</th>
-<th align="right">count</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">nordic</td>
-<td align="right">5</td>
-<td align="right">8.488000</td>
-<td align="right">0.0622093</td>
-</tr>
-<tr class="even">
-<td align="left">other</td>
-<td align="right">167</td>
-<td align="right">6.837006</td>
-<td align="right">1.0832267</td>
-</tr>
-</tbody>
-</table>
+<div id="checking-assumption-of-group-variance-homogeneity" class="section level3">
+<h3>Checking assumption of group variance homogeneity</h3>
+<p>When checking the variance in Nordic versus all other countries happiness scores, the p-value of &lt;0.05 in the output below indicates that our group variances are significantly different and we cannot assume equal variance in the t-test.</p>
+<pre class="r"><code>res.ftest = var.test(overall_happiness_score ~ countries, data = merged_setup)
+
+print(res.ftest)</code></pre>
+<pre><code>## 
+##  F test to compare two variances
+## 
+## data:  overall_happiness_score by countries
+## F = 0.026679, num df = 4, denom df = 147, p-value = 0.002783
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.009282815 0.221427779
+## sample estimates:
+## ratio of variances 
+##         0.02667904</code></pre>
+<p>When checking the variance in Nordic versus all other countries freedom scores, the p-value of &lt;0.05 in the output below indicates that our group variances are significantly different and we cannot assume equal variance in the t-test.</p>
+<pre class="r"><code>res.ftest = var.test(human_freedom_score ~ countries, data = merged_setup)
+
+print(res.ftest)</code></pre>
+<pre><code>## 
+##  F test to compare two variances
+## 
+## data:  human_freedom_score by countries
+## F = 0.0032982, num df = 4, denom df = 156, p-value = 4.387e-05
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.001149647 0.027365716
+## sample estimates:
+## ratio of variances 
+##        0.003298164</code></pre>
+</div>
+<div id="two-sample-t-test" class="section level3">
+<h3>Two sample t-test</h3>
 <p>Results from t-test comparing overall happiness in Nordic vs other countries.</p>
 <pre class="r"><code>t.test(overall_happiness_score ~ countries, 
-              data = merged_setup, var.equal = FALSE) %&gt;% 
+       data = merged_setup, var.equal = FALSE) %&gt;% 
   broom::tidy() %&gt;% 
-  select(estimate:estimate2, statistic, p.value) %&gt;% 
+  select(estimate, statistic, p.value) %&gt;% 
   knitr::kable()</code></pre>
 <table>
 <thead>
 <tr class="header">
 <th align="right">estimate</th>
-<th align="right">estimate1</th>
-<th align="right">estimate2</th>
 <th align="right">statistic</th>
 <th align="right">p.value</th>
 </tr>
@@ -808,25 +776,21 @@ merged_setup %&gt;%
 <tbody>
 <tr class="odd">
 <td align="right">2.157321</td>
-<td align="right">7.56006</td>
-<td align="right">5.402739</td>
 <td align="right">18.49376</td>
 <td align="right">0</td>
 </tr>
 </tbody>
 </table>
 <p>Results from t-test comparing human freedom in Nordic vs other countries.</p>
-<pre class="r"><code>t.test(human_freedom_score ~ countries, 
-              data = merged_setup, var.equal = FALSE) %&gt;% 
+<pre class="r"><code>t.test(human_freedom_score ~ countries,
+       data = merged_setup, var.equal = FALSE) %&gt;% 
   broom::tidy() %&gt;% 
-  select(estimate:estimate2, statistic, p.value) %&gt;% 
+  select(estimate, statistic, p.value) %&gt;% 
   knitr::kable()</code></pre>
 <table>
 <thead>
 <tr class="header">
 <th align="right">estimate</th>
-<th align="right">estimate1</th>
-<th align="right">estimate2</th>
 <th align="right">statistic</th>
 <th align="right">p.value</th>
 </tr>
@@ -834,15 +798,14 @@ merged_setup %&gt;%
 <tbody>
 <tr class="odd">
 <td align="right">1.650994</td>
-<td align="right">8.488</td>
-<td align="right">6.837006</td>
 <td align="right">18.17931</td>
 <td align="right">0</td>
 </tr>
 </tbody>
 </table>
-<p>According to the above resutls, we have sufficient evidence to say that mean citizen happiness in Nordic countries is significantly different from the rest of th world. And that mean human freedom in Nordic countries is significantly difference from the rest of the world. These results should be interpreted with caution. ******</p>
-<p>To-do: potentially scatter plots with sub freedoms nordic countries</p>
+<p>According to the above resutls, we have sufficient evidence to say that mean citizen happiness in Nordic countries is significantly different from the rest of th world. And that mean human freedom in Nordic countries is significantly difference from the rest of the world.</p>
+<p>These results should be interpreted with caution. ******(likely underpowered)</p>
+</div>
 </div>
 
 

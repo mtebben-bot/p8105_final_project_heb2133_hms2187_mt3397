@@ -16,7 +16,7 @@ library(ggrepel)
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,
-  out.width = "90%"
+  out.width = "75%"
 )
 
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
@@ -142,6 +142,7 @@ nordic_compare %>%
 
 ## Statistical Testing: Nordic region vs Other countries
 
+Notably, we lack data on the variance within country measures in the original datasets, limiting our ability to conduct an ANOVA test and see if the any one of the Nordic countries' mean happiness and freedom scores significantly differed from the others. 
 ```{r, warning = FALSE, message = FALSE}
 
 #Reformatting data for tests and some visuals
@@ -165,6 +166,7 @@ merged_setup$countries[is.na(merged_setup$countries)] = "other"
 
 ```
 
+Comparing mean happiness and freedom scores between Nordic and all other countries:
 ```{r, warning = FALSE, message = FALSE}
 plot_freedom = 
   merged_setup %>% 
@@ -188,9 +190,8 @@ plot_happy | plot_freedom
 ```
 
 We carried out a two-sample t-test to see whether the mean differences for overall happiness and freedom scores between Nordic countries and the rest of the world are statistically significant. 
-
-Group means, counts, and standard deviation for overall happiness score.
-```{r, warning = FALSE, message = FALSE}
+```{r, include = FALSE}
+#Group means, counts, and SD for happiness score
 merged_setup %>% 
   group_by(countries) %>%
   summarise(
@@ -199,10 +200,7 @@ merged_setup %>%
     sd = sd(overall_happiness_score, na.rm = TRUE)
   ) %>% 
   knitr::kable()
-```
 
-Group means, counts, and standard deviation for overall freedom score.
-```{r, warning = FALSE, message = FALSE}
 #Group means, counts, and SD for freedom score
 merged_setup %>% 
   group_by(countries) %>%
@@ -214,24 +212,43 @@ merged_setup %>%
   knitr::kable()
 ```
 
+### Checking assumption of group variance homogeneity
+
+When checking the variance in Nordic versus all other countries happiness scores, the p-value of <0.05 in the output below indicates that our group variances are significantly different and we cannot assume equal variance in the t-test. 
+```{r, warning = FALSE, message = FALSE}
+res.ftest = var.test(overall_happiness_score ~ countries, data = merged_setup)
+
+print(res.ftest)
+```
+
+
+When checking the variance in Nordic versus all other countries freedom scores, the p-value of <0.05 in the output below indicates that our group variances are significantly different and we cannot assume equal variance in the t-test. 
+```{r, warning = FALSE, message = FALSE}
+res.ftest = var.test(human_freedom_score ~ countries, data = merged_setup)
+
+print(res.ftest)
+```
+
+### Two sample t-test 
+
 Results from t-test comparing overall happiness in Nordic vs other countries.  
 ```{r, warning = FALSE, message = FALSE}
 t.test(overall_happiness_score ~ countries, 
-              data = merged_setup, var.equal = FALSE) %>% 
+       data = merged_setup, var.equal = FALSE) %>% 
   broom::tidy() %>% 
-  select(estimate:estimate2, statistic, p.value) %>% 
+  select(estimate, statistic, p.value) %>% 
   knitr::kable()
 ```
 
 Results from t-test comparing human freedom in Nordic vs other countries. 
 ```{r, warning = FALSE, message = FALSE}
-t.test(human_freedom_score ~ countries, 
-              data = merged_setup, var.equal = FALSE) %>% 
+t.test(human_freedom_score ~ countries,
+       data = merged_setup, var.equal = FALSE) %>% 
   broom::tidy() %>% 
-  select(estimate:estimate2, statistic, p.value) %>% 
+  select(estimate, statistic, p.value) %>% 
   knitr::kable()
 ```
 
-According to the above resutls, we have sufficient evidence to say that mean citizen happiness in Nordic countries is significantly different from the rest of th world. And that mean human freedom in Nordic countries is significantly difference from the rest of the world. These results should be interpreted with caution. ******
+According to the above resutls, we have sufficient evidence to say that mean citizen happiness in Nordic countries is significantly different from the rest of th world. And that mean human freedom in Nordic countries is significantly difference from the rest of the world. 
 
-To-do: potentially scatter plots with sub freedoms nordic countries 
+These results should be interpreted with caution. ******(likely underpowered)

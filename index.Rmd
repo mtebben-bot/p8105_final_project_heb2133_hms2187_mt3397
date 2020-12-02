@@ -39,7 +39,7 @@ Here are some linear analyses of freedom and happiness:
 [Linear Analyses](Linear-Analysis.html)
 
 Here is an analysis on Nordic countries happiness and freedom:
-[Nordic Subanalysis](nordic)
+[Nordic Exceptionalism](nordic_except.html)
 
 ## Managing Data
 
