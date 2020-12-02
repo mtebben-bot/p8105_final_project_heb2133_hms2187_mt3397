@@ -2,6 +2,7 @@ name: "R Final Project"
 output_dir: "."
 navbar:
   title: "Home"
+  type: inverse
   right:
     - text: "About"
       href: index.html
