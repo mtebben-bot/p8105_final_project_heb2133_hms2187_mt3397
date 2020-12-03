@@ -411,7 +411,7 @@ div.tocify {
 <p>We begin by presenting a broad visual of how happiness and human freedom are distributed on a global scale, noting particularly high and low ranked countries. We use linear analysis to explore the relationship of human freedom and citizen happiness, including the impact of various subtypes of human freedom. Finally, we investigate the story of “Nordic exceptionalism” by offering a closer look at Nordic countries and how human freedoms may play a role in this narrative.</p>
 <p>Our process of cleaning and merging these datasets is outlined below.</p>
 </div>
-<div id="about-our-data" class="section level2">
+<div id="about-our-data" class="section level2 tabset">
 <h2>About our Data</h2>
 <div id="the-world-happiness-report" class="section level3">
 <h3>The World Happiness Report</h3>
@@ -431,11 +431,50 @@ div.tocify {
 <p>Here are some linear analyses of freedom and happiness: <a href="Linear-Analysis.html">Linear Analyses</a></p>
 <p>Here is an analysis on Nordic countries happiness and freedom: <a href="nordic_except.html">Nordic Exceptionalism</a></p>
 </div>
+<div id="indicators-index" class="section level3">
+<h3>Indicators Index</h3>
+<p>Human Freedom Score</p>
+<ul>
+<li>Measure of overall freedom – a composite score based on measures economic and personal freedom</li>
+</ul>
+<p>Economic freedom score</p>
+<ul>
+<li>Composite score based on indicators of economic freedom such as size of government, legal system and property rights, freedom to trade internationally, and regulations.</li>
+</ul>
+<p>Personal freedom score * Composite score based on indicators of legal protection/security and specific personal freedoms (e.g., movement, religion, assembly, and identity and relationships).</p>
+<p>Economic and personal freedom indicators used in these analyses:</p>
+<p>Size of government</p>
+<ul>
+<li>Measure based on government consumption, transfers and subsidies, government investment, top marginal tax rate, and state ownership of assets.</li>
+</ul>
+<p>Assembly * Freedom of assembly from the Institutional Profiles Database</p>
+<p>Association</p>
+<ul>
+<li>Freedom of association from the Institutional Profiles Database</li>
+</ul>
+<p>Movement</p>
+<ul>
+<li>Based on freedom of domestic movement (freedom to travel within own country), foreign movement (freedom to leave and return to own country), and women’s freedom of movement. Data from CI-RIGHTS Dataset.</li>
+</ul>
+<p>Rule of law * Composite score based on indicators of whether countries adhere to procedural justice, civil justice, and criminal justice (data from World Justice Project, Rule of Law Index).</p>
+<p>Security safety</p>
+<ul>
+<li>Composite score based on indicators of homicide, disappearances, conflicts, and terrorism, and women’s security and safety (e.g., FGM, inheritance rights).</li>
+</ul>
+<p>Homicide</p>
+<ul>
+<li>A subcomponent of security and safety. Measure based on the UN Office on Drugs and Crime’s data on intentional homicides per 100,000 population. Countries with more homicides receive a lower rating.</li>
+</ul>
+<p>Disappearances conflicts and terrorism</p>
+<ul>
+<li>A subcomponent of security and safety. Composite score based on indicators of disappearances, violent conflicts, organized conflicts, terrorism fatalities, and terrorism injuries.</li>
+</ul>
+<p>Inheritance rights * A sub-component of women’s security and safety. Measure of whether women and men equal legal rights to inheritance of land and non-land assets</p>
 </div>
-<div id="managing-data" class="section level2">
-<h2>Managing Data</h2>
-<div id="importing-and-cleaning-datasets" class="section level3">
-<h3>Importing and Cleaning Datasets</h3>
+<div id="managing-data" class="section level3">
+<h3>Managing Data</h3>
+<div id="importing-and-cleaning-datasets" class="section level4">
+<h4>Importing and Cleaning Datasets</h4>
 <pre class="r"><code>library(tidyverse)
 library(readxl)
 
@@ -455,8 +494,8 @@ hfi_df =
   select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)</code></pre>
 <p>Before running any analyses, we needed to import each dataset and do some basic data cleaning. We needed to ensure that we were arranging alphabetically by country and matching the name of the variable for countries in each dataset to successfully merge the data from each index. We selected most variables in each dataset to get a sense of which variables we want to include in the analysis.</p>
 </div>
-<div id="merging-datasets" class="section level3">
-<h3>Merging Datasets</h3>
+<div id="merging-datasets" class="section level4">
+<h4>Merging Datasets</h4>
 <pre class="r"><code>merged_df = 
   full_join(whr_df, hfi_df, by = &quot;countries&quot;) %&gt;% 
   select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
@@ -465,6 +504,7 @@ hfi_df =
 
 write.csv(merged_df, &quot;./data/merged_df.csv&quot;)</code></pre>
 <p>We merged in using a full_join to have all country data from each dataset represented, even if one dataset contains a country but the other does not. For the purpose of the world maps, we wanted to include all countries available for each dataset. For the purpose of other analyses in which we wanted to assess the relationship between World Happiness Scores and Human Freedom Scores, countries that did not have data for both indices were removed from analysis. This merged dataset was exported as a CSV to the data folder and used as the dataset for all other analyses.</p>
+</div>
 </div>
 </div>
 
