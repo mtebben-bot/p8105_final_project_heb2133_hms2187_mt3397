@@ -82,9 +82,7 @@ nordic_compare %>%
   knitr::kable()
 ```
 
-The below table demonstrates measures of selected indicators that contribute to the economic and personal freedome scores. We compare these indicators across Nordic countries, as well as to averages from the rest of the world.
-
-Definitions for this indicators can be found in our "About" page, under "HFI Indicators Defined". 
+The below table demonstrates measures of selected indicators that contribute to the economic and personal freedome scores. We compare these indicators across Nordic countries, as well as to averages from the rest of the world. Definitions for these indicators can be found in our "About" page, under "HFI Indicators Defined". 
 
 ```{r, warning = FALSE, message = FALSE}
 nordic_compare %>% 
@@ -102,7 +100,7 @@ nordic_compare %>%
   ylim (min = 0, max = 10) + 
   xlim (min = 0, max = 10) + 
   theme(legend.position = "right",
-        title = element_text(size = 9)) + 
+        title = element_text(size = 7)) + 
   labs(
     title = "Comparing freedom and happiness scores within Nordic region and to mean scores for all other countries",
     y = "overall happiness score",
@@ -136,6 +134,9 @@ nordic_compare %>%
   ylim(min = 0, max = 10) + 
   labs(
     title = "Average scores of indicators from freedoms sub-categories among Nordic and all other countries"
+  ) + 
+  theme(
+    title = element_text(size = 7)
   )
 ```
 

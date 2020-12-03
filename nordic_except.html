@@ -363,16 +363,16 @@ div.tocify {
   <a href="Report.html">Report</a>
 </li>
 <li>
-  <a href="Linear-Analysis.html">Linear Analyses</a>
-</li>
-<li>
-  <a href="nordic_except.html">Nordic Exceptionalism</a>
-</li>
-<li>
   <a href="maps_data_clean.html">World Maps</a>
 </li>
 <li>
+  <a href="Linear-Analysis.html">Linear Analyses</a>
+</li>
+<li>
   <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
+</li>
+<li>
+  <a href="nordic_except.html">Nordic Exceptionalism</a>
 </li>
 <li>
   <a href="mailto:&lt;hms2187@cumc.columbia.edu&gt;">
@@ -520,8 +520,7 @@ nordic_compare =
 </tr>
 </tbody>
 </table>
-<p>The below table demonstrates measures of selected indicators that contribute to the economic and personal freedome scores. We compare these indicators across Nordic countries, as well as to averages from the rest of the world.</p>
-<p>Definitions for this indicators can be found in our “About” page, under “HFI Indicators Defined”.</p>
+<p>The below table demonstrates measures of selected indicators that contribute to the economic and personal freedome scores. We compare these indicators across Nordic countries, as well as to averages from the rest of the world. Definitions for these indicators can be found in our “About” page, under “HFI Indicators Defined”.</p>
 <pre class="r"><code>nordic_compare %&gt;% 
   select(countries, religion, association, assembly, rule_of_law, homicide, disapperances_conflicts_and_terrorism, inheritance_rights, size_of_government) %&gt;%
   knitr::kable()</code></pre>
@@ -638,7 +637,7 @@ nordic_compare =
   ylim (min = 0, max = 10) + 
   xlim (min = 0, max = 10) + 
   theme(legend.position = &quot;right&quot;,
-        title = element_text(size = 9)) + 
+        title = element_text(size = 7)) + 
   labs(
     title = &quot;Comparing freedom and happiness scores within Nordic region and to mean scores for all other countries&quot;,
     y = &quot;overall happiness score&quot;,
@@ -669,6 +668,9 @@ nordic_compare =
   ylim(min = 0, max = 10) + 
   labs(
     title = &quot;Average scores of indicators from freedoms sub-categories among Nordic and all other countries&quot;
+  ) + 
+  theme(
+    title = element_text(size = 7)
   )</code></pre>
 <p><img src="nordic_except_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
 </div>
