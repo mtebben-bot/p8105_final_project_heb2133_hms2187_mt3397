@@ -6,6 +6,8 @@ navbar:
   right:
     - text: "About"
       href: index.html
+    - text: "Report"
+      href: Report.html      
     - text: "Linear Analyses"
       href: Linear-Analysis.html
     - text: "Nordic Exceptionalism"
