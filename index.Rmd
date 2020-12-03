@@ -71,10 +71,6 @@ Rule of law
 
  * Composite score based on indicators of whether countries adhere to procedural justice, civil justice, and criminal justice (data from World Justice Project, Rule of Law Index).
 
-Security safety
-
-* Composite score based on indicators of homicide, disappearances, conflicts, and terrorism, and women’s security and safety (e.g., FGM, inheritance rights).
-
 Homicide 
 
 * A subcomponent of security and safety. Measure based on the UN Office on Drugs and Crime’s data on intentional homicides per 100,000 population. Countries with more homicides receive a lower rating.
