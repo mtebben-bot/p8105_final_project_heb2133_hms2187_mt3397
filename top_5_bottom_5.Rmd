@@ -30,7 +30,7 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-```{r, warning = F, message = F}
+```{r, warning = F, message = F, include = F}
 merged_df = 
   read_csv("./data/merged_df.csv") %>% 
   mutate(world_happiness_score = ladder_score) %>% 
@@ -39,14 +39,14 @@ merged_df =
   select(countries, world_happiness_score, everything())
 ```
 
-```{r}
+```{r, include = F}
 bot5_whr = 
   merged_df %>% 
   arrange(world_happiness_score) %>% 
   top_n(world_happiness_score, n = -5)
 ```
 
-```{r}
+```{r, include = F}
 top5_whr = 
   merged_df %>% 
   arrange(world_happiness_score) %>% 
@@ -55,7 +55,7 @@ top5_whr =
 
 ```
 
-```{r}
+```{r, include = F}
 top5_hfi = 
   merged_df %>% 
   select(countries, human_freedom_score, everything()) %>% 
@@ -64,7 +64,7 @@ top5_hfi =
   arrange(desc(human_freedom_score))
 ```
 
-```{r}
+```{r, include = F}
 bot5_hfi = 
   merged_df %>% 
   select(countries, human_freedom_score, everything()) %>%
@@ -72,7 +72,10 @@ bot5_hfi =
   top_n(human_freedom_score, n = -5)
 ```
 
-## Tables n Plots
+## Examining Differences and Similarities between the Top 5 and Bottom 5 Country Scores {.tabset}
+
+
+### Human Freedom Index Scores
 
 
 ```{r, echo = F}
@@ -108,6 +111,8 @@ hfi_plot
 ```
 
 Insert comments about the plot hfi
+
+### World Happiness Scores
 
 ```{r, echo = F}
 bot5_whr %>% knitr::kable()
