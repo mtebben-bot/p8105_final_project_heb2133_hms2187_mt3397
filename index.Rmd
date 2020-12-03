@@ -13,6 +13,12 @@ Using data from the World Happiness Report (WHR) and Human Freedom Index (HFI), 
 
 We begin by presenting a broad visual of how happiness and human freedom are distributed on a global scale, noting particularly high and low ranked countries. We use linear analysis to explore the relationship of human freedom and citizen happiness, including the impact of various subtypes of human freedom. Finally, we investigate the story of "Nordic exceptionalism" by offering a closer look at Nordic countries and how human freedoms may play a role in this narrative. 
 
+Here are some linear analyses of freedom and happiness:
+[Linear Analyses](Linear-Analysis.html)
+
+Here is an analysis on Nordic countries happiness and freedom:
+[Nordic Exceptionalism](nordic_except.html)
+
 Our process of cleaning and merging these datasets is outlined below.
 
 ## About our Data {.tabset}
@@ -35,17 +41,7 @@ The report and corresponding data can be found at:
 
 * [The Human Freedom Index - 2019](https://www.cato.org/human-freedom-index-new)
 
-<<<<<<< HEAD
-Here are some linear analyses of freedom and happiness:
-[Linear Analyses](Linear-Analysis.html)
-
-Here is an analysis on Nordic countries happiness and freedom:
-[Nordic Exceptionalism](nordic_except.html)
-
 ### HFI Indicators Defined
-=======
-## Managing Data
->>>>>>> c1b01d734c30b944e7f259b7d39f925e7e30827f
 
 Human Freedom Score
 
