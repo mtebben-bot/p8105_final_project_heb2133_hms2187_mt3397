@@ -283,16 +283,16 @@ $(document).ready(function () {
   <a href="Report.html">Report</a>
 </li>
 <li>
-  <a href="Linear-Analysis.html">Linear Analyses</a>
-</li>
-<li>
-  <a href="nordic_except.html">Nordic Exceptionalism</a>
-</li>
-<li>
   <a href="maps_data_clean.html">World Maps</a>
 </li>
 <li>
+  <a href="Linear-Analysis.html">Linear Analyses</a>
+</li>
+<li>
   <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
+</li>
+<li>
+  <a href="nordic_except.html">Nordic Exceptionalism</a>
 </li>
 <li>
   <a href="mailto:&lt;hms2187@cumc.columbia.edu&gt;">
@@ -349,7 +349,13 @@ $(document).ready(function () {
 <p>If you undertake formal statistical analyses, describe these in detail</p>
 <div id="linear-analysis" class="section level3">
 <h3>Linear analysis</h3>
-<p>HENRY</p>
+<p>After conducting exploratory analyses, we decided to conduct a linear analysis. This analysis can be found at the following link: <a href="Linear-Analysis.html">Linear Analysis</a>.</p>
+<p>The central purpose behind this analysis was to observe the relationship between happiness (assessed via ladder score in the world happiness report) and freedom (assessed by multiple measures in the human freedom index).</p>
+<p>To begin, we created a scatterplot, which revealed a mostly positive and linear relationship between happiness and overall freedom. In addition, we created box plots and density plots to look for outliers and normality in ladder score data and overall freedom scores. These plots revealed one outlier for freedom and mostly normal distributions (though less so for freedom). The final step before creating linear models was to assess correlation between happiness and overall freedom, in which we found a strong correlation (r = 0.69).</p>
+<p>Prior to creating our models, we planned to include several covariates (like GDP, for example) to control for potential confounding. However, upon digging into the data, we discovered that both happiness and freedom scores actually already accounted for such covariates in their scoring system already. Therefore, we decided to make our linear models only containing variables already in the dataset.</p>
+<p>Our first linear model only included happiness as a function of overall freedom. Results showed a strong, positive relationship with a significant p-value, and normally distributed residuals. This result further supported the conclusion that happiness and freedom are positively associated. However, this model did not show a great degree of granularity, so we decided to create two additional, more specific models.</p>
+<p>The second linear model included happiness as a function of economic and personal freedom. This model also revealed a positive relationship between both types of freedom and happiness, though their beta terms were smaller than the overall freedom measure’s beta term. Residuals were normally distributed. Interestingly, personal freedom had a larger beta term than economic freedom, suggesting that personal freedoms (like the freedom to move, associate, practice religion, etc.) have a greater impact on happiness than economic freedoms (take that capitalism!).</p>
+<p>The final model further broke down freedom into freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide. This model gave the greatest degree of granularity, but at the cost of smaller effect sizes. In this model, the only significant terms were rule of law (moderate, positive association) and homicide (small, negative association). However, the disappearances, conflicts, and terrorism term and the security and safety term were close to being significant as well. The residuals for these models looked less normal than previous models, raising concerns about the validity of this final model.</p>
 </div>
 <div id="top-5-bottom-5" class="section level3">
 <h3>Top 5 Bottom 5</h3>

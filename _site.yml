@@ -7,15 +7,15 @@ navbar:
     - text: "About"
       href: index.html
     - text: "Report"
-      href: Report.html      
-    - text: "Linear Analyses"
-      href: Linear-Analysis.html
-    - text: "Nordic Exceptionalism"
-      href: nordic_except.html
+      href: Report.html    
     - text: "World Maps"
       href: maps_data_clean.html
+    - text: "Linear Analyses"
+      href: Linear-Analysis.html
     - text: "Top 5 Bottom 5"
       href: top_5_bottom_5.html
+    - text: "Nordic Exceptionalism"
+      href: nordic_except.html
     - icon: fa-envelope fa-lg
       href: mailto:<hms2187@cumc.columbia.edu>
     - icon: fa-github fa-lg

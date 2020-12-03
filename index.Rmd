@@ -15,7 +15,7 @@ We begin by presenting a broad visual of how happiness and human freedom are dis
 
 Our process of cleaning and merging these datasets is outlined below.
 
-## About our Data
+## About our Data {.tabset}
 
 
 ### The World Happiness Report 
@@ -27,7 +27,7 @@ The report and corresponding data can be found at:
 * [The 2019 World Happiness Report ](https://worldhappiness.report/ed/2019/)
 
 
-### The Human Freedom Index
+### The Human Freedom Index (HFI)
 
 The 2019 Human Freedom Index broadly measures the degree of human freedom in 162 countries using various indicators of social and economic freedom including, security, size of government, religion, and civil rights. It then ranks the included countries by their overall “human freedom score”.
 
@@ -35,9 +35,61 @@ The report and corresponding data can be found at:
 
 * [The Human Freedom Index - 2019](https://www.cato.org/human-freedom-index-new)
 
-## Managing Data
+### HFI Indicators Defined
 
-### Importing and Cleaning Datasets
+Human Freedom Score
+
+* Measure of overall freedom – a composite score based on measures economic and personal freedom
+
+Economic freedom score 
+
+* Composite score based on indicators of economic freedom such as size of government, legal system and property rights, freedom to trade internationally, and regulations. 
+
+Personal freedom score 
+
+* Composite score based on indicators of legal protection/security and specific personal freedoms (e.g., movement, religion, assembly, and identity and relationships). 
+
+Economic and personal freedom indicators used in these analyses: 
+
+Size of government 
+ 
+* Measure based on government consumption, transfers and subsidies, government investment, top marginal tax rate, and state ownership of assets.
+
+Assembly
+
+* Freedom of assembly from the Institutional Profiles Database
+
+Association
+
+* Freedom of association from the Institutional Profiles Database 
+
+Movement 
+
+* Based on freedom of domestic movement (freedom to travel within own country), foreign movement (freedom to leave and return to own country), and women’s freedom of movement. Data from CI-RIGHTS Dataset. 
+
+Rule of law 
+
+ * Composite score based on indicators of whether countries adhere to procedural justice, civil justice, and criminal justice (data from World Justice Project, Rule of Law Index).
+
+Security safety
+
+* Composite score based on indicators of homicide, disappearances, conflicts, and terrorism, and women’s security and safety (e.g., FGM, inheritance rights).
+
+Homicide 
+
+* A subcomponent of security and safety. Measure based on the UN Office on Drugs and Crime’s data on intentional homicides per 100,000 population. Countries with more homicides receive a lower rating.
+
+Disappearances conflicts and terrorism 
+
+* A subcomponent of security and safety. Composite score based on indicators of disappearances, violent conflicts, organized conflicts, terrorism fatalities, and terrorism injuries. 
+
+Inheritance rights
+
+* A sub-component of women’s security and safety. Measure of whether women and men equal legal rights to inheritance of land and non-land assets
+
+### Managing Data 
+
+#### Importing and Cleaning Datasets
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -62,7 +114,7 @@ hfi_df =
 
 Before running any analyses, we needed to import each dataset and do some basic data cleaning. We needed to ensure that we were arranging alphabetically by country and matching the name of the variable for countries in each dataset to successfully merge the data from each index. We selected most variables in each dataset to get a sense of which variables we want to include in the analysis. 
 
-### Merging Datasets
+#### Merging Datasets
 
 ```{r}
 merged_df = 
