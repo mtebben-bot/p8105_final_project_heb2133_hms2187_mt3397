@@ -35,12 +35,6 @@ The report and corresponding data can be found at:
 
 * [The Human Freedom Index - 2019](https://www.cato.org/human-freedom-index-new)
 
-Here are some linear analyses of freedom and happiness:
-[Linear Analyses](Linear-Analysis.html)
-
-Here is an analysis on Nordic countries happiness and freedom:
-[Nordic Exceptionalism](nordic_except.html)
-
 ## Managing Data
 
 ### Importing and Cleaning Datasets
