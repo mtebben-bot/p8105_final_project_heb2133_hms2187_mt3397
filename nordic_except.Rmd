@@ -191,7 +191,7 @@ plot_happy =
 plot_happy | plot_freedom
 ```
 
-```{r, include = FALSE}
+```{r, warning = FALSE, message = FALSE}
 #Group means, counts, and SD for happiness score
 merged_setup %>% 
   group_by(countries) %>%
