@@ -35,6 +35,7 @@ The report and corresponding data can be found at:
 
 * [The Human Freedom Index - 2019](https://www.cato.org/human-freedom-index-new)
 
+<<<<<<< HEAD
 Here are some linear analyses of freedom and happiness:
 [Linear Analyses](Linear-Analysis.html)
 
@@ -42,6 +43,9 @@ Here is an analysis on Nordic countries happiness and freedom:
 [Nordic Exceptionalism](nordic_except.html)
 
 ### HFI Indicators Defined
+=======
+## Managing Data
+>>>>>>> c1b01d734c30b944e7f259b7d39f925e7e30827f
 
 Human Freedom Score
 

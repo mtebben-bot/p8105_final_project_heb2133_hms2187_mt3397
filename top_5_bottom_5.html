@@ -360,6 +360,9 @@ div.tocify {
   <a href="index.html">About</a>
 </li>
 <li>
+  <a href="Report.html">Report</a>
+</li>
+<li>
   <a href="Linear-Analysis.html">Linear Analyses</a>
 </li>
 <li>
@@ -405,34 +408,10 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>merged_df = 
-  read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
-  mutate(world_happiness_score = ladder_score) %&gt;% 
-  select(-X1, -ladder_score) %&gt;% 
-  drop_na(world_happiness_score, human_freedom_score) %&gt;% 
-  select(countries, world_happiness_score, everything())</code></pre>
-<pre class="r"><code>bot5_whr = 
-  merged_df %&gt;% 
-  arrange(world_happiness_score) %&gt;% 
-  top_n(world_happiness_score, n = -5)</code></pre>
-<pre class="r"><code>top5_whr = 
-  merged_df %&gt;% 
-  arrange(world_happiness_score) %&gt;% 
-  top_n(world_happiness_score, n = 5) %&gt;% 
-  arrange(desc(world_happiness_score))</code></pre>
-<pre class="r"><code>top5_hfi = 
-  merged_df %&gt;% 
-  select(countries, human_freedom_score, everything()) %&gt;% 
-  arrange(human_freedom_score) %&gt;% 
-  top_n(human_freedom_score, n = 5) %&gt;% 
-  arrange(desc(human_freedom_score))</code></pre>
-<pre class="r"><code>bot5_hfi = 
-  merged_df %&gt;% 
-  select(countries, human_freedom_score, everything()) %&gt;%
-  arrange(human_freedom_score) %&gt;% 
-  top_n(human_freedom_score, n = -5)</code></pre>
-<div id="tables-n-plots" class="section level2">
-<h2>Tables n Plots</h2>
+<div id="examining-differences-and-similarities-between-the-top-5-and-bottom-5-country-scores" class="section level2 tabset">
+<h2>Examining Differences and Similarities between the Top 5 and Bottom 5 Country Scores</h2>
+<div id="human-freedom-index-scores" class="section level3">
+<h3>Human Freedom Index Scores</h3>
 <table>
 <colgroup>
 <col width="4%" />
@@ -702,6 +681,9 @@ hfi_plot =
 hfi_plot</code></pre>
 <p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 <p>Insert comments about the plot hfi</p>
+</div>
+<div id="world-happiness-scores" class="section level3">
+<h3>World Happiness Scores</h3>
 <table style="width:100%;">
 <colgroup>
 <col width="9%" />
@@ -971,6 +953,7 @@ whr_plot =
 whr_plot</code></pre>
 <p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 <p>Insert comments about whr plot</p>
+</div>
 </div>
 
 
