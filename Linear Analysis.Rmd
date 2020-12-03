@@ -40,11 +40,11 @@ merged_df =
   read_csv("./data/merged_df.csv")
 ```
 
-Let's start with a scatterplot of happiness (ladder score) by human freedom score.
+Let's start with a scatterplot of happiness (happiness_score) by human freedom score.
 ```{r}
 scatter_plot = 
 merged_df %>% 
-ggplot(aes(x=ladder_score, y = human_freedom_score)) +
+ggplot(aes(x=happiness_score, y = human_freedom_score)) +
   geom_point() +
   stat_smooth(method = "lm")
 scatter_plot
@@ -56,7 +56,7 @@ Now, a boxplot check for outliers:
 ```{r}
 box_plot1 =
   merged_df %>% 
-  ggplot(aes(y = ladder_score)) +
+  ggplot(aes(y = happiness_score)) +
   geom_boxplot()
 box_plot2 =
   merged_df %>% 
@@ -71,7 +71,7 @@ Now, some density plots to check normality of happiness and freedom.
 ```{r}
 den_plot1 =
   merged_df %>% 
-  ggplot(aes(x = ladder_score)) +
+  ggplot(aes(x = happiness_score)) +
   geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)
 den_plot2 =
   merged_df %>% 
@@ -85,8 +85,8 @@ Checking correlation
 ```{r}
 complete_df1 = 
   merged_df %>% 
-  drop_na(ladder_score, human_freedom_score) 
-cor = cor(complete_df1$ladder_score, complete_df1$human_freedom_score)
+  drop_na(happiness_score, human_freedom_score) 
+cor = cor(complete_df1$happiness_score, complete_df1$human_freedom_score)
 cor
 ```
 
@@ -98,7 +98,7 @@ Correlation with cleaned data and only complete cases = 0.69, indicating moderat
 Now running linear model just ladder score and freedom score
 ```{r}
 linear_model = 
-  lm(ladder_score ~ human_freedom_score, data = complete_df1)
+  lm(happiness_score ~ human_freedom_score, data = complete_df1)
 linear_stats = 
   summary(linear_model)
 
@@ -125,9 +125,9 @@ The second linear model will model world happiness with freedom split into two s
 ```{r}
 complete_df2 = 
   merged_df %>% 
-  drop_na(ladder_score, personal_freedom_score, economic_freedom_score)
+  drop_na(happiness_score, personal_freedom_score, economic_freedom_score)
 linear_model2 = 
-  lm(ladder_score ~ personal_freedom_score + economic_freedom_score, data = complete_df2)
+  lm(happiness_score ~ personal_freedom_score + economic_freedom_score, data = complete_df2)
 linear_stats = 
   summary(linear_model2)
 
@@ -153,15 +153,15 @@ Both freedom scores have a significant p-value, meaning we can reject the null h
 It also appears that the residuals are normally distributed.
 
 ## Linear Model 3
-The third model will model  happiness with multiple subtypes of freedom: freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide.
+The third model will model  happiness with multiple subtypes of freedom: freedom of/from assembly, religion, association, movement, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide.
 
 ```{r}
 complete_df3 = 
   merged_df %>% 
-  drop_na(ladder_score, assembly, religion, association, movement, security_safety, inheritance_rights, disapperances_conflicts_and_terrorism, rule_of_law, homicide)
+  drop_na(happiness_score, assembly, religion, association, movement, inheritance_rights, disapperances_conflicts_and_terrorism, rule_of_law, homicide)
 
 linear_model3 = 
-  lm(ladder_score ~ assembly + religion + association + movement + security_safety + inheritance_rights + disapperances_conflicts_and_terrorism + rule_of_law + homicide, data = complete_df3)
+  lm(happiness_score ~ assembly + religion + association + movement + inheritance_rights + disapperances_conflicts_and_terrorism + rule_of_law + homicide, data = complete_df3)
 
 linear_stats = 
   summary(linear_model3)
@@ -194,11 +194,6 @@ complete_df3 %>%
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
-  ggplot(aes(x = security_safety, y = resid)) + 
-  geom_violin()
-
-complete_df3 %>% 
-  modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = inheritance_rights, y = resid)) + 
   geom_violin()
 
@@ -218,6 +213,6 @@ complete_df3 %>%
   geom_violin()
 ```
 
-On average, for every one unit increase in rule of law freedom score, happiness increases by .45 units. For every one unit increase in homicide score, happiness decreases by .19 units. These were the only two terms with significant p-values, indicating that there is a relationship between rule of law and happiness, as well as homicide and happiness. However, it is worth noting that the disappearances, conflicts, and terrorism term and the security and safety term were both very close to the cutoff value of p < .05.
+On average, for every one unit increase in rule of law freedom score, happiness increases by .45 units. For every one unit increase in homicide score, happiness decreases by .19 units. These were the only two terms with significant p-values, indicating that there is a relationship between rule of law and happiness, as well as homicide and happiness. However, it is worth noting that the disappearances, conflicts, and terrorism term was very close to the cutoff value of p < .05.
 
 It also appears that the residuals are not as normally distributed as in previous models.
