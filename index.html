@@ -431,8 +431,6 @@ div.tocify {
 <ul>
 <li><a href="https://www.cato.org/human-freedom-index-new">The Human Freedom Index - 2019</a></li>
 </ul>
-<p>Here are some linear analyses of freedom and happiness: <a href="Linear-Analysis.html">Linear Analyses</a></p>
-<p>Here is an analysis on Nordic countries happiness and freedom: <a href="nordic_except.html">Nordic Exceptionalism</a></p>
 </div>
 </div>
 <div id="managing-data" class="section level2">
@@ -463,8 +461,9 @@ hfi_df =
 <pre class="r"><code>merged_df = 
   full_join(whr_df, hfi_df, by = &quot;countries&quot;) %&gt;% 
   select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
-         religion, association, assembly, movement, inheritance_rights, security_safety, 
-         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government)
+         religion, association, assembly, movement, inheritance_rights,
+         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government) %&gt;% 
+  rename(&quot;happiness_score&quot; = &quot;ladder_score&quot;)
 
 write.csv(merged_df, &quot;./data/merged_df.csv&quot;)</code></pre>
 <p>We merged in using a full_join to have all country data from each dataset represented, even if one dataset contains a country but the other does not. For the purpose of the world maps, we wanted to include all countries available for each dataset. For the purpose of other analyses in which we wanted to assess the relationship between World Happiness Scores and Human Freedom Scores, countries that did not have data for both indices were removed from analysis. This merged dataset was exported as a CSV to the data folder and used as the dataset for all other analyses.</p>
