@@ -67,36 +67,35 @@ nordic_compare =
   mutate(
     countries = as.character(countries),
     countries = 
-      str_replace(countries, "0", "nordic_average"),
+      str_replace(countries, "0", "nordic_avg"),
     countries = 
-      str_replace(countries, "1", "other_global_average")
+      str_replace(countries, "1", "other_global_avg")
     )
 ```
 
-The below table demonstrates happiness and freedom scores for the five Nordic countries. Notably the human freedom score is an overall, composite score of the economic and social freedom measurements. We can also compare these to the average scores for the all other countries in the world.  
+The below table demonstrates happiness and freedom scores for the five Nordic countries. The human freedom score is a composite of the economic and social freedom measurements. We can also compare these to the average scores for the all other countries in the world.  
+
 ```{r, warning = FALSE, message = FALSE}
 nordic_compare %>% 
   select(countries, overall_happiness_score, human_freedom_score, 
          personal_freedom_score, economic_freedom_score) %>% 
   knitr::kable()
 ```
-We can observe in this table ......
 
+The below table demonstrates measures of selected indicators that contribute to the economic and personal freedome scores. We compare these indicators across Nordic countries, as well as to averages from the rest of the world.
 
-The below table similarly shows data for the happiness and freedom scores within Nordic countries and comparatively to the rest of the world - though now demonstrating scores for other sub categories that contribute to human freedom. 
+Definitions for this indicators can be found in our "About" page, under "HFI Indicators Defined". 
 
 ```{r, warning = FALSE, message = FALSE}
 nordic_compare %>% 
-  select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %>%
+  select(countries, religion, association, assembly, rule_of_law, homicide, disapperances_conflicts_and_terrorism, inheritance_rights, size_of_government) %>%
   knitr::kable()
 ```
-We can observe in this table....
 
-(make plotly?)
 
 ```{r}
 nordic_compare %>% 
-  subset(countries != "nordic_average") %>% 
+  subset(countries != "nordic_avg") %>% 
   ggplot(aes(x = human_freedom_score, y = overall_happiness_score)) + 
   geom_point(aes(color = countries), show.legend = FALSE) + 
   geom_text_repel(aes(label = countries)) +
@@ -120,41 +119,25 @@ nordic_compare %>%
     names_to = "freedom_subgroup",
     values_to = "score"
   ) %>% 
-  filter(str_detect(countries, "Denmark|Norway|Sweden|Finland|Iceland"),
-    str_detect(freedom_subgroup, 
-                    "religion|rule_of_law|size_of_government")) %>% 
+  filter(str_detect(freedom_subgroup, 
+                    "religion|rule_of_law|homicide|size_of_government")) %>% 
+  mutate(
+    freedom_subgroup = 
+           fct_relevel(freedom_subgroup,
+                       "religion", "rule_of_law", "homicide",
+                       "size_of_government"),
+    countries = 
+      fct_relevel(countries, 
+                  "Denmark", "Finland", "Iceland", "Norway", "Sweden", "nordic_avg", "other_global_avg")
+    ) %>% 
   ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
   geom_bar(stat = "identity", color = "black",
            position = position_dodge()) +
   ylim(min = 0, max = 10) + 
   labs(
-    title = "Average scores of different types of freedoms among Nordic countries"
+    title = "Average scores of indicators from freedoms sub-categories among Nordic and all other countries"
   )
 ```
-
-
-```{r}
-nordic_compare %>% 
-  select(-overall_happiness_score) %>% 
-  pivot_longer(
-    human_freedom_score:size_of_government,
-    names_to = "freedom_subgroup",
-    values_to = "score"
-  ) %>% 
-  filter(str_detect(countries, 
-                    "nordic_average|other_global_average"), 
-         str_detect(freedom_subgroup, 
-                    "religion|rule_of_law|size_of_government")) %>% 
-  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
-  geom_bar(stat = "identity", color = "black",
-           position = position_dodge(), width = 0.5) +
-  ylim(min = 0, max = 10) + 
-  labs(
-    title = "Average scores of different types of freedoms between Nordic and all other countries",
-    x = "group"
-  )
-```
-
 
 ## Statistical Testing: Nordic region vs Other countries
 

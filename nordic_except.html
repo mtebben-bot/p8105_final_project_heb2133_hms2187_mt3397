@@ -442,22 +442,22 @@ nordic_compare =
   mutate(
     countries = as.character(countries),
     countries = 
-      str_replace(countries, &quot;0&quot;, &quot;nordic_average&quot;),
+      str_replace(countries, &quot;0&quot;, &quot;nordic_avg&quot;),
     countries = 
-      str_replace(countries, &quot;1&quot;, &quot;other_global_average&quot;)
+      str_replace(countries, &quot;1&quot;, &quot;other_global_avg&quot;)
     )</code></pre>
-<p>The below table demonstrates happiness and freedom scores for the five Nordic countries. Notably the human freedom score is an overall, composite score of the economic and social freedom measurements. We can also compare these to the average scores for the all other countries in the world.</p>
+<p>The below table demonstrates happiness and freedom scores for the five Nordic countries. The human freedom score is a composite of the economic and social freedom measurements. We can also compare these to the average scores for the all other countries in the world.</p>
 <pre class="r"><code>nordic_compare %&gt;% 
   select(countries, overall_happiness_score, human_freedom_score, 
          personal_freedom_score, economic_freedom_score) %&gt;% 
   knitr::kable()</code></pre>
 <table>
 <colgroup>
+<col width="15%" />
+<col width="22%" />
 <col width="18%" />
 <col width="21%" />
-<col width="18%" />
-<col width="20%" />
-<col width="20%" />
+<col width="21%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -505,14 +505,14 @@ nordic_compare =
 <td align="right">7.560000</td>
 </tr>
 <tr class="even">
-<td align="left">nordic_average</td>
+<td align="left">nordic_avg</td>
 <td align="right">7.560060</td>
 <td align="right">8.488000</td>
 <td align="right">9.259448</td>
 <td align="right">7.722000</td>
 </tr>
 <tr class="odd">
-<td align="left">other_global_average</td>
+<td align="left">other_global_avg</td>
 <td align="right">5.402739</td>
 <td align="right">6.837006</td>
 <td align="right">6.904132</td>
@@ -520,129 +520,118 @@ nordic_compare =
 </tr>
 </tbody>
 </table>
-<p>We can observe in this table ……</p>
-<p>The below table similarly shows data for the happiness and freedom scores within Nordic countries and comparatively to the rest of the world - though now demonstrating scores for other sub categories that contribute to human freedom.</p>
+<p>The below table demonstrates measures of selected indicators that contribute to the economic and personal freedome scores. We compare these indicators across Nordic countries, as well as to averages from the rest of the world.</p>
+<p>Definitions for this indicators can be found in our “About” page, under “HFI Indicators Defined”.</p>
 <pre class="r"><code>nordic_compare %&gt;% 
-  select(countries, overall_happiness_score, human_freedom_score, religion, association, assembly, security_safety, rule_of_law, homicide, size_of_government) %&gt;%
+  select(countries, religion, association, assembly, rule_of_law, homicide, disapperances_conflicts_and_terrorism, inheritance_rights, size_of_government) %&gt;%
   knitr::kable()</code></pre>
 <table>
 <colgroup>
-<col width="13%" />
-<col width="15%" />
-<col width="13%" />
-<col width="5%" />
-<col width="7%" />
+<col width="11%" />
 <col width="6%" />
-<col width="10%" />
-<col width="7%" />
-<col width="5%" />
-<col width="12%" />
+<col width="8%" />
+<col width="6%" />
+<col width="8%" />
+<col width="6%" />
+<col width="26%" />
+<col width="13%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">countries</th>
-<th align="right">overall_happiness_score</th>
-<th align="right">human_freedom_score</th>
 <th align="right">religion</th>
 <th align="right">association</th>
 <th align="right">assembly</th>
-<th align="right">security_safety</th>
 <th align="right">rule_of_law</th>
 <th align="right">homicide</th>
+<th align="right">disapperances_conflicts_and_terrorism</th>
+<th align="right">inheritance_rights</th>
 <th align="right">size_of_government</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">Denmark</td>
-<td align="right">7.645600</td>
-<td align="right">8.560000</td>
 <td align="right">7.702222</td>
 <td align="right">10.000000</td>
 <td align="right">10.000000</td>
-<td align="right">9.840000</td>
 <td align="right">8.687101</td>
 <td align="right">9.520000</td>
+<td align="right">10.000000</td>
+<td align="right">10.000000</td>
 <td align="right">4.707251</td>
 </tr>
 <tr class="even">
 <td align="left">Finland</td>
-<td align="right">7.808700</td>
-<td align="right">8.530000</td>
 <td align="right">7.901482</td>
 <td align="right">10.000000</td>
 <td align="right">10.000000</td>
-<td align="right">9.807725</td>
 <td align="right">8.639248</td>
 <td align="right">9.520000</td>
+<td align="right">9.903175</td>
+<td align="right">10.000000</td>
 <td align="right">4.711377</td>
 </tr>
 <tr class="odd">
 <td align="left">Iceland</td>
-<td align="right">7.504500</td>
-<td align="right">8.410000</td>
 <td align="right">8.122222</td>
 <td align="right">10.000000</td>
 <td align="right">10.000000</td>
-<td align="right">9.880000</td>
 <td align="right">7.757267</td>
 <td align="right">9.640000</td>
+<td align="right">10.000000</td>
+<td align="right">10.000000</td>
 <td align="right">5.811087</td>
 </tr>
 <tr class="even">
 <td align="left">Norway</td>
-<td align="right">7.488000</td>
-<td align="right">8.440000</td>
 <td align="right">7.407407</td>
 <td align="right">10.000000</td>
 <td align="right">10.000000</td>
-<td align="right">9.933333</td>
 <td align="right">8.556488</td>
 <td align="right">9.800000</td>
+<td align="right">10.000000</td>
+<td align="right">10.000000</td>
 <td align="right">4.927812</td>
 </tr>
 <tr class="odd">
 <td align="left">Sweden</td>
-<td align="right">7.353500</td>
-<td align="right">8.500000</td>
 <td align="right">8.884815</td>
 <td align="right">10.000000</td>
 <td align="right">10.000000</td>
-<td align="right">9.799864</td>
 <td align="right">8.539644</td>
 <td align="right">9.560000</td>
+<td align="right">9.839592</td>
+<td align="right">10.000000</td>
 <td align="right">4.542765</td>
 </tr>
 <tr class="even">
-<td align="left">nordic_average</td>
-<td align="right">7.560060</td>
-<td align="right">8.488000</td>
+<td align="left">nordic_avg</td>
 <td align="right">8.003630</td>
 <td align="right">10.000000</td>
 <td align="right">10.000000</td>
-<td align="right">9.852184</td>
 <td align="right">8.435950</td>
 <td align="right">9.608000</td>
+<td align="right">9.948553</td>
+<td align="right">10.000000</td>
 <td align="right">4.940059</td>
 </tr>
 <tr class="odd">
-<td align="left">other_global_average</td>
-<td align="right">5.402739</td>
-<td align="right">6.837006</td>
+<td align="left">other_global_avg</td>
 <td align="right">7.459531</td>
 <td align="right">7.442748</td>
 <td align="right">7.003817</td>
-<td align="right">8.105722</td>
 <td align="right">5.002351</td>
 <td align="right">7.575841</td>
+<td align="right">8.729223</td>
+<td align="right">6.645161</td>
 <td align="right">6.498934</td>
 </tr>
 </tbody>
 </table>
-<p>We can observe in this table….</p>
-<p>(make plotly?)</p>
 <pre class="r"><code>nordic_compare %&gt;% 
-  subset(countries != &quot;nordic_average&quot;) %&gt;% 
+  subset(countries != &quot;nordic_avg&quot;) %&gt;% 
   ggplot(aes(x = human_freedom_score, y = overall_happiness_score)) + 
   geom_point(aes(color = countries), show.legend = FALSE) + 
   geom_text_repel(aes(label = countries)) +
@@ -663,37 +652,25 @@ nordic_compare =
     names_to = &quot;freedom_subgroup&quot;,
     values_to = &quot;score&quot;
   ) %&gt;% 
-  filter(str_detect(countries, &quot;Denmark|Norway|Sweden|Finland|Iceland&quot;),
-    str_detect(freedom_subgroup, 
-                    &quot;religion|rule_of_law|size_of_government&quot;)) %&gt;% 
+  filter(str_detect(freedom_subgroup, 
+                    &quot;religion|rule_of_law|homicide|size_of_government&quot;)) %&gt;% 
+  mutate(
+    freedom_subgroup = 
+           fct_relevel(freedom_subgroup,
+                       &quot;religion&quot;, &quot;rule_of_law&quot;, &quot;homicide&quot;,
+                       &quot;size_of_government&quot;),
+    countries = 
+      fct_relevel(countries, 
+                  &quot;Denmark&quot;, &quot;Finland&quot;, &quot;Iceland&quot;, &quot;Norway&quot;, &quot;Sweden&quot;, &quot;nordic_avg&quot;, &quot;other_global_avg&quot;)
+    ) %&gt;% 
   ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
   geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;,
            position = position_dodge()) +
   ylim(min = 0, max = 10) + 
   labs(
-    title = &quot;Average scores of different types of freedoms among Nordic countries&quot;
+    title = &quot;Average scores of indicators from freedoms sub-categories among Nordic and all other countries&quot;
   )</code></pre>
 <p><img src="nordic_except_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
-<pre class="r"><code>nordic_compare %&gt;% 
-  select(-overall_happiness_score) %&gt;% 
-  pivot_longer(
-    human_freedom_score:size_of_government,
-    names_to = &quot;freedom_subgroup&quot;,
-    values_to = &quot;score&quot;
-  ) %&gt;% 
-  filter(str_detect(countries, 
-                    &quot;nordic_average|other_global_average&quot;), 
-         str_detect(freedom_subgroup, 
-                    &quot;religion|rule_of_law|size_of_government&quot;)) %&gt;% 
-  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
-  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;,
-           position = position_dodge(), width = 0.5) +
-  ylim(min = 0, max = 10) + 
-  labs(
-    title = &quot;Average scores of different types of freedoms between Nordic and all other countries&quot;,
-    x = &quot;group&quot;
-  )</code></pre>
-<p><img src="nordic_except_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 </div>
 <div id="statistical-testing-nordic-region-vs-other-countries" class="section level2">
 <h2>Statistical Testing: Nordic region vs Other countries</h2>
@@ -737,7 +714,7 @@ plot_happy =
   ylim(min = 0, max = 10)
 
 plot_happy | plot_freedom</code></pre>
-<p><img src="nordic_except_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
+<p><img src="nordic_except_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
 <div id="checking-assumption-of-group-variance-homogeneity" class="section level3">
 <h3>Checking assumption of group variance homogeneity</h3>
 <pre class="r"><code>res.ftest = var.test(overall_happiness_score ~ countries, data = merged_setup)

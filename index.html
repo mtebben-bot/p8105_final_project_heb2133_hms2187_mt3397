@@ -412,6 +412,8 @@ div.tocify {
 <h2>Project Objective</h2>
 <p>Using data from the World Happiness Report (WHR) and Human Freedom Index (HFI), we set out to explore how citizens’ perceived happiness connects to the degree of human freedom in their corresponding countries.</p>
 <p>We begin by presenting a broad visual of how happiness and human freedom are distributed on a global scale, noting particularly high and low ranked countries. We use linear analysis to explore the relationship of human freedom and citizen happiness, including the impact of various subtypes of human freedom. Finally, we investigate the story of “Nordic exceptionalism” by offering a closer look at Nordic countries and how human freedoms may play a role in this narrative.</p>
+<p>Here are some linear analyses of freedom and happiness: <a href="Linear-Analysis.html">Linear Analyses</a></p>
+<p>Here is an analysis on Nordic countries happiness and freedom: <a href="nordic_except.html">Nordic Exceptionalism</a></p>
 <p>Our process of cleaning and merging these datasets is outlined below.</p>
 </div>
 <div id="about-our-data" class="section level2 tabset">
@@ -424,18 +426,16 @@ div.tocify {
 <li><a href="https://worldhappiness.report/ed/2019/">The 2019 World Happiness Report</a></li>
 </ul>
 </div>
-<div id="the-human-freedom-index" class="section level3">
-<h3>The Human Freedom Index</h3>
+<div id="the-human-freedom-index-hfi" class="section level3">
+<h3>The Human Freedom Index (HFI)</h3>
 <p>The 2019 Human Freedom Index broadly measures the degree of human freedom in 162 countries using various indicators of social and economic freedom including, security, size of government, religion, and civil rights. It then ranks the included countries by their overall “human freedom score”.</p>
 <p>The report and corresponding data can be found at:</p>
 <ul>
 <li><a href="https://www.cato.org/human-freedom-index-new">The Human Freedom Index - 2019</a></li>
 </ul>
-<p>Here are some linear analyses of freedom and happiness: <a href="Linear-Analysis.html">Linear Analyses</a></p>
-<p>Here is an analysis on Nordic countries happiness and freedom: <a href="nordic_except.html">Nordic Exceptionalism</a></p>
 </div>
-<div id="indicators-index" class="section level3">
-<h3>Indicators Index</h3>
+<div id="hfi-indicators-defined" class="section level3">
+<h3>HFI Indicators Defined</h3>
 <p>Human Freedom Score</p>
 <ul>
 <li>Measure of overall freedom – a composite score based on measures economic and personal freedom</li>
@@ -444,13 +444,19 @@ div.tocify {
 <ul>
 <li>Composite score based on indicators of economic freedom such as size of government, legal system and property rights, freedom to trade internationally, and regulations.</li>
 </ul>
-<p>Personal freedom score * Composite score based on indicators of legal protection/security and specific personal freedoms (e.g., movement, religion, assembly, and identity and relationships).</p>
+<p>Personal freedom score</p>
+<ul>
+<li>Composite score based on indicators of legal protection/security and specific personal freedoms (e.g., movement, religion, assembly, and identity and relationships).</li>
+</ul>
 <p>Economic and personal freedom indicators used in these analyses:</p>
 <p>Size of government</p>
 <ul>
 <li>Measure based on government consumption, transfers and subsidies, government investment, top marginal tax rate, and state ownership of assets.</li>
 </ul>
-<p>Assembly * Freedom of assembly from the Institutional Profiles Database</p>
+<p>Assembly</p>
+<ul>
+<li>Freedom of assembly from the Institutional Profiles Database</li>
+</ul>
 <p>Association</p>
 <ul>
 <li>Freedom of association from the Institutional Profiles Database</li>
@@ -459,7 +465,10 @@ div.tocify {
 <ul>
 <li>Based on freedom of domestic movement (freedom to travel within own country), foreign movement (freedom to leave and return to own country), and women’s freedom of movement. Data from CI-RIGHTS Dataset.</li>
 </ul>
-<p>Rule of law * Composite score based on indicators of whether countries adhere to procedural justice, civil justice, and criminal justice (data from World Justice Project, Rule of Law Index).</p>
+<p>Rule of law</p>
+<ul>
+<li>Composite score based on indicators of whether countries adhere to procedural justice, civil justice, and criminal justice (data from World Justice Project, Rule of Law Index).</li>
+</ul>
 <p>Security safety</p>
 <ul>
 <li>Composite score based on indicators of homicide, disappearances, conflicts, and terrorism, and women’s security and safety (e.g., FGM, inheritance rights).</li>
@@ -472,7 +481,10 @@ div.tocify {
 <ul>
 <li>A subcomponent of security and safety. Composite score based on indicators of disappearances, violent conflicts, organized conflicts, terrorism fatalities, and terrorism injuries.</li>
 </ul>
-<p>Inheritance rights * A sub-component of women’s security and safety. Measure of whether women and men equal legal rights to inheritance of land and non-land assets</p>
+<p>Inheritance rights</p>
+<ul>
+<li>A sub-component of women’s security and safety. Measure of whether women and men equal legal rights to inheritance of land and non-land assets</li>
+</ul>
 </div>
 <div id="managing-data" class="section level3">
 <h3>Managing Data</h3>
