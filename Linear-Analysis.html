@@ -409,50 +409,43 @@ div.tocify {
 
 
 <p>Importing cleaned and merged dataset</p>
-<p>Let’s start with a scatterplot of happiness (ladder score) by human freedom score.</p>
+<p>Let’s start with a scatterplot of happiness (happiness_score) by human freedom score.</p>
 <pre class="r"><code>scatter_plot = 
 merged_df %&gt;% 
-ggplot(aes(x=ladder_score, y = human_freedom_score)) +
+ggplot(aes(x=happiness_score, y = human_freedom_score)) +
   geom_point() +
   stat_smooth(method = &quot;lm&quot;)
 scatter_plot</code></pre>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 29 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 29 rows containing missing values (geom_point).</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
 <p>The above plot suggests a mostly positive, linear relationship between happiness score and freedom score.</p>
 <p>Now, a boxplot check for outliers:</p>
 <pre class="r"><code>box_plot1 =
   merged_df %&gt;% 
-  ggplot(aes(y = ladder_score)) +
+  ggplot(aes(y = happiness_score)) +
   geom_boxplot()
 box_plot2 =
   merged_df %&gt;% 
   ggplot(aes(y = human_freedom_score)) +
   geom_boxplot()
 box_plot1 + box_plot2</code></pre>
-<pre><code>## Warning: Removed 19 rows containing non-finite values (stat_boxplot).</code></pre>
-<pre><code>## Warning: Removed 10 rows containing non-finite values (stat_boxplot).</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
 <p>Looks like maybe one outlier for freedom score.</p>
 <p>Now, some density plots to check normality of happiness and freedom.</p>
 <pre class="r"><code>den_plot1 =
   merged_df %&gt;% 
-  ggplot(aes(x = ladder_score)) +
+  ggplot(aes(x = happiness_score)) +
   geom_density(fill=&quot;#69b3a2&quot;, color=&quot;#e9ecef&quot;, alpha=0.8)
 den_plot2 =
   merged_df %&gt;% 
   ggplot(aes(x = human_freedom_score)) +
   geom_density(fill=&quot;#69b3a2&quot;, color=&quot;#e9ecef&quot;, alpha=0.8)
 den_plot1 + den_plot2</code></pre>
-<pre><code>## Warning: Removed 19 rows containing non-finite values (stat_density).</code></pre>
-<pre><code>## Warning: Removed 10 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-4-1.png" width="90%" /> Ladder score looks mostly normal, HFI less so (large peak around HFI=6.5, smaller peak around HFI= 8.5)</p>
 <p>Checking correlation</p>
 <pre class="r"><code>complete_df1 = 
   merged_df %&gt;% 
-  drop_na(ladder_score, human_freedom_score) 
-cor = cor(complete_df1$ladder_score, complete_df1$human_freedom_score)
+  drop_na(happiness_score, human_freedom_score) 
+cor = cor(complete_df1$happiness_score, complete_df1$human_freedom_score)
 cor</code></pre>
 <pre><code>## [1] 0.6875497</code></pre>
 <p>Correlation with cleaned data and only complete cases = 0.69, indicating moderate correlation between ladder score and human freedom score.</p>
@@ -462,7 +455,7 @@ cor</code></pre>
 <h2>Linear Model 1</h2>
 <p>Now running linear model just ladder score and freedom score</p>
 <pre class="r"><code>linear_model = 
-  lm(ladder_score ~ human_freedom_score, data = complete_df1)
+  lm(happiness_score ~ human_freedom_score, data = complete_df1)
 linear_stats = 
   summary(linear_model)
 
@@ -552,9 +545,9 @@ broom::tidy(linear_model) %&gt;%
 <p>The second linear model will model world happiness with freedom split into two subtypes: personal freedom and economic freedom.</p>
 <pre class="r"><code>complete_df2 = 
   merged_df %&gt;% 
-  drop_na(ladder_score, personal_freedom_score, economic_freedom_score)
+  drop_na(happiness_score, personal_freedom_score, economic_freedom_score)
 linear_model2 = 
-  lm(ladder_score ~ personal_freedom_score + economic_freedom_score, data = complete_df2)
+  lm(happiness_score ~ personal_freedom_score + economic_freedom_score, data = complete_df2)
 linear_stats = 
   summary(linear_model2)
 
@@ -607,13 +600,13 @@ broom::tidy(linear_model2) %&gt;%
 </div>
 <div id="linear-model-3" class="section level2">
 <h2>Linear Model 3</h2>
-<p>The third model will model happiness with multiple subtypes of freedom: freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide.</p>
+<p>The third model will model happiness with multiple subtypes of freedom: freedom of/from assembly, religion, association, movement, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide.</p>
 <pre class="r"><code>complete_df3 = 
   merged_df %&gt;% 
-  drop_na(ladder_score, assembly, religion, association, movement, security_safety, inheritance_rights, disapperances_conflicts_and_terrorism, rule_of_law, homicide)
+  drop_na(happiness_score, assembly, religion, association, movement, inheritance_rights, disapperances_conflicts_and_terrorism, rule_of_law, homicide)
 
 linear_model3 = 
-  lm(ladder_score ~ assembly + religion + association + movement + security_safety + inheritance_rights + disapperances_conflicts_and_terrorism + rule_of_law + homicide, data = complete_df3)
+  lm(happiness_score ~ assembly + religion + association + movement + inheritance_rights + disapperances_conflicts_and_terrorism + rule_of_law + homicide, data = complete_df3)
 
 linear_stats = 
   summary(linear_model3)
@@ -632,53 +625,48 @@ broom::tidy(linear_model3) %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">3.198</td>
+<td align="right">3.728</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left">assembly</td>
-<td align="right">0.003</td>
-<td align="right">0.945</td>
+<td align="right">0.004</td>
+<td align="right">0.924</td>
 </tr>
 <tr class="odd">
 <td align="left">religion</td>
-<td align="right">-0.041</td>
-<td align="right">0.442</td>
+<td align="right">-0.054</td>
+<td align="right">0.315</td>
 </tr>
 <tr class="even">
 <td align="left">association</td>
-<td align="right">0.018</td>
-<td align="right">0.678</td>
+<td align="right">0.021</td>
+<td align="right">0.633</td>
 </tr>
 <tr class="odd">
 <td align="left">movement</td>
-<td align="right">0.018</td>
-<td align="right">0.613</td>
+<td align="right">0.012</td>
+<td align="right">0.741</td>
 </tr>
 <tr class="even">
-<td align="left">security_safety</td>
-<td align="right">0.411</td>
-<td align="right">0.063</td>
-</tr>
-<tr class="odd">
 <td align="left">inheritance_rights</td>
-<td align="right">-0.031</td>
-<td align="right">0.503</td>
-</tr>
-<tr class="even">
-<td align="left">disapperances_conflicts_and_terrorism</td>
-<td align="right">-0.184</td>
-<td align="right">0.052</td>
+<td align="right">0.046</td>
+<td align="right">0.036</td>
 </tr>
 <tr class="odd">
+<td align="left">disapperances_conflicts_and_terrorism</td>
+<td align="right">-0.032</td>
+<td align="right">0.508</td>
+</tr>
+<tr class="even">
 <td align="left">rule_of_law</td>
-<td align="right">0.452</td>
+<td align="right">0.460</td>
 <td align="right">0.000</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">homicide</td>
-<td align="right">-0.192</td>
-<td align="right">0.015</td>
+<td align="right">-0.056</td>
+<td align="right">0.056</td>
 </tr>
 </tbody>
 </table>
@@ -686,7 +674,7 @@ broom::tidy(linear_model3) %&gt;%
 <pre><code>## # A tibble: 1 x 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1     0.604         0.575 0.673      20.4 2.05e-20     9  -128.  278.  309.
+## 1     0.593         0.566 0.680      22.0 2.25e-20     8  -130.  279.  308.
 ## # ... with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
@@ -710,30 +698,25 @@ broom::tidy(linear_model3) %&gt;%
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-4.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
-  ggplot(aes(x = security_safety, y = resid)) + 
+  ggplot(aes(x = inheritance_rights, y = resid)) + 
   geom_violin()</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-5.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
-  ggplot(aes(x = inheritance_rights, y = resid)) + 
+  ggplot(aes(x = disapperances_conflicts_and_terrorism, y = resid)) + 
   geom_violin()</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-6.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
-  ggplot(aes(x = disapperances_conflicts_and_terrorism, y = resid)) + 
+  ggplot(aes(x = rule_of_law, y = resid)) + 
   geom_violin()</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-7.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
-  ggplot(aes(x = rule_of_law, y = resid)) + 
-  geom_violin()</code></pre>
-<p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-8.png" width="90%" /></p>
-<pre class="r"><code>complete_df3 %&gt;% 
-  modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = homicide, y = resid)) + 
   geom_violin()</code></pre>
-<p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-9.png" width="90%" /></p>
-<p>On average, for every one unit increase in rule of law freedom score, happiness increases by .45 units. For every one unit increase in homicide score, happiness decreases by .19 units. These were the only two terms with significant p-values, indicating that there is a relationship between rule of law and happiness, as well as homicide and happiness. However, it is worth noting that the disappearances, conflicts, and terrorism term and the security and safety term were both very close to the cutoff value of p &lt; .05.</p>
+<p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-8.png" width="90%" /></p>
+<p>On average, for every one unit increase in rule of law freedom score, happiness increases by .45 units. For every one unit increase in homicide score, happiness decreases by .19 units. These were the only two terms with significant p-values, indicating that there is a relationship between rule of law and happiness, as well as homicide and happiness. However, it is worth noting that the disappearances, conflicts, and terrorism term was very close to the cutoff value of p &lt; .05.</p>
 <p>It also appears that the residuals are not as normally distributed as in previous models.</p>
 </div>
 </div>
