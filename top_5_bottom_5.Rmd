@@ -7,11 +7,14 @@ output:
     code_folding: hide
 ---
 
+As a part of our exploratory analyses, we wanted to examine the relationship between human freedom scores and happiness scores for the highest scoring and lowest scoring countries for each metric. We also wanted to look at the subcomponents of the human freedom scores to see if the top scoring or lowest scoring countries had similarities across these metrics. Below, you will find the tabs for each metric with analysis of the 5 highest and 5 lowest scoring countries for that given metric.
+
 ```{r setup, include = F}
 library(tidyverse)
 library(readxl)
 library(patchwork)
 library(ggrepel)
+library(plotly)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -31,45 +34,61 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ```{r, warning = F, message = F, include = F}
-merged_df = 
-  read_csv("./data/merged_df.csv") %>% 
-  mutate(world_happiness_score = ladder_score) %>% 
-  select(-X1, -ladder_score) %>% 
-  drop_na(world_happiness_score, human_freedom_score) %>% 
-  select(countries, world_happiness_score, everything())
+top5_bot5_df = 
+  read_csv("./data/merged_df.csv") %>%
+  drop_na(happiness_score, human_freedom_score) %>% 
+  select(countries:economic_freedom_score)
 ```
 
 ```{r, include = F}
 bot5_whr = 
-  merged_df %>% 
-  arrange(world_happiness_score) %>% 
-  top_n(world_happiness_score, n = -5)
+  top5_bot5_df %>% 
+  arrange(happiness_score) %>% 
+  top_n(happiness_score, n = -5)
+
+bot5_whr %>% 
+  summarize(bot5_WHR_average = mean(happiness_score),
+            bot5_WHR_sd = sd(happiness_score),
+            bot5_HFI_average = mean(human_freedom_score),
+            bot5_HFI_sd = sd(human_freedom_score))
 ```
 
 ```{r, include = F}
 top5_whr = 
-  merged_df %>% 
-  arrange(world_happiness_score) %>% 
-  top_n(world_happiness_score, n = 5) %>% 
-  arrange(desc(world_happiness_score))
+  top5_bot5_df %>% 
+  arrange(happiness_score) %>% 
+  top_n(happiness_score, n = 5) %>% 
+  arrange(desc(happiness_score))
+
+top5_whr %>% 
+  summarize(top5_WHR_average = mean(happiness_score),
+            top5_HFI_average = mean(human_freedom_score))
 
 ```
 
 ```{r, include = F}
 top5_hfi = 
-  merged_df %>% 
+  top5_bot5_df %>% 
   select(countries, human_freedom_score, everything()) %>% 
   arrange(human_freedom_score) %>% 
   top_n(human_freedom_score, n = 5) %>% 
-  arrange(desc(human_freedom_score))
+  arrange(desc(human_freedom_score)) 
+
+top5_hfi %>% 
+  summarize(top5_HFI_average = mean(human_freedom_score),
+            top5_WHR_average = mean(happiness_score))
 ```
 
 ```{r, include = F}
 bot5_hfi = 
-  merged_df %>% 
+  top5_bot5_df %>% 
   select(countries, human_freedom_score, everything()) %>%
   arrange(human_freedom_score) %>% 
-  top_n(human_freedom_score, n = -5)
+  top_n(human_freedom_score, n = -5) 
+
+bot5_hfi %>% 
+  summarize(bot5_HFI_average = mean(human_freedom_score),
+            bot5_WHR_average = mean(happiness_score))
 ```
 
 ## Examining Differences and Similarities between the Top 5 and Bottom 5 Country Scores {.tabset}
@@ -77,12 +96,12 @@ bot5_hfi =
 
 ### Human Freedom Index Scores
 
-
+#### Bottom 5 Countries for Human Freedom Scores
 ```{r, echo = F}
 bot5_hfi %>% knitr::kable()
 ```
 
-Insert comments on bot 5 hfi
+As we can see here, the countries with the five lowest human freedom scores have some variety in their happiness scores.
 
 ```{r, echo = F}
 top5_hfi %>% knitr::kable()
@@ -93,26 +112,21 @@ Insert comments on top 5 hfi
 
 
 ```{r, message = F, warning = F}
-hfi_combo = full_join(bot5_hfi, top5_hfi)%>% 
-  mutate(low_high = if_else(human_freedom_score > 5, "high", "low"))
+hfi_combo = full_join(bot5_hfi, top5_hfi)
 
-hfi_plot = 
-  hfi_combo %>% 
-  ggplot(aes(x = human_freedom_score, y = world_happiness_score))+
-  geom_point(aes(color = countries), show.legend = F)+
-  geom_text_repel(aes(label = countries))+
-  xlim(min = 0, max = 10)+
-  ylim(min = 0, max = 10)+  
-  ggtitle("Comparing Human Freedom Scores and World Happiness Scores for Top 5 and Bottom 5 Human Freedom Scores")+
-  ylab("World Happiness Score")+
-  xlab("Human Freedom Score")
+hfi_combo %>% 
+  mutate(text_label = str_c(countries, "\nFreedom Score:", human_freedom_score, "\nHappiness Score: ", happiness_score)) %>%
+  plot_ly(x = ~ human_freedom_score, y = ~happiness_score, type = "scatter", mode = "markers", size = 3, alpha = 0.5, color = ~countries, text = ~text_label, colors = "viridis") %>% 
+  layout( title = "Plot of Human Freedom Scores against Happiness Scores for the Top 5 and Bottom 5 Human Freedom Scoring Countries",
+      xaxis = list(title = "Human Freedom Score"),
+      yaxis = list(title = "Happiness Score")
+    )
 
-hfi_plot
 ```
 
 Insert comments about the plot hfi
 
-### World Happiness Scores
+### Happiness Scores
 
 ```{r, echo = F}
 bot5_whr %>% knitr::kable()
@@ -126,22 +140,16 @@ top5_whr %>% knitr::kable()
 
 Insert comments about top 5 whr
 
-```{r, message = F}
-whr_combo = full_join(bot5_whr, top5_whr)%>% 
-  mutate(low_high = if_else(world_happiness_score > 5, "high", "low"))
+```{r, message = F, warning=F}
+whr_combo = full_join(bot5_whr, top5_whr)
 
-whr_plot = 
-  whr_combo %>% 
-  ggplot(aes(x = world_happiness_score, y = human_freedom_score))+
-  geom_point(aes(color = countries), show.legend = F)+
-  geom_text_repel(aes(label = countries))+
-  xlim(min = 0, max = 10)+
-  ylim(min = 0, max = 10)+
-  ggtitle("Comparing World Happiness Scores and Human Freedom Scores for Top 5 and Bottom 5 Happiness Scores")+
-  xlab("World Happiness Score")+
-  ylab("Human Freedom Score")
-
-whr_plot
+whr_combo %>% 
+  mutate(text_label = str_c(countries, "\nHappiness Score: ", happiness_score, "\nFreedom Score:", human_freedom_score)) %>%
+  plot_ly(x = ~happiness_score, y = ~human_freedom_score, type = "scatter", mode = "markers", size = 3, alpha = 0.5, color = ~countries, text = ~text_label, colors = "viridis") %>% 
+  layout( title = "Plot of Happiness Scores Against Human Freedom Scores for the Top 5 and Bottom 5 Happiness Scoring Countries",
+      xaxis = list(title = "Happiness Score"),
+      yaxis = list(title = "Human Freedom Score")
+    )
 ```
 
 Insert comments about whr plot
