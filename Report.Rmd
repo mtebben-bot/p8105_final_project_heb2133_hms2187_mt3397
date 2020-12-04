@@ -100,4 +100,10 @@ MEGAN
 This analysis can be found at the following link: [Nordic Exceptionalism](nordic_except.html). 
 
 ## Discussion
-What were your findings? Are they what you expect? What insights into the data can you make?
+What were your findings? Are they what you expect? What insights into the data can you make? Limitations.
+
+Exploratory analysis revealed a wide variation in overall happiness and freedom scores across the globe...
+
+Linear regression analysis revealed a strong relationship between happiness and overall freedom, especially personal freedom. This makes sense, given that human beings have fought for freedom many times over the course of history. As Patrick Henry once said: "Give me liberty, or give me death". It would seem that greater freedom is associated with greater happiness, and (potentially even more so) less freedom is associated with less happiness.
+
+This study had a handful of limitations. One notable limitation was the use of only one year's worth of data. This made the study essentially cross-sectional, and prevented any assessment of temporal changes. Future studies could build on this one by conducting similar analyses but with multiple years of data and looking at changes over time...
