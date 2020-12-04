@@ -1,5 +1,10 @@
 ---
-output: html_document
+title: "Report"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
 ---
 # Final Report
 This page contains the written report for our final project.
@@ -20,7 +25,48 @@ Does freedom have an impact on happiness/do freedom and happiness have a positiv
 These questions evolved over the course of the project after we did initial mappings and exploratory analysis. Upon noticing certain high and low rankings, we wanted to further analyze the lowest and highest ranked countries, both for freedom and happiness. In addition, we wanted to see how different subtypes of freedom were connected to happiness, not just overall freedom.
 
 ## Data
-Source, scraping method, cleaning, etc.
+
+The data for this project comes from the 2019 World Happiness Report and Human Freedom Index, and can be accessed at the following links: 
+
+* [The 2019 World Happiness Report ](https://worldhappiness.report/ed/2019/)
+
+* [The Human Freedom Index - 2019](https://www.cato.org/human-freedom-index-new)
+
+After importing these datasets, we performed some basic tidying (e.g., renaming variables) and selected a majority of the variables in each dataset in order to get a sense of which ones we wanted to include in our analyses. In addition, we ensured that each dataset was arranged by country alphabetically in order to successfully merge the two. We merged using 'full_join' so that all country data was represented in this final dataset. For the purpose of global maps, we wanted to include all countries available in each dataset for visualization. However, in other analyses where we planned to assess the relationship between happiness scores and human freedom scores, countries that did not have data for both indices were to be removed. Finally, we exported this final, merged dataset as a csv to use for all subsequent analysis. 
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+
+# Importing and cleaning datasets
+
+whr_df = 
+  read_excel("./data/WHR20_Data.xls") %>% 
+  janitor::clean_names() %>% 
+  arrange(country_name) %>% 
+  rename(countries = country_name) %>% 
+  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
+
+hfi_df = 
+  read_excel("./data/human-freedom-index-2019.xlsx",
+             skip = 4, na = "-") %>% 
+  janitor::clean_names() %>% 
+  filter(year == "2017") %>% 
+  arrange(countries) %>% 
+  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
+
+# Merging datasets
+merged_df = 
+  full_join(whr_df, hfi_df, by = "countries") %>% 
+  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
+         religion, association, assembly, movement, inheritance_rights,
+         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government) %>% 
+  rename("happiness_score" = "ladder_score")
+
+#Exporting merged dataset to use for our analyses
+write.csv(merged_df, "./data/merged_df.csv")
+
+```
 
 ## Exploratory Analysis
 Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
@@ -48,7 +94,7 @@ The final model further broke down freedom into freedom of/from assembly, religi
 MEGAN
 
 ### Nordic Exceptionalism
-HANNAH
+This analysis can be found at the following link: [Nordic Exceptionalism](nordic_except.html). 
 
 ## Discussion
 What were your findings? Are they what you expect? What insights into the data can you make?

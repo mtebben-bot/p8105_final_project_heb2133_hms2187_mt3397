@@ -13,7 +13,7 @@ Using data from the World Happiness Report (WHR) and Human Freedom Index (HFI), 
 
 We begin by presenting a broad visual of how happiness and human freedom are distributed on a global scale, noting particularly high and low ranked countries. We use linear analysis to explore the relationship of human freedom and citizen happiness, including the impact of various subtypes of human freedom. Finally, we investigate the story of "Nordic exceptionalism" by offering a closer look at Nordic countries and how human freedoms may play a role in this narrative. 
 
-Our process of cleaning and merging these datasets is outlined below.
+Our process of cleaning and merging these datasets is outlined in the relevant section of our project report, under the 'Report' page. 
 
 ## About our Data {.tabset}
 
@@ -43,45 +43,45 @@ Human Freedom Score
 
 Economic freedom score 
 
-* Composite score based on indicators of economic freedom such as size of government, legal system and property rights, freedom to trade internationally, and regulations. 
+* Composite score based on indicators of economic freedom such as size of government, legal system and property rights, freedom to trade internationally, and regulations
 
 Personal freedom score 
 
-* Composite score based on indicators of legal protection/security and specific personal freedoms (e.g., movement, religion, assembly, and identity and relationships). 
+* Composite score based on indicators of legal protection/security and specific personal freedoms (e.g., movement, religion, assembly, and identity and relationships)
 
 Economic and personal freedom indicators used in these analyses: 
 
 Size of government 
  
-* Measure based on government consumption, transfers and subsidies, government investment, top marginal tax rate, and state ownership of assets.
+* Measure based on government consumption, transfers and subsidies, government investment, top marginal tax rate, and state ownership of assets
 
 Assembly
 
-* Freedom of assembly from the Institutional Profiles Database
+* Freedom of assembly
 
 Association
 
-* Freedom of association from the Institutional Profiles Database 
+* Freedom of association
 
 Movement 
 
-* Based on freedom of domestic movement (freedom to travel within own country), foreign movement (freedom to leave and return to own country), and women’s freedom of movement. Data from CI-RIGHTS Dataset. 
+* Based on freedom of domestic movement (freedom to travel within own country), foreign movement (freedom to leave and return to own country), and women’s freedom of movement
 
 Rule of law 
 
- * Composite score based on indicators of whether countries adhere to procedural justice, civil justice, and criminal justice (data from World Justice Project, Rule of Law Index).
+ * Composite score based on indicators of whether countries adhere to procedural justice, civil justice, and criminal justice.
 
 Homicide 
 
-* A subcomponent of security and safety. Measure based on the UN Office on Drugs and Crime’s data on intentional homicides per 100,000 population. Countries with more homicides receive a lower rating.
+* Measure of intentional homicides per 100,000 population - countries with more homicides receive a lower rating
 
 Disappearances conflicts and terrorism 
 
-* A subcomponent of security and safety. Composite score based on indicators of disappearances, violent conflicts, organized conflicts, terrorism fatalities, and terrorism injuries. 
+* Composite score based on indicators of disappearances, violent conflicts, organized conflicts, terrorism fatalities, and terrorism injuries
 
 Inheritance rights
 
-* A sub-component of women’s security and safety. Measure of whether women and men equal legal rights to inheritance of land and non-land assets
+* Measure of whether women and men have equal legal rights to inheritance of land and non-land assets
 
 ### Managing Data 
 
@@ -90,6 +90,8 @@ Inheritance rights
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(readxl)
+
+# Importing and cleaning datasets
 
 whr_df = 
   read_excel("./data/WHR20_Data.xls") %>% 
@@ -106,13 +108,7 @@ hfi_df =
   arrange(countries) %>% 
   select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
 
-```
-
-Before running any analyses, we needed to import each dataset and do some basic data cleaning. We needed to ensure that we were arranging alphabetically by country and matching the name of the variable for countries in each dataset to successfully merge the data from each index. We selected most variables in each dataset to get a sense of which variables we want to include in the analysis. 
-
-#### Merging Datasets
-
-```{r}
+# Merging datasets
 merged_df = 
   full_join(whr_df, hfi_df, by = "countries") %>% 
   select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
@@ -120,7 +116,17 @@ merged_df =
          disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government) %>% 
   rename("happiness_score" = "ladder_score")
 
+#Exporting merged dataset to use for our analyses
 write.csv(merged_df, "./data/merged_df.csv")
+
+```
+
+Before running any analyses, we needed to import each dataset and do some basic data cleaning. We needed to ensure that we were arranging alphabetically by country and matching the name of the variable for countries in each dataset to successfully merge the data from each index. We selected most variables in each dataset to get a sense of which variables we want to include in the analysis. 
+
+#### Merging Datasets
+
+```{r}
+
 ```
 
 We merged in using a full_join to have all country data from each dataset represented, even if one dataset contains a country but the other does not. For the purpose of the world maps, we wanted to include all countries available for each dataset. For the purpose of other analyses in which we wanted to assess the relationship between World Happiness Scores and Human Freedom Scores, countries that did not have data for both indices were removed from analysis. This merged dataset was exported as a CSV to the data folder and used as the dataset for all other analyses.
