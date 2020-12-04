@@ -32,9 +32,9 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ![](images/nordic_map.png)
 
-The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. "Nordic exceptionalism" is the concep that Nordic countries which tend to be....
+"Nordic exceptionalism" is a concept that seeks to describe why Nordic countries tend to be among the happiest or most satisfied in the world. Including conclusions that Nordic countries serve as examples of the successful welfare state - noting that these countries tend to offer high levels of social support to their citizens at the cost of, for example, higher taxes (1). We consider five countries when looking at the Nordic region: Denmark, Norway, Sweden, Finland, and Iceland. 
 
-On this page we'll be examining potential differences in happiness among Nordic countries, and to the rest of the world - as well as different measures of freedom. We do this via tabular and visual descriptions as well as some statistical testing. 
+On this page we'll be examining potential differences in happiness among Nordic countries, and to the rest of the world - as well as different measures of freedom, asking how measures of freedom in these countries may play into this narrative. 
 
 ## Comparing Nordic Countries' Happiness and Freedom Scores 
 
@@ -284,3 +284,8 @@ We have sufficient evidence to conclude:
 2. Mean human freedom in Nordic countries is significantly difference from the rest of the world. 
 
 Future analyses examining Nordic countries could consider and control for potential confounders, carry out comparisons between the Nordic region versus other regions of the globe, or look at longitudinal data.
+
+References: 
+
+1. Frelle-Petersen, C., Hein, A., & Christiansen, M. (2020). The Nordic social welfare model: Lessons for reform [PDF].
+*Deloitte Insights*. https://www2.deloitte.com/content/dam/insights/us/articles/43149-the-nordic-social-welfare-model/DI_The-Nordic-social-welfare-model.pdf
