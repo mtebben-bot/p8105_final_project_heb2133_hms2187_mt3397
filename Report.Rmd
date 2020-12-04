@@ -11,9 +11,12 @@ This page contains the written report for our final project.
 
 ## Motivation
  Provide an overview of the project goals and motivation.
+ In the year 2020, happiness seems to be at an all-time low. A global pandemic rages on into the new year, with cases and deaths surging to levels higher than ever seen before. Such a situation has forced many people in society to give up freedoms and individual liberties previously guaranteed in everyday life. Lockdowns, mask mandates, reduced capacity in stores and hybrid learning have all been imposed to keep people safe and healthy, yet some people see this as an infringement on their personal rights. This connection between freedom and happiness motivated our group to investigate further. 
+ While we could not obtain data from 2020, we were able to obtain the most recent data possible (from 2019) surrounding global measures of happiness and freedom. Our goals were to further investigate the relationship between happiness and human freedom, with special attention towards those countries that had the actual highest and lowest scores, and countries that are colloquially thought of as the happiest and most free countries.
  
 ## Related Work
 Anything that inspired you, such as a paper, a web site, or something we discussed in class.
+Leaving this for Megan
 
 ## Initial Questions
 What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
@@ -75,7 +78,7 @@ Visualizations, summaries, and exploratory statistical analyses. Justify the ste
 If you undertake formal statistical analyses, describe these in detail
 
 ### Linear analysis
-After conducting exploratory analyses, we decided to conduct a linear analysis. This analysis can be found at the following link: [Linear Analysis](Linear-Analysis.html). 
+After conducting exploratory analyses, we decided to conduct a linear analysis. This analysis can be found in further detail at the following link: [Linear Analysis](Linear-Analysis.html). 
 
 The central purpose behind this analysis was to observe the relationship between happiness (assessed via ladder score in the world happiness report) and freedom (assessed by multiple measures in the human freedom index). 
 
