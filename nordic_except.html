@@ -736,7 +736,75 @@ plot_happy =
 plot_happy | plot_freedom</code></pre>
 <p><img src="nordic_except_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
 <p>From the above graph we can tell that there appears to be a greater spread of data in the ‘all other countries’ group for both happiness and human freedom scores. We formally assess whether our two group variances have statistically significant differences in the below section.</p>
-<p>The below tables summaries the count, mean, and standard deviation for 1) happiness and 2) human freedom scores for our two groups of all Nordic countries and the rest of the world.</p>
+<p>The count, mean, and standard deviation for happiness scores in Nordic vs other countries:</p>
+<pre class="r"><code>#Group means, counts, and SD for happiness score
+merge_df_test %&gt;% 
+  group_by(countries) %&gt;%
+  summarise(
+    count = n(),
+    mean = mean(happiness_score, na.rm = TRUE),
+    sd = sd(happiness_score, na.rm = TRUE)
+  ) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">count</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">nordic</td>
+<td align="right">5</td>
+<td align="right">7.560060</td>
+<td align="right">0.1732669</td>
+</tr>
+<tr class="even">
+<td align="left">other</td>
+<td align="right">167</td>
+<td align="right">5.402739</td>
+<td align="right">1.0607924</td>
+</tr>
+</tbody>
+</table>
+<p>The count, mean, and standard deviation for human freedom scores in Nordic vs other countries:</p>
+<pre class="r"><code>#Group means, counts, and SD for freedom score
+merge_df_test %&gt;% 
+  group_by(countries) %&gt;%
+  summarise(
+    count = n(),
+    mean = mean(human_freedom_score, na.rm = TRUE),
+    sd = sd(human_freedom_score, na.rm = TRUE)
+  ) %&gt;% 
+  knitr::kable()</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">countries</th>
+<th align="right">count</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">nordic</td>
+<td align="right">5</td>
+<td align="right">8.488000</td>
+<td align="right">0.0622093</td>
+</tr>
+<tr class="even">
+<td align="left">other</td>
+<td align="right">167</td>
+<td align="right">6.837006</td>
+<td align="right">1.0832267</td>
+</tr>
+</tbody>
+</table>
 <div id="checking-assumption-of-group-variance-homogeneity" class="section level3">
 <h3>Checking assumption of group variance homogeneity</h3>
 <pre class="r"><code>res.ftest = var.test(happiness_score ~ countries, data = merge_df_test)
