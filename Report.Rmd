@@ -74,6 +74,74 @@ write.csv(merged_df, "./data/merged_df.csv")
 ## Exploratory Analysis
 Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
 
+### World Maps
+This analysis can be found at the following link: [World Maps](maps_data_clean.html). 
+
+We first wanted to create world maps to get a visual representation of the distribution of happiness and human freedom scores across the world. Using the merged data, we created two maps, one for each metric. We wanted the maps to be interactive using plotly so viewers could see the exact scores for each country.
+
+This became a challenging undertaking to plot our data on top of a world map, as the easiest way to get a projection of the world map through plotly requires the use of country ISO codes. In order to add these codes to our data, we had to merge in a master dataset from plotly that contained ISO codes and country names. This required us to read in the master dataset and mutate the variable name "country" to match our variable name "countries". We also selected just the countries and the ISO codes from the plotly master dataset, as we are not interested in any of the rest of the variables. Below is the code we used to do this.
+
+```{r, message=FALSE, warning=FALSE}
+merged_df = 
+  read_csv("./data/merged_df.csv") %>% 
+  select(-X1)
+
+df <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(countries = country) %>% 
+  select(countries, code)
+```
+
+Upon loading in the dataset, we noticed that some of the country names in this plotly master dataset were different from the country names in our merged dataset, so we had to find the countries in our dataset that did not exactly match the country name in the plotly dataset and recode them to match the plotly dataset before we can merge the two together. Below is the code we used to do this, including notes on the terms we used in the `str_detect()` step.
+
+```{r, message=FALSE, warning=FALSE, results = 'hide'}
+recode_df = anti_join(merged_df, df)
+
+df %>% 
+  filter(str_detect(countries, "Congo|Gambia|Ivo|Burma|Cyprus|Palestine|Korea|Trinidad|United|Bahamas|Brunei|Verde|Kyrgy"))
+
+#We used the search term "Congo" to find the labels for the Republic of Congo and the Democratic Republic of the Congo.
+
+#Since Ivory Coast can also be referred to as Cote D'Ivoire, we searched for "Ivo" to try to yield either result.
+
+#Upon first search for Myanmar, no results were found. However, Myanmar is sometimes referred to as Burma, so I searched for Burma as well, which gave us a result.
+
+#Upon searching, there was no label for Palestine in the plotly master dataset.
+
+#We used the search term "United" to find the labels for the UK and the USA.
+
+#Since Cape Verde is also known as Cabo Verde, we searched only for Verde.
+
+#We were not sure why there was a missing value for Kyrgyzstan at first. We realized that some sources keep the s while others do not, so we searched only for "Kyrgy".
+
+#Now we need to overwrite our merged dataset with the recoded country names to ensure that the merge with the plotly dataset will work properly.
+
+merged_df = merged_df %>% 
+  mutate(countries = recode(countries, "Democratic Republic of the Congo" = "Congo, Democratic Republic of the", 
+  "Gambia" = "Gambia, The", "Ivory Coast" = "Cote d'Ivoire", "Myanmar" = "Burma", "North Cyprus" = "Cyprus", 
+  "Republic of the Congo" = "Congo, Republic of the", "South Korea" = "Korea, South", 
+  "Trinidad" = "Trinidad and Tobago", "UK" = "United Kingdom", "USA" = "United States", "Bahamas" = "Bahamas, The",
+  "Brunei Darussalam" = "Brunei", "Cape Verde" = "Cabo Verde", "Kyrgyztan" = "Kyrgyzstan") 
+         )
+
+#We are doing a left_join to keep only the countries in our merged dataset rather than having a bunch of NAs in the map creation step.
+
+map_df = left_join(merged_df, df)
+
+```
+
+This new dataframe includes all of our merged data plus the ISO codes, which then made it very easy to plot the world maps with our data overlayed. 
+
+The world maps provide the interactive visualization of our data that we were hoping to show, allowing viewers to explore the scores of over 150 countries for each metric. We hope that viewers will notice that, while many European and North American countries have higher scores in both metrics, there is a lot more nuance to the scores that will be further explored in our other analyses.
+
+### Top 5 Bottom 5
+This analysis can be found at the following link: [Top 5 Bottom 5](top_5_bottom_5.html). 
+
+As we began our exploration of the data, we wondered how countries with similar overall human freedom scores related in the subcategories of human freedom scores. We also wondered if the countries with the highest and lowest scores for each metric would be the same. We decided to explore this by looking at the 5 countries with the highest and lowest scores for human freedom and happiness to see where they were similar and where they were different.
+
+
+
+
 ## Additional Analysis
 If you undertake formal statistical analyses, describe these in detail
 
@@ -91,10 +159,6 @@ Our first linear model only included happiness as a function of overall freedom.
 The second linear model included happiness as a function of economic and personal freedom. This model also revealed a positive relationship between both types of freedom and happiness, though their beta terms were smaller than the overall freedom measure's beta term. Residuals were normally distributed. Interestingly, personal freedom had a larger beta term than economic freedom, suggesting that personal freedoms (like the freedom to move, associate, practice religion, etc.) have a greater impact on happiness than economic freedoms (take that capitalism!).
 
 The final model further broke down freedom into freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide. This model gave the greatest degree of granularity, but at the cost of smaller effect sizes. In this model, the only significant terms were rule of law (moderate, positive association) and homicide (small, negative association). However, the disappearances, conflicts, and terrorism term was close to being significant as well. The residuals for these models looked less normal than previous models, raising concerns about the validity of this final model.
-
-
-### Top 5 Bottom 5
-MEGAN
 
 ### Nordic Exceptionalism
 This analysis can be found at the following link: [Nordic Exceptionalism](nordic_except.html). 

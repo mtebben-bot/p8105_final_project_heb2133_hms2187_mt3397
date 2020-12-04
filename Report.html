@@ -11,7 +11,7 @@
 
 
 
-<title>Report.utf8</title>
+<title>Report</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,11 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -247,7 +251,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -257,6 +327,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -286,10 +366,10 @@ $(document).ready(function () {
   <a href="maps_data_clean.html">World Maps</a>
 </li>
 <li>
-  <a href="Linear-Analysis.html">Linear Analyses</a>
+  <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
 </li>
 <li>
-  <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>
+  <a href="Linear-Analysis.html">Linear Analyses</a>
 </li>
 <li>
   <a href="nordic_except.html">Nordic Exceptionalism</a>
@@ -313,8 +393,17 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
+
+<h1 class="title toc-ignore">Report</h1>
 
 </div>
 
@@ -324,11 +413,11 @@ $(document).ready(function () {
 <p>This page contains the written report for our final project.</p>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
-<p>Provide an overview of the project goals and motivation.</p>
+<p>Provide an overview of the project goals and motivation. In the year 2020, happiness seems to be at an all-time low. A global pandemic rages on into the new year, with cases and deaths surging to levels higher than ever seen before. Such a situation has forced many people in society to give up freedoms and individual liberties previously guaranteed in everyday life. Lockdowns, mask mandates, reduced capacity in stores and hybrid learning have all been imposed to keep people safe and healthy, yet some people see this as an infringement on their personal rights. This connection between freedom and happiness motivated our group to investigate further. While we could not obtain data from 2020, we were able to obtain the most recent data possible (from 2019) surrounding global measures of happiness and freedom. Our goals were to further investigate the relationship between happiness and human freedom, with special attention towards those countries that had the actual highest and lowest scores, and countries that are colloquially thought of as the happiest and most free countries.</p>
 </div>
 <div id="related-work" class="section level2">
 <h2>Related Work</h2>
-<p>Anything that inspired you, such as a paper, a web site, or something we discussed in class.</p>
+<p>Anything that inspired you, such as a paper, a web site, or something we discussed in class. Leaving this for Megan</p>
 </div>
 <div id="initial-questions" class="section level2">
 <h2>Initial Questions</h2>
@@ -338,32 +427,117 @@ $(document).ready(function () {
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>Source, scraping method, cleaning, etc.</p>
+<p>The data for this project comes from the 2019 World Happiness Report and Human Freedom Index, and can be accessed at the following links:</p>
+<ul>
+<li><p><a href="https://worldhappiness.report/ed/2019/">The 2019 World Happiness Report</a></p></li>
+<li><p><a href="https://www.cato.org/human-freedom-index-new">The Human Freedom Index - 2019</a></p></li>
+</ul>
+<p>After importing these datasets, we performed some basic tidying (e.g., renaming variables) and selected a majority of the variables in each dataset in order to get a sense of which ones we wanted to include in our analyses. In addition, we ensured that each dataset was arranged by country alphabetically in order to successfully merge the two. We merged using ‘full_join’ so that all country data was represented in this final dataset. For the purpose of global maps, we wanted to include all countries available in each dataset for visualization. However, in other analyses where we planned to assess the relationship between happiness scores and human freedom scores, countries that did not have data for both indices were to be removed. Finally, we exported this final, merged dataset as a csv to use for all subsequent analysis.</p>
+<pre class="r"><code>library(tidyverse)
+library(readxl)
+
+# Importing and cleaning datasets
+
+whr_df = 
+  read_excel(&quot;./data/WHR20_Data.xls&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  arrange(country_name) %&gt;% 
+  rename(countries = country_name) %&gt;% 
+  select(-regional_indicator, -standard_error_of_ladder_score, -upperwhisker, -lowerwhisker)
+
+hfi_df = 
+  read_excel(&quot;./data/human-freedom-index-2019.xlsx&quot;,
+             skip = 4, na = &quot;-&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  filter(year == &quot;2017&quot;) %&gt;% 
+  arrange(countries) %&gt;% 
+  select(countries, human_freedom_score, procedural_justice:personal_freedom_score, government_consumption:economic_freedom_score)
+
+# Merging datasets
+merged_df = 
+  full_join(whr_df, hfi_df, by = &quot;countries&quot;) %&gt;% 
+  select(countries, ladder_score, human_freedom_score, personal_freedom_score, economic_freedom_score, 
+         religion, association, assembly, movement, inheritance_rights,
+         disapperances_conflicts_and_terrorism, rule_of_law, homicide, size_of_government) %&gt;% 
+  rename(&quot;happiness_score&quot; = &quot;ladder_score&quot;)
+
+#Exporting merged dataset to use for our analyses
+write.csv(merged_df, &quot;./data/merged_df.csv&quot;)</code></pre>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2>Exploratory Analysis</h2>
 <p>Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.</p>
+<div id="world-maps" class="section level3">
+<h3>World Maps</h3>
+<p>This analysis can be found at the following link: <a href="maps_data_clean.html">World Maps</a>.</p>
+<p>We first wanted to create world maps to get a visual representation of the distribution of happiness and human freedom scores across the world. Using the merged data, we created two maps, one for each metric. We wanted the maps to be interactive using plotly so viewers could see the exact scores for each country.</p>
+<p>This became a challenging undertaking to plot our data on top of a world map, as the easiest way to get a projection of the world map through plotly requires the use of country ISO codes. In order to add these codes to our data, we had to merge in a master dataset from plotly that contained ISO codes and country names. This required us to read in the master dataset and mutate the variable name “country” to match our variable name “countries”. We also selected just the countries and the ISO codes from the plotly master dataset, as we are not interested in any of the rest of the variables. Below is the code we used to do this.</p>
+<pre class="r"><code>merged_df = 
+  read_csv(&quot;./data/merged_df.csv&quot;) %&gt;% 
+  select(-X1)
+
+df &lt;- read.csv(&quot;https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(countries = country) %&gt;% 
+  select(countries, code)</code></pre>
+<p>Upon loading in the dataset, we noticed that some of the country names in this plotly master dataset were different from the country names in our merged dataset, so we had to find the countries in our dataset that did not exactly match the country name in the plotly dataset and recode them to match the plotly dataset before we can merge the two together. Below is the code we used to do this, including notes on the terms we used in the <code>str_detect()</code> step.</p>
+<pre class="r"><code>recode_df = anti_join(merged_df, df)
+
+df %&gt;% 
+  filter(str_detect(countries, &quot;Congo|Gambia|Ivo|Burma|Cyprus|Palestine|Korea|Trinidad|United|Bahamas|Brunei|Verde|Kyrgy&quot;))
+
+#We used the search term &quot;Congo&quot; to find the labels for the Republic of Congo and the Democratic Republic of the Congo.
+
+#Since Ivory Coast can also be referred to as Cote D&#39;Ivoire, we searched for &quot;Ivo&quot; to try to yield either result.
+
+#Upon first search for Myanmar, no results were found. However, Myanmar is sometimes referred to as Burma, so I searched for Burma as well, which gave us a result.
+
+#Upon searching, there was no label for Palestine in the plotly master dataset.
+
+#We used the search term &quot;United&quot; to find the labels for the UK and the USA.
+
+#Since Cape Verde is also known as Cabo Verde, we searched only for Verde.
+
+#We were not sure why there was a missing value for Kyrgyzstan at first. We realized that some sources keep the s while others do not, so we searched only for &quot;Kyrgy&quot;.
+
+#Now we need to overwrite our merged dataset with the recoded country names to ensure that the merge with the plotly dataset will work properly.
+
+merged_df = merged_df %&gt;% 
+  mutate(countries = recode(countries, &quot;Democratic Republic of the Congo&quot; = &quot;Congo, Democratic Republic of the&quot;, 
+  &quot;Gambia&quot; = &quot;Gambia, The&quot;, &quot;Ivory Coast&quot; = &quot;Cote d&#39;Ivoire&quot;, &quot;Myanmar&quot; = &quot;Burma&quot;, &quot;North Cyprus&quot; = &quot;Cyprus&quot;, 
+  &quot;Republic of the Congo&quot; = &quot;Congo, Republic of the&quot;, &quot;South Korea&quot; = &quot;Korea, South&quot;, 
+  &quot;Trinidad&quot; = &quot;Trinidad and Tobago&quot;, &quot;UK&quot; = &quot;United Kingdom&quot;, &quot;USA&quot; = &quot;United States&quot;, &quot;Bahamas&quot; = &quot;Bahamas, The&quot;,
+  &quot;Brunei Darussalam&quot; = &quot;Brunei&quot;, &quot;Cape Verde&quot; = &quot;Cabo Verde&quot;, &quot;Kyrgyztan&quot; = &quot;Kyrgyzstan&quot;) 
+         )
+
+#We are doing a left_join to keep only the countries in our merged dataset rather than having a bunch of NAs in the map creation step.
+
+map_df = left_join(merged_df, df)</code></pre>
+<p>This new dataframe includes all of our merged data plus the ISO codes, which then made it very easy to plot the world maps with our data overlayed.</p>
+<p>The world maps provide the interactive visualization of our data that we were hoping to show, allowing viewers to explore the scores of over 150 countries for each metric. We hope that viewers will notice that, while many European and North American countries have higher scores in both metrics, there is a lot more nuance to the scores that will be further explored in our other analyses.</p>
+</div>
+<div id="top-5-bottom-5" class="section level3">
+<h3>Top 5 Bottom 5</h3>
+<p>This analysis can be found at the following link: <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>.</p>
+<p>As we began our exploration of the data, we wondered how countries with similar overall human freedom scores related in the subcategories of human freedom scores. We also wondered if the countries with the highest and lowest scores for each metric would be the same. We decided to explore this by looking at the 5 countries with the highest and lowest scores for human freedom and happiness to see where they were similar and where they were different.</p>
+</div>
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>
 <p>If you undertake formal statistical analyses, describe these in detail</p>
 <div id="linear-analysis" class="section level3">
 <h3>Linear analysis</h3>
-<p>After conducting exploratory analyses, we decided to conduct a linear analysis. This analysis can be found at the following link: <a href="Linear-Analysis.html">Linear Analysis</a>.</p>
+<p>After conducting exploratory analyses, we decided to conduct a linear analysis. This analysis can be found in further detail at the following link: <a href="Linear-Analysis.html">Linear Analysis</a>.</p>
 <p>The central purpose behind this analysis was to observe the relationship between happiness (assessed via ladder score in the world happiness report) and freedom (assessed by multiple measures in the human freedom index).</p>
 <p>To begin, we created a scatterplot, which revealed a mostly positive and linear relationship between happiness and overall freedom. In addition, we created box plots and density plots to look for outliers and normality in ladder score data and overall freedom scores. These plots revealed one outlier for freedom and mostly normal distributions (though less so for freedom). The final step before creating linear models was to assess correlation between happiness and overall freedom, in which we found a strong correlation (r = 0.69).</p>
 <p>Prior to creating our models, we planned to include several covariates (like GDP, for example) to control for potential confounding. However, upon digging into the data, we discovered that both happiness and freedom scores actually already accounted for such covariates in their scoring system already. Therefore, we decided to make our linear models only containing variables already in the dataset.</p>
 <p>Our first linear model only included happiness as a function of overall freedom. Results showed a strong, positive relationship with a significant p-value, and normally distributed residuals. This result further supported the conclusion that happiness and freedom are positively associated. However, this model did not show a great degree of granularity, so we decided to create two additional, more specific models.</p>
 <p>The second linear model included happiness as a function of economic and personal freedom. This model also revealed a positive relationship between both types of freedom and happiness, though their beta terms were smaller than the overall freedom measure’s beta term. Residuals were normally distributed. Interestingly, personal freedom had a larger beta term than economic freedom, suggesting that personal freedoms (like the freedom to move, associate, practice religion, etc.) have a greater impact on happiness than economic freedoms (take that capitalism!).</p>
-<p>The final model further broke down freedom into freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide. This model gave the greatest degree of granularity, but at the cost of smaller effect sizes. In this model, the only significant terms were rule of law (moderate, positive association) and homicide (small, negative association). However, the disappearances, conflicts, and terrorism term and the security and safety term were close to being significant as well. The residuals for these models looked less normal than previous models, raising concerns about the validity of this final model.</p>
-</div>
-<div id="top-5-bottom-5" class="section level3">
-<h3>Top 5 Bottom 5</h3>
-<p>MEGAN</p>
+<p>The final model further broke down freedom into freedom of/from assembly, religion, association, movement, security/safety, inheritance rights, disappearances, conflict, terrorism, rule of law, and homicide. This model gave the greatest degree of granularity, but at the cost of smaller effect sizes. In this model, the only significant terms were rule of law (moderate, positive association) and homicide (small, negative association). However, the disappearances, conflicts, and terrorism term was close to being significant as well. The residuals for these models looked less normal than previous models, raising concerns about the validity of this final model.</p>
 </div>
 <div id="nordic-exceptionalism" class="section level3">
 <h3>Nordic Exceptionalism</h3>
-<p>HANNAH</p>
+<p>This analysis can be found at the following link: <a href="nordic_except.html">Nordic Exceptionalism</a>.</p>
 </div>
 </div>
 <div id="discussion" class="section level2">
@@ -374,6 +548,8 @@ $(document).ready(function () {
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -405,7 +581,38 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -1,5 +1,5 @@
 ---
-title: "Top 5 Countries"
+title: "Top 5 vs. Bottom 5 Countries"
 output:
   html_document:
     toc: true
@@ -91,7 +91,7 @@ bot5_hfi %>%
             bot5_WHR_average = mean(happiness_score))
 ```
 
-## Examining Differences and Similarities between the Top 5 and Bottom 5 Country Scores {.tabset}
+## Exploring Top 5 and Bottom 5 Country Scores {.tabset}
 
 
 ### Human Freedom Index Scores
@@ -103,6 +103,7 @@ bot5_hfi %>% knitr::kable()
 
 As we can see here, the countries with the five lowest human freedom scores have some variety in their happiness scores.
 
+#### Top 5 Countries for Human Freedom Scores
 ```{r, echo = F}
 top5_hfi %>% knitr::kable()
 ```
@@ -117,10 +118,9 @@ hfi_combo = full_join(bot5_hfi, top5_hfi)
 hfi_combo %>% 
   mutate(text_label = str_c(countries, "\nFreedom Score:", human_freedom_score, "\nHappiness Score: ", happiness_score)) %>%
   plot_ly(x = ~ human_freedom_score, y = ~happiness_score, type = "scatter", mode = "markers", size = 3, alpha = 0.5, color = ~countries, text = ~text_label, colors = "viridis") %>% 
-  layout( title = "Plot of Human Freedom Scores against Happiness Scores for the Top 5 and Bottom 5 Human Freedom Scoring Countries",
+  layout(title = "Comparing Top 5 and Bottom 5 Human Freedom Scoring Countries",
       xaxis = list(title = "Human Freedom Score"),
-      yaxis = list(title = "Happiness Score")
-    )
+      yaxis = list(title = "Happiness Score"))
 
 ```
 
@@ -128,12 +128,14 @@ Insert comments about the plot hfi
 
 ### Happiness Scores
 
+#### Bottom 5 Countries for Happiness Scores
 ```{r, echo = F}
 bot5_whr %>% knitr::kable()
 ```
 
 Insert comments about bot 5 whr
 
+#### Top 5 Countries for Happiness Scores
 ```{r, echo = F}
 top5_whr %>% knitr::kable()
 ```
@@ -146,7 +148,7 @@ whr_combo = full_join(bot5_whr, top5_whr)
 whr_combo %>% 
   mutate(text_label = str_c(countries, "\nHappiness Score: ", happiness_score, "\nFreedom Score:", human_freedom_score)) %>%
   plot_ly(x = ~happiness_score, y = ~human_freedom_score, type = "scatter", mode = "markers", size = 3, alpha = 0.5, color = ~countries, text = ~text_label, colors = "viridis") %>% 
-  layout( title = "Plot of Happiness Scores Against Human Freedom Scores for the Top 5 and Bottom 5 Happiness Scoring Countries",
+  layout( title = "Comparing Top 5 and Bottom 5 Happiness Scoring Countries",
       xaxis = list(title = "Happiness Score"),
       yaxis = list(title = "Human Freedom Score")
     )
