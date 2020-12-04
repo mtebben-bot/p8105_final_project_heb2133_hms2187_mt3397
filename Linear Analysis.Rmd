@@ -46,7 +46,9 @@ scatter_plot =
 merged_df %>% 
 ggplot(aes(x=happiness_score, y = human_freedom_score)) +
   geom_point() +
-  stat_smooth(method = "lm")
+  stat_smooth(method = "lm")+
+  xlab("Happiness Score")+
+  ylab("Human Freedom Score")
 scatter_plot
 ```
 
@@ -57,11 +59,13 @@ Now, a boxplot check for outliers:
 box_plot1 =
   merged_df %>% 
   ggplot(aes(y = happiness_score)) +
-  geom_boxplot()
+  geom_boxplot()+
+  ylab("Happiness Score")
 box_plot2 =
   merged_df %>% 
   ggplot(aes(y = human_freedom_score)) +
-  geom_boxplot()
+  geom_boxplot()+
+  ylab("Human Freedom Score")
 box_plot1 + box_plot2
 ```
 
@@ -72,11 +76,15 @@ Now, some density plots to check normality of happiness and freedom.
 den_plot1 =
   merged_df %>% 
   ggplot(aes(x = happiness_score)) +
-  geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)
+  geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)+
+  xlab("Happiness Score")+
+  ylab("Density")
 den_plot2 =
   merged_df %>% 
   ggplot(aes(x = human_freedom_score)) +
-  geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)
+  geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)+
+  xlab("Human Freedom Score")+
+  ylab("Density")
 den_plot1 + den_plot2
 ```
 Ladder score looks mostly normal, HFI less so (large peak around HFI=6.5, smaller peak around HFI= 8.5)
@@ -112,7 +120,9 @@ broom::glance(linear_model) %>%
 complete_df1 %>% 
   modelr::add_residuals(linear_model) %>% 
   ggplot(aes(x = human_freedom_score, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Human Freedom Score")+
+  ylab("Residuals")
 ```
 
 On average, for every one unit increase in freedom score, happiness increases by .68 units.
@@ -140,12 +150,16 @@ broom::glance(linear_model2)
 complete_df2 %>% 
   modelr::add_residuals(linear_model2) %>% 
   ggplot(aes(x = personal_freedom_score, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Personal Freedom Score")+
+  ylab("Residuals")
 
 complete_df2 %>% 
   modelr::add_residuals(linear_model2) %>% 
   ggplot(aes(x = economic_freedom_score, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Economic Freedom Score")+
+  ylab("Residuals")
 ```
 
 On average, for every one unit increase in personal freedom score, happiness increases by .41 units. For every one unit increase in economic freedom score, happiness increases by .23 units.
@@ -175,42 +189,58 @@ broom::glance(linear_model3)
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = assembly, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Assembly")+
+  ylab("Residuals")
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = religion, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Religion")+
+  ylab("Residuals")
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = association, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Association")+
+  ylab("Residuals")
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = movement, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Movement")+
+  ylab("Residuals")
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = inheritance_rights, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Inheritance Rights")+
+  ylab("Residuals")
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = disapperances_conflicts_and_terrorism, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Disappearances, Conflicts, and Terrorism")+
+  ylab("Residuals")
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = rule_of_law, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Rule of Law")+
+  ylab("Residuals")
 
 complete_df3 %>% 
   modelr::add_residuals(linear_model3) %>% 
   ggplot(aes(x = homicide, y = resid)) + 
-  geom_violin()
+  geom_violin()+
+  xlab("Homicide")+
+  ylab("Residuals")
 ```
 
 On average, for every one unit increase in rule of law freedom score, happiness increases by .45 units. For every one unit increase in homicide score, happiness decreases by .19 units. These were the only two terms with significant p-values, indicating that there is a relationship between rule of law and happiness, as well as homicide and happiness. However, it is worth noting that the disappearances, conflicts, and terrorism term was very close to the cutoff value of p < .05.

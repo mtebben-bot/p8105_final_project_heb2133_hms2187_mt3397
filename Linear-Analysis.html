@@ -414,7 +414,9 @@ div.tocify {
 merged_df %&gt;% 
 ggplot(aes(x=happiness_score, y = human_freedom_score)) +
   geom_point() +
-  stat_smooth(method = &quot;lm&quot;)
+  stat_smooth(method = &quot;lm&quot;)+
+  xlab(&quot;Happiness Score&quot;)+
+  ylab(&quot;Human Freedom Score&quot;)
 scatter_plot</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
 <p>The above plot suggests a mostly positive, linear relationship between happiness score and freedom score.</p>
@@ -422,11 +424,13 @@ scatter_plot</code></pre>
 <pre class="r"><code>box_plot1 =
   merged_df %&gt;% 
   ggplot(aes(y = happiness_score)) +
-  geom_boxplot()
+  geom_boxplot()+
+  ylab(&quot;Happiness Score&quot;)
 box_plot2 =
   merged_df %&gt;% 
   ggplot(aes(y = human_freedom_score)) +
-  geom_boxplot()
+  geom_boxplot()+
+  ylab(&quot;Human Freedom Score&quot;)
 box_plot1 + box_plot2</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
 <p>Looks like maybe one outlier for freedom score.</p>
@@ -434,11 +438,15 @@ box_plot1 + box_plot2</code></pre>
 <pre class="r"><code>den_plot1 =
   merged_df %&gt;% 
   ggplot(aes(x = happiness_score)) +
-  geom_density(fill=&quot;#69b3a2&quot;, color=&quot;#e9ecef&quot;, alpha=0.8)
+  geom_density(fill=&quot;#69b3a2&quot;, color=&quot;#e9ecef&quot;, alpha=0.8)+
+  xlab(&quot;Happiness Score&quot;)+
+  ylab(&quot;Density&quot;)
 den_plot2 =
   merged_df %&gt;% 
   ggplot(aes(x = human_freedom_score)) +
-  geom_density(fill=&quot;#69b3a2&quot;, color=&quot;#e9ecef&quot;, alpha=0.8)
+  geom_density(fill=&quot;#69b3a2&quot;, color=&quot;#e9ecef&quot;, alpha=0.8)+
+  xlab(&quot;Human Freedom Score&quot;)+
+  ylab(&quot;Density&quot;)
 den_plot1 + den_plot2</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-4-1.png" width="90%" /> Ladder score looks mostly normal, HFI less so (large peak around HFI=6.5, smaller peak around HFI= 8.5)</p>
 <p>Checking correlation</p>
@@ -536,7 +544,9 @@ broom::tidy(linear_model) %&gt;%
 <pre class="r"><code>complete_df1 %&gt;% 
   modelr::add_residuals(linear_model) %&gt;% 
   ggplot(aes(x = human_freedom_score, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Human Freedom Score&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 <p>On average, for every one unit increase in freedom score, happiness increases by .68 units. The freedom score term does have a significant p-value, meaning we can reject the null hypothesis and say that there is a relationship between happiness and freedom. It also appears that the residuals are normally distributed.</p>
 </div>
@@ -585,16 +595,20 @@ broom::tidy(linear_model2) %&gt;%
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.478         0.471 0.792      64.1 1.70e-20     2  -168.  344.  356.
-## # ... with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 <pre class="r"><code>complete_df2 %&gt;% 
   modelr::add_residuals(linear_model2) %&gt;% 
   ggplot(aes(x = personal_freedom_score, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Personal Freedom Score&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
 <pre class="r"><code>complete_df2 %&gt;% 
   modelr::add_residuals(linear_model2) %&gt;% 
   ggplot(aes(x = economic_freedom_score, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Economic Freedom Score&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-7-2.png" width="90%" /></p>
 <p>On average, for every one unit increase in personal freedom score, happiness increases by .41 units. For every one unit increase in economic freedom score, happiness increases by .23 units. Both freedom scores have a significant p-value, meaning we can reject the null hypothesis and say that there is a relationship between happiness and both economic and personal freedom.Interestingly, it seems that personal freedom is more influential on happiness than economic freedom. It also appears that the residuals are normally distributed.</p>
 </div>
@@ -675,46 +689,62 @@ broom::tidy(linear_model3) %&gt;%
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.593         0.566 0.680      22.0 2.25e-20     8  -130.  279.  308.
-## # ... with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = assembly, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Assembly&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = religion, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Religion&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-2.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = association, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Association&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-3.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = movement, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Movement&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-4.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = inheritance_rights, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Inheritance Rights&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-5.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = disapperances_conflicts_and_terrorism, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Disappearances, Conflicts, and Terrorism&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-6.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = rule_of_law, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Rule of Law&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-7.png" width="90%" /></p>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = homicide, y = resid)) + 
-  geom_violin()</code></pre>
+  geom_violin()+
+  xlab(&quot;Homicide&quot;)+
+  ylab(&quot;Residuals&quot;)</code></pre>
 <p><img src="Linear-Analysis_files/figure-html/unnamed-chunk-8-8.png" width="90%" /></p>
 <p>On average, for every one unit increase in rule of law freedom score, happiness increases by .45 units. For every one unit increase in homicide score, happiness decreases by .19 units. These were the only two terms with significant p-values, indicating that there is a relationship between rule of law and happiness, as well as homicide and happiness. However, it is worth noting that the disappearances, conflicts, and terrorism term was very close to the cutoff value of p &lt; .05.</p>
 <p>It also appears that the residuals are not as normally distributed as in previous models.</p>
