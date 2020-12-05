@@ -276,7 +276,7 @@ select(-happiness_score) %>%
   labs(fill = "Freedom Subgroup")
 ```
 
-This chart shows that, unlike the bottom 5 countries for happiness scores, there is less uniformity between economic and personal freedom scores. All countries have very high personal freedom scores, but there is more variation in the economic freedom scores.
+This chart shows that, unlike the bottom 5 countries for happiness scores, there is less uniformity between economic and personal freedom scores. All countries have very high personal freedom scores, but there is more variation in the economic freedom scores. It is interesting to note that four of the top 5 countries for happiness score are Nordic countries.
 
 ```{r}
 whr_table = 
