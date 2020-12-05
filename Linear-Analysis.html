@@ -595,7 +595,7 @@ broom::tidy(linear_model2) %&gt;%
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.478         0.471 0.792      64.1 1.70e-20     2  -168.  344.  356.
-## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+## # ... with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 <pre class="r"><code>complete_df2 %&gt;% 
   modelr::add_residuals(linear_model2) %&gt;% 
   ggplot(aes(x = personal_freedom_score, y = resid)) + 
@@ -689,7 +689,7 @@ broom::tidy(linear_model3) %&gt;%
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.593         0.566 0.680      22.0 2.25e-20     8  -130.  279.  308.
-## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+## # ... with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 <pre class="r"><code>complete_df3 %&gt;% 
   modelr::add_residuals(linear_model3) %&gt;% 
   ggplot(aes(x = assembly, y = resid)) + 
