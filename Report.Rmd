@@ -7,7 +7,7 @@ output:
     code_folding: hide
 ---
 # Final Report
-This page contains the written report for our final project.
+This page contains the written report for the final project by Hannah Briggs, Megan Tebbenhoff, and Henry Stoddard.
 
 ## Motivation
  In the year 2020, happiness seems to be at an all-time low. A global pandemic rages on into the new year, with cases and deaths surging to levels higher than ever seen before. Such a situation has forced many people in society to give up freedoms and individual liberties previously guaranteed in everyday life. Lockdowns, mask mandates, reduced capacity in stores and hybrid learning have all been imposed to keep people safe and healthy, yet some people see this as an infringement on their personal rights. This connection between freedom and happiness motivated our group to investigate further. 
