@@ -139,7 +139,11 @@ This analysis can be found at the following link: [Top 5 Bottom 5](top_5_bottom_
 
 As we began our exploration of the data, we wondered how countries with similar overall human freedom scores related in the subcategories of human freedom scores. We also wondered if the countries with the highest and lowest scores for each metric would be the same. We decided to explore this by looking at the 5 countries with the highest and lowest scores for human freedom and happiness to see where they were similar and where they were different.
 
+We made individual data frames for each of the four groups (bottom/top happiness/human freedom) with four variables: human freedom score, happiness score, economic freedom score, and personal freedom score. 
 
+For the bottom 5 data frames, the data was sorted so that the lowest score would appear first, while the top 5 score data frames were sorted so the highest scores would appear first. The means and standard deviations are provided as a reference point for the viewer to understand the averages of the four scores and how spread out the data is across the countries.
+
+The bar graphs are included to visually show the variation in freedom scores among the top 5 and bottom 5 countries. We wanted to show that, while these are the 5 countries with the lowest or highest scores, there are still differences between them.
 
 
 ## Additional Analysis

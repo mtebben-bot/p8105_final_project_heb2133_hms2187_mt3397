@@ -46,11 +46,18 @@ bot5_whr =
   arrange(happiness_score) %>% 
   top_n(happiness_score, n = -5)
 
-bot5_whr %>% 
-  summarize(bot5_WHR_average = mean(happiness_score),
-            bot5_WHR_sd = sd(happiness_score),
-            bot5_HFI_average = mean(human_freedom_score),
-            bot5_HFI_sd = sd(human_freedom_score))
+bot5_whr_avg = summarise_all(bot5_whr, mean)
+bot5_whr_sd = data.frame(rbind(apply(bot5_whr, 2, sd)))
+
+bot5_whr_avg[is.na(bot5_whr_avg)] = 0
+bot5_whr_sd[is.na(bot5_whr_sd)] = 1
+
+bot5_whr_merge = 
+  rbind(bot5_whr, bot5_whr_avg, bot5_whr_sd) %>% 
+  mutate(countries = as.character(countries),
+    countries =  str_replace(countries, "0", "bot5_whr_average"),
+    countries = str_replace(countries, "1", "bot_whr_sd")
+      )
 ```
 
 ```{r, include = F}
@@ -60,9 +67,18 @@ top5_whr =
   top_n(happiness_score, n = 5) %>% 
   arrange(desc(happiness_score))
 
-top5_whr %>% 
-  summarize(top5_WHR_average = mean(happiness_score),
-            top5_HFI_average = mean(human_freedom_score))
+top5_whr_avg = summarise_all(top5_whr, mean)
+top5_whr_sd = data.frame(rbind(apply(top5_whr, 2, sd)))
+
+top5_whr_avg[is.na(top5_whr_avg)] = 0
+top5_whr_sd[is.na(top5_whr_sd)] = 1
+
+top5_whr_merge = 
+  rbind(top5_whr, top5_whr_avg, top5_whr_sd) %>% 
+  mutate(countries = as.character(countries),
+    countries =  str_replace(countries, "0", "top5_whr_average"),
+    countries = str_replace(countries, "1", "top5_whr_sd")
+      )
 
 ```
 
@@ -74,9 +90,18 @@ top5_hfi =
   top_n(human_freedom_score, n = 5) %>% 
   arrange(desc(human_freedom_score)) 
 
-top5_hfi %>% 
-  summarize(top5_HFI_average = mean(human_freedom_score),
-            top5_WHR_average = mean(happiness_score))
+top5_hfi_avg = summarise_all(top5_hfi, mean)
+top5_hfi_sd = data.frame(rbind(apply(top5_hfi, 2, sd)))
+
+top5_hfi_avg[is.na(top5_hfi_avg)] = 0
+top5_hfi_sd[is.na(top5_hfi_sd)] = 1
+
+top5_hfi_merge = 
+  rbind(top5_hfi, top5_hfi_avg, top5_hfi_sd) %>% 
+  mutate(countries = as.character(countries),
+    countries =  str_replace(countries, "0", "top5_hfi_average"),
+    countries = str_replace(countries, "1", "top5_hfi_sd")
+      )
 ```
 
 ```{r, include = F}
@@ -86,9 +111,18 @@ bot5_hfi =
   arrange(human_freedom_score) %>% 
   top_n(human_freedom_score, n = -5) 
 
-bot5_hfi %>% 
-  summarize(bot5_HFI_average = mean(human_freedom_score),
-            bot5_WHR_average = mean(happiness_score))
+bot5_hfi_avg = summarise_all(bot5_hfi, mean)
+bot5_hfi_sd = data.frame(rbind(apply(bot5_hfi, 2, sd)))
+
+bot5_hfi_avg[is.na(bot5_hfi_avg)] = 0
+bot5_hfi_sd[is.na(bot5_hfi_sd)] = 1
+
+bot5_hfi_merge = 
+  rbind(bot5_hfi, bot5_hfi_avg, bot5_hfi_sd) %>% 
+  mutate(countries = as.character(countries),
+    countries =  str_replace(countries, "0", "bot5_hfi_average"),
+    countries = str_replace(countries, "1", "bot5_hfi_sd")
+      )
 ```
 
 ## Exploring Top 5 and Bottom 5 Country Scores {.tabset}
@@ -98,19 +132,78 @@ bot5_hfi %>%
 
 #### Bottom 5 Countries for Human Freedom Scores
 ```{r, echo = F}
-bot5_hfi %>% knitr::kable()
+bot5_hfi_merge %>% knitr::kable(digits = 3)
 ```
 
-As we can see here, the countries with the five lowest human freedom scores have some variety in their happiness scores.
+As we can see here, the countries with the five lowest human freedom scores have some variety in their happiness scores and in their freedom subscores. For example, Venezuela has the lowest overall human freedom score among the bottom 5 countries, but its happiness score is one of the highest in the group. Interestingly, Venezuela has the highest personal freedom score of the bottom 5 countries, but it has the lowest economic freedom score, keeping its overall score low.
+
+```{r}
+bot5_hfi %>% 
+select(-happiness_score) %>% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = "freedom_subgroup",
+    values_to = "score"
+  ) %>% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, "human_freedom_score", "personal_freedom_score", 
+                     "economic_freedom_score")) %>% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = "identity", color = "black", position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle("Comparing Bottom 5 Countries on Freedom Subtypes") +
+  xlab("Countries")+
+  ylab("Freedom Score")+
+  labs(fill = "Freedom Subgroup")
+```
+
+As seen above, there is a good amount of variety in freedom subgroups between the bottom 5 countries.
 
 #### Top 5 Countries for Human Freedom Scores
 ```{r, echo = F}
-top5_hfi %>% knitr::kable()
+top5_hfi_merge %>% knitr::kable(digits = 3)
 ```
 
-Insert comments on top 5 hfi
+There appears to be little variety across these scores for the top 5 countries in the freedom scores. However, Hong Kong is a clear outlier in terms of happiness score.
 
+```{r, warning = F}
+top5_hfi %>% 
+select(-happiness_score) %>% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = "freedom_subgroup",
+    values_to = "score"
+  ) %>% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, "human_freedom_score", "personal_freedom_score", 
+                     "economic_freedom_score")) %>% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = "identity", color = "black", position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle("Comparing Top 5 Countries on Freedom Subtypes") +
+  xlab("Countries")+
+  ylab("Freedom Score")+
+  labs(fill = "Freedom Subgroup")
+```
 
+The countries look more or less the same in terms of freedom subtypes.
+
+```{r, warning = F, echo = F}
+hfi_table = 
+  rbind(top5_hfi_merge, bot5_hfi_merge) %>% 
+  filter(countries %in% c("top5_hfi_average", "top5_hfi_sd", "bot5_hfi_average", "bot5_hfi_sd")) %>% 
+  select(countries, human_freedom_score, happiness_score) %>% 
+  pivot_longer(human_freedom_score:happiness_score,
+    names_to = "score",
+    values_to = "aaah"
+  ) %>% 
+  pivot_wider(
+    names_from = "countries",
+    values_from = "aaah"
+  )
+
+hfi_table %>% knitr::kable()
+```
+
+This table is showing the mean and the standard deviations among the bottom 5 and top 5 countries across the two main metrics. The means for human freedom score among the top 5 and bottom 5 countries are dramatically different, while the means for happiness score are a bit closer to one another and the standard deviations are quite high. The high standard deviations for the happiness scores seem to indicate that the countries' scores for happiness score are more spread out in both the top 5 and bottom 5 groups.
 
 ```{r, message = F, warning = F}
 hfi_combo = full_join(bot5_hfi, top5_hfi)
@@ -124,21 +217,62 @@ hfi_combo %>%
 
 ```
 
-Insert comments about the plot hfi
+This plot compares the top 5 and bottom 5 countries for human freedom scores. You can see that there is a good amount of variety in happiness scores among the top 5 and bottom 5 countries. Libya and Hong Kong have very similar happiness scores, which seems to indicate that high freedom scores do not necessarily mean that the population living in those countries are happier. Still, there is quite a divide in happiness scores across the other countries in the top 5 and bottom 5.
 
 ### Happiness Scores
 
 #### Bottom 5 Countries for Happiness Scores
 ```{r, echo = F}
-bot5_whr %>% knitr::kable()
+bot5_whr_merge %>% knitr::kable(digits = 3)
 ```
+
+```{r}
+bot5_whr %>% 
+select(-happiness_score) %>% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = "freedom_subgroup",
+    values_to = "score"
+  ) %>% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, "human_freedom_score", "personal_freedom_score", 
+                     "economic_freedom_score")) %>% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = "identity", color = "black", position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle("Comparing Bottom 5 Countries on Freedom Subtypes") +
+  xlab("Countries")+
+  ylab("Freedom Score")+
+  labs(fill = "Freedom Subgroup")+
+  theme(axis.text.x = element_text(size = 8, angle = 25, hjust = 1))
+```
+
 
 Insert comments about bot 5 whr
 
 #### Top 5 Countries for Happiness Scores
 ```{r, echo = F}
-top5_whr %>% knitr::kable()
+top5_whr_merge %>% knitr::kable(digits = 3)
 ```
+
+```{r}
+top5_whr %>% 
+select(-happiness_score) %>% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = "freedom_subgroup",
+    values_to = "score"
+  ) %>% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, "human_freedom_score", "personal_freedom_score", 
+                     "economic_freedom_score")) %>% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = "identity", color = "black", position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle("Comparing Bottom 5 Countries on Freedom Subtypes") +
+  xlab("Countries")+
+  ylab("Freedom Score")+
+  labs(fill = "Freedom Subgroup")
+```
+
 
 Insert comments about top 5 whr
 

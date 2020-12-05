@@ -520,6 +520,9 @@ map_df = left_join(merged_df, df)</code></pre>
 <h3>Top 5 Bottom 5</h3>
 <p>This analysis can be found at the following link: <a href="top_5_bottom_5.html">Top 5 Bottom 5</a>.</p>
 <p>As we began our exploration of the data, we wondered how countries with similar overall human freedom scores related in the subcategories of human freedom scores. We also wondered if the countries with the highest and lowest scores for each metric would be the same. We decided to explore this by looking at the 5 countries with the highest and lowest scores for human freedom and happiness to see where they were similar and where they were different.</p>
+<p>We made individual data frames for each of the four groups (bottom/top happiness/human freedom) with four variables: human freedom score, happiness score, economic freedom score, and personal freedom score.</p>
+<p>For the bottom 5 data frames, the data was sorted so that the lowest score would appear first, while the top 5 score data frames were sorted so the highest scores would appear first. The means and standard deviations are provided as a reference point for the viewer to understand the averages of the four scores and how spread out the data is across the countries.</p>
+<p>The bar graphs are included to visually show the variation in freedom scores among the top 5 and bottom 5 countries. We wanted to show that, while these are the 5 countries with the lowest or highest scores, there are still differences between them.</p>
 </div>
 </div>
 <div id="additional-analysis" class="section level2">
@@ -542,7 +545,10 @@ map_df = left_join(merged_df, df)</code></pre>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
-<p>What were your findings? Are they what you expect? What insights into the data can you make?</p>
+<p>What were your findings? Are they what you expect? What insights into the data can you make? Limitations.</p>
+<p>Exploratory analysis revealed a wide variation in overall happiness and freedom scores across the globe…</p>
+<p>Linear regression analysis revealed a strong relationship between happiness and overall freedom, especially personal freedom. This makes sense, given that human beings have fought for freedom many times over the course of history. As Patrick Henry once said: “Give me liberty, or give me death”. It would seem that greater freedom is associated with greater happiness, and (potentially even more so) less freedom is associated with less happiness.</p>
+<p>This study had a handful of limitations. One notable limitation was the use of only one year’s worth of data. This made the study essentially cross-sectional, and prevented any assessment of temporal changes. Future studies could build on this one by conducting similar analyses but with multiple years of data and looking at changes over time…</p>
 </div>
 </div>
 

@@ -424,11 +424,11 @@ div.tocify {
 <h4>Bottom 5 Countries for Human Freedom Scores</h4>
 <table>
 <colgroup>
-<col width="10%" />
-<col width="21%" />
 <col width="17%" />
-<col width="25%" />
-<col width="25%" />
+<col width="20%" />
+<col width="16%" />
+<col width="23%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -442,52 +442,84 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="left">Venezuela</td>
-<td align="right">3.80</td>
-<td align="right">5.0532</td>
-<td align="right">5.027017</td>
-<td align="right">2.58</td>
+<td align="right">3.800</td>
+<td align="right">5.053</td>
+<td align="right">5.027</td>
+<td align="right">2.580</td>
 </tr>
 <tr class="even">
 <td align="left">Yemen</td>
-<td align="right">4.30</td>
-<td align="right">3.5274</td>
-<td align="right">2.750150</td>
-<td align="right">5.84</td>
+<td align="right">4.300</td>
+<td align="right">3.527</td>
+<td align="right">2.750</td>
+<td align="right">5.840</td>
 </tr>
 <tr class="odd">
 <td align="left">Iraq</td>
-<td align="right">4.34</td>
-<td align="right">4.7848</td>
-<td align="right">3.467836</td>
-<td align="right">5.21</td>
+<td align="right">4.340</td>
+<td align="right">4.785</td>
+<td align="right">3.468</td>
+<td align="right">5.210</td>
 </tr>
 <tr class="even">
 <td align="left">Egypt</td>
-<td align="right">4.50</td>
-<td align="right">4.1514</td>
-<td align="right">3.946335</td>
-<td align="right">5.05</td>
+<td align="right">4.500</td>
+<td align="right">4.151</td>
+<td align="right">3.946</td>
+<td align="right">5.050</td>
 </tr>
 <tr class="odd">
 <td align="left">Libya</td>
-<td align="right">4.64</td>
-<td align="right">5.4888</td>
-<td align="right">4.833050</td>
-<td align="right">4.45</td>
+<td align="right">4.640</td>
+<td align="right">5.489</td>
+<td align="right">4.833</td>
+<td align="right">4.450</td>
+</tr>
+<tr class="even">
+<td align="left">bot5_hfi_average</td>
+<td align="right">4.316</td>
+<td align="right">4.601</td>
+<td align="right">4.005</td>
+<td align="right">4.626</td>
+</tr>
+<tr class="odd">
+<td align="left">bot5_hfi_sd</td>
+<td align="right">0.319</td>
+<td align="right">0.772</td>
+<td align="right">0.948</td>
+<td align="right">1.246</td>
 </tr>
 </tbody>
 </table>
-<p>As we can see here, the countries with the five lowest human freedom scores have some variety in their happiness scores.</p>
+<p>As we can see here, the countries with the five lowest human freedom scores have some variety in their happiness scores and in their freedom subscores. For example, Venezuela has the lowest overall human freedom score among the bottom 5 countries, but its happiness score is one of the highest in the group. Interestingly, Venezuela has the highest personal freedom score of the bottom 5 countries, but it has the lowest economic freedom score, keeping its overall score low.</p>
+<pre class="r"><code>bot5_hfi %&gt;% 
+select(-happiness_score) %&gt;% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = &quot;freedom_subgroup&quot;,
+    values_to = &quot;score&quot;
+  ) %&gt;% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, &quot;human_freedom_score&quot;, &quot;personal_freedom_score&quot;, 
+                     &quot;economic_freedom_score&quot;)) %&gt;% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;, position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle(&quot;Comparing Bottom 5 Countries on Freedom Subtypes&quot;) +
+  xlab(&quot;Countries&quot;)+
+  ylab(&quot;Freedom Score&quot;)+
+  labs(fill = &quot;Freedom Subgroup&quot;)</code></pre>
+<p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
+<p>As seen above, there is a good amount of variety in freedom subgroups between the bottom 5 countries.</p>
 </div>
 <div id="top-5-countries-for-human-freedom-scores" class="section level4">
 <h4>Top 5 Countries for Human Freedom Scores</h4>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="12%" />
-<col width="21%" />
 <col width="17%" />
-<col width="24%" />
-<col width="24%" />
+<col width="20%" />
+<col width="16%" />
+<col width="23%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -501,42 +533,102 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="left">New Zealand</td>
-<td align="right">8.88</td>
-<td align="right">7.2996</td>
-<td align="right">9.269332</td>
-<td align="right">8.50</td>
+<td align="right">8.880</td>
+<td align="right">7.300</td>
+<td align="right">9.269</td>
+<td align="right">8.500</td>
 </tr>
 <tr class="even">
 <td align="left">Switzerland</td>
-<td align="right">8.82</td>
-<td align="right">7.5599</td>
-<td align="right">9.236934</td>
-<td align="right">8.40</td>
+<td align="right">8.820</td>
+<td align="right">7.560</td>
+<td align="right">9.237</td>
+<td align="right">8.400</td>
 </tr>
 <tr class="odd">
 <td align="left">Hong Kong</td>
-<td align="right">8.81</td>
-<td align="right">5.5104</td>
-<td align="right">8.700343</td>
-<td align="right">8.91</td>
+<td align="right">8.810</td>
+<td align="right">5.510</td>
+<td align="right">8.700</td>
+<td align="right">8.910</td>
 </tr>
 <tr class="even">
 <td align="left">Canada</td>
-<td align="right">8.65</td>
-<td align="right">7.2321</td>
-<td align="right">9.222964</td>
-<td align="right">8.08</td>
+<td align="right">8.650</td>
+<td align="right">7.232</td>
+<td align="right">9.223</td>
+<td align="right">8.080</td>
 </tr>
 <tr class="odd">
 <td align="left">Australia</td>
-<td align="right">8.62</td>
-<td align="right">7.2228</td>
-<td align="right">9.160533</td>
-<td align="right">8.07</td>
+<td align="right">8.620</td>
+<td align="right">7.223</td>
+<td align="right">9.161</td>
+<td align="right">8.070</td>
+</tr>
+<tr class="even">
+<td align="left">top5_hfi_average</td>
+<td align="right">8.756</td>
+<td align="right">6.965</td>
+<td align="right">9.118</td>
+<td align="right">8.392</td>
+</tr>
+<tr class="odd">
+<td align="left">top5_hfi_sd</td>
+<td align="right">0.114</td>
+<td align="right">0.825</td>
+<td align="right">0.237</td>
+<td align="right">0.347</td>
 </tr>
 </tbody>
 </table>
-<p>Insert comments on top 5 hfi</p>
+<p>There appears to be little variety across these scores for the top 5 countries in the freedom scores. However, Hong Kong is a clear outlier in terms of happiness score.</p>
+<pre class="r"><code>top5_hfi %&gt;% 
+select(-happiness_score) %&gt;% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = &quot;freedom_subgroup&quot;,
+    values_to = &quot;score&quot;
+  ) %&gt;% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, &quot;human_freedom_score&quot;, &quot;personal_freedom_score&quot;, 
+                     &quot;economic_freedom_score&quot;)) %&gt;% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;, position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle(&quot;Comparing Top 5 Countries on Freedom Subtypes&quot;) +
+  xlab(&quot;Countries&quot;)+
+  ylab(&quot;Freedom Score&quot;)+
+  labs(fill = &quot;Freedom Subgroup&quot;)</code></pre>
+<p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
+<p>The countries look more or less the same in terms of freedom subtypes.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">score</th>
+<th align="right">top5_hfi_average</th>
+<th align="right">top5_hfi_sd</th>
+<th align="right">bot5_hfi_average</th>
+<th align="right">bot5_hfi_sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">human_freedom_score</td>
+<td align="right">8.75600</td>
+<td align="right">0.1141490</td>
+<td align="right">4.31600</td>
+<td align="right">0.3185593</td>
+</tr>
+<tr class="even">
+<td align="left">happiness_score</td>
+<td align="right">6.96496</td>
+<td align="right">0.8245495</td>
+<td align="right">4.60112</td>
+<td align="right">0.7715590</td>
+</tr>
+</tbody>
+</table>
+<p>This table is showing the mean and the standard deviations among the bottom 5 and top 5 countries across the two main metrics. The means for human freedom score among the top 5 and bottom 5 countries are dramatically different, while the means for happiness score are a bit closer to one another and the standard deviations are quite high. The high standard deviations for the happiness scores seem to indicate that the countries’ scores for happiness score are more spread out in both the top 5 and bottom 5 groups.</p>
 <pre class="r"><code>hfi_combo = full_join(bot5_hfi, top5_hfi)
 
 hfi_combo %&gt;% 
@@ -545,9 +637,9 @@ hfi_combo %&gt;%
   layout(title = &quot;Comparing Top 5 and Bottom 5 Human Freedom Scoring Countries&quot;,
       xaxis = list(title = &quot;Human Freedom Score&quot;),
       yaxis = list(title = &quot;Happiness Score&quot;))</code></pre>
-<div id="htmlwidget-108806bd30fe6ba654b3" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-108806bd30fe6ba654b3">{"x":{"visdat":{"45e4ebe0f2":["function () ","plotlyVisDat"]},"cur_data":"45e4ebe0f2","attrs":{"45e4ebe0f2":{"x":{},"y":{},"mode":"markers","text":{},"color":{},"size":3,"colors":"viridis","alpha":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Comparing Top 5 and Bottom 5 Human Freedom Scoring Countries","xaxis":{"domain":[0,1],"automargin":true,"title":"Human Freedom Score"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Happiness Score"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[8.62],"y":[7.22279977798462],"mode":"markers","text":"Australia<br />Freedom Score:8.62<br />Happiness Score: 7.22279977798462","type":"scatter","name":"Australia","marker":{"color":"rgba(68,1,84,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.5)","size":55},"error_y":{"color":"rgba(68,1,84,0.5)","width":55},"error_x":{"color":"rgba(68,1,84,0.5)","width":55},"line":{"color":"rgba(68,1,84,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.65],"y":[7.23210000991821],"mode":"markers","text":"Canada<br />Freedom Score:8.65<br />Happiness Score: 7.23210000991821","type":"scatter","name":"Canada","marker":{"color":"rgba(72,40,120,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(72,40,120,1)"}},"textfont":{"color":"rgba(72,40,120,0.5)","size":55},"error_y":{"color":"rgba(72,40,120,0.5)","width":55},"error_x":{"color":"rgba(72,40,120,0.5)","width":55},"line":{"color":"rgba(72,40,120,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.5],"y":[4.15140008926392],"mode":"markers","text":"Egypt<br />Freedom Score:4.5<br />Happiness Score: 4.15140008926392","type":"scatter","name":"Egypt","marker":{"color":"rgba(62,74,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(62,74,137,1)"}},"textfont":{"color":"rgba(62,74,137,0.5)","size":55},"error_y":{"color":"rgba(62,74,137,0.5)","width":55},"error_x":{"color":"rgba(62,74,137,0.5)","width":55},"line":{"color":"rgba(62,74,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.81],"y":[5.51039981842041],"mode":"markers","text":"Hong Kong<br />Freedom Score:8.81<br />Happiness Score: 5.51039981842041","type":"scatter","name":"Hong Kong","marker":{"color":"rgba(49,104,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(49,104,142,1)"}},"textfont":{"color":"rgba(49,104,142,0.5)","size":55},"error_y":{"color":"rgba(49,104,142,0.5)","width":55},"error_x":{"color":"rgba(49,104,142,0.5)","width":55},"line":{"color":"rgba(49,104,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.34],"y":[4.78480005264282],"mode":"markers","text":"Iraq<br />Freedom Score:4.34<br />Happiness Score: 4.78480005264282","type":"scatter","name":"Iraq","marker":{"color":"rgba(38,130,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(38,130,142,1)"}},"textfont":{"color":"rgba(38,130,142,0.5)","size":55},"error_y":{"color":"rgba(38,130,142,0.5)","width":55},"error_x":{"color":"rgba(38,130,142,0.5)","width":55},"line":{"color":"rgba(38,130,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.64],"y":[5.48880004882812],"mode":"markers","text":"Libya<br />Freedom Score:4.64<br />Happiness Score: 5.48880004882812","type":"scatter","name":"Libya","marker":{"color":"rgba(31,158,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(31,158,137,1)"}},"textfont":{"color":"rgba(31,158,137,0.5)","size":55},"error_y":{"color":"rgba(31,158,137,0.5)","width":55},"error_x":{"color":"rgba(31,158,137,0.5)","width":55},"line":{"color":"rgba(31,158,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.88],"y":[7.29960012435913],"mode":"markers","text":"New Zealand<br />Freedom Score:8.88<br />Happiness Score: 7.29960012435913","type":"scatter","name":"New Zealand","marker":{"color":"rgba(53,183,121,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(53,183,121,1)"}},"textfont":{"color":"rgba(53,183,121,0.5)","size":55},"error_y":{"color":"rgba(53,183,121,0.5)","width":55},"error_x":{"color":"rgba(53,183,121,0.5)","width":55},"line":{"color":"rgba(53,183,121,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.82],"y":[7.55989980697632],"mode":"markers","text":"Switzerland<br />Freedom Score:8.82<br />Happiness Score: 7.55989980697632","type":"scatter","name":"Switzerland","marker":{"color":"rgba(109,205,89,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(109,205,89,1)"}},"textfont":{"color":"rgba(109,205,89,0.5)","size":55},"error_y":{"color":"rgba(109,205,89,0.5)","width":55},"error_x":{"color":"rgba(109,205,89,0.5)","width":55},"line":{"color":"rgba(109,205,89,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.8],"y":[5.05319976806641],"mode":"markers","text":"Venezuela<br />Freedom Score:3.8<br />Happiness Score: 5.05319976806641","type":"scatter","name":"Venezuela","marker":{"color":"rgba(180,222,44,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(180,222,44,1)"}},"textfont":{"color":"rgba(180,222,44,0.5)","size":55},"error_y":{"color":"rgba(180,222,44,0.5)","width":55},"error_x":{"color":"rgba(180,222,44,0.5)","width":55},"line":{"color":"rgba(180,222,44,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.3],"y":[3.52740001678467],"mode":"markers","text":"Yemen<br />Freedom Score:4.3<br />Happiness Score: 3.52740001678467","type":"scatter","name":"Yemen","marker":{"color":"rgba(253,231,37,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.5)","size":55},"error_y":{"color":"rgba(253,231,37,0.5)","width":55},"error_x":{"color":"rgba(253,231,37,0.5)","width":55},"line":{"color":"rgba(253,231,37,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-<p>Insert comments about the plot hfi</p>
+<div id="htmlwidget-27b3470708aae6adf0e8" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-27b3470708aae6adf0e8">{"x":{"visdat":{"4cad7f3c0674":["function () ","plotlyVisDat"]},"cur_data":"4cad7f3c0674","attrs":{"4cad7f3c0674":{"x":{},"y":{},"mode":"markers","text":{},"color":{},"size":3,"colors":"viridis","alpha":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Comparing Top 5 and Bottom 5 Human Freedom Scoring Countries","xaxis":{"domain":[0,1],"automargin":true,"title":"Human Freedom Score"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Happiness Score"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[8.62],"y":[7.22279977798462],"mode":"markers","text":"Australia<br />Freedom Score:8.62<br />Happiness Score: 7.22279977798462","type":"scatter","name":"Australia","marker":{"color":"rgba(68,1,84,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.5)","size":55},"error_y":{"color":"rgba(68,1,84,0.5)","width":55},"error_x":{"color":"rgba(68,1,84,0.5)","width":55},"line":{"color":"rgba(68,1,84,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.65],"y":[7.23210000991821],"mode":"markers","text":"Canada<br />Freedom Score:8.65<br />Happiness Score: 7.23210000991821","type":"scatter","name":"Canada","marker":{"color":"rgba(72,40,120,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(72,40,120,1)"}},"textfont":{"color":"rgba(72,40,120,0.5)","size":55},"error_y":{"color":"rgba(72,40,120,0.5)","width":55},"error_x":{"color":"rgba(72,40,120,0.5)","width":55},"line":{"color":"rgba(72,40,120,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.5],"y":[4.15140008926392],"mode":"markers","text":"Egypt<br />Freedom Score:4.5<br />Happiness Score: 4.15140008926392","type":"scatter","name":"Egypt","marker":{"color":"rgba(62,74,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(62,74,137,1)"}},"textfont":{"color":"rgba(62,74,137,0.5)","size":55},"error_y":{"color":"rgba(62,74,137,0.5)","width":55},"error_x":{"color":"rgba(62,74,137,0.5)","width":55},"line":{"color":"rgba(62,74,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.81],"y":[5.51039981842041],"mode":"markers","text":"Hong Kong<br />Freedom Score:8.81<br />Happiness Score: 5.51039981842041","type":"scatter","name":"Hong Kong","marker":{"color":"rgba(49,104,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(49,104,142,1)"}},"textfont":{"color":"rgba(49,104,142,0.5)","size":55},"error_y":{"color":"rgba(49,104,142,0.5)","width":55},"error_x":{"color":"rgba(49,104,142,0.5)","width":55},"line":{"color":"rgba(49,104,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.34],"y":[4.78480005264282],"mode":"markers","text":"Iraq<br />Freedom Score:4.34<br />Happiness Score: 4.78480005264282","type":"scatter","name":"Iraq","marker":{"color":"rgba(38,130,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(38,130,142,1)"}},"textfont":{"color":"rgba(38,130,142,0.5)","size":55},"error_y":{"color":"rgba(38,130,142,0.5)","width":55},"error_x":{"color":"rgba(38,130,142,0.5)","width":55},"line":{"color":"rgba(38,130,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.64],"y":[5.48880004882812],"mode":"markers","text":"Libya<br />Freedom Score:4.64<br />Happiness Score: 5.48880004882812","type":"scatter","name":"Libya","marker":{"color":"rgba(31,158,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(31,158,137,1)"}},"textfont":{"color":"rgba(31,158,137,0.5)","size":55},"error_y":{"color":"rgba(31,158,137,0.5)","width":55},"error_x":{"color":"rgba(31,158,137,0.5)","width":55},"line":{"color":"rgba(31,158,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.88],"y":[7.29960012435913],"mode":"markers","text":"New Zealand<br />Freedom Score:8.88<br />Happiness Score: 7.29960012435913","type":"scatter","name":"New Zealand","marker":{"color":"rgba(53,183,121,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(53,183,121,1)"}},"textfont":{"color":"rgba(53,183,121,0.5)","size":55},"error_y":{"color":"rgba(53,183,121,0.5)","width":55},"error_x":{"color":"rgba(53,183,121,0.5)","width":55},"line":{"color":"rgba(53,183,121,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[8.82],"y":[7.55989980697632],"mode":"markers","text":"Switzerland<br />Freedom Score:8.82<br />Happiness Score: 7.55989980697632","type":"scatter","name":"Switzerland","marker":{"color":"rgba(109,205,89,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(109,205,89,1)"}},"textfont":{"color":"rgba(109,205,89,0.5)","size":55},"error_y":{"color":"rgba(109,205,89,0.5)","width":55},"error_x":{"color":"rgba(109,205,89,0.5)","width":55},"line":{"color":"rgba(109,205,89,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.8],"y":[5.05319976806641],"mode":"markers","text":"Venezuela<br />Freedom Score:3.8<br />Happiness Score: 5.05319976806641","type":"scatter","name":"Venezuela","marker":{"color":"rgba(180,222,44,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(180,222,44,1)"}},"textfont":{"color":"rgba(180,222,44,0.5)","size":55},"error_y":{"color":"rgba(180,222,44,0.5)","width":55},"error_x":{"color":"rgba(180,222,44,0.5)","width":55},"line":{"color":"rgba(180,222,44,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[4.3],"y":[3.52740001678467],"mode":"markers","text":"Yemen<br />Freedom Score:4.3<br />Happiness Score: 3.52740001678467","type":"scatter","name":"Yemen","marker":{"color":"rgba(253,231,37,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.5)","size":55},"error_y":{"color":"rgba(253,231,37,0.5)","width":55},"error_x":{"color":"rgba(253,231,37,0.5)","width":55},"line":{"color":"rgba(253,231,37,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>This plot compares the top 5 and bottom 5 countries for human freedom scores. You can see that there is a good amount of variety in happiness scores among the top 5 and bottom 5 countries. Libya and Hong Kong have very similar happiness scores, which seems to indicate that high freedom scores do not necessarily mean that the population living in those countries are happier. Still, there is quite a divide in happiness scores across the other countries in the top 5 and bottom 5.</p>
 </div>
 </div>
 <div id="happiness-scores" class="section level3">
@@ -574,52 +666,84 @@ hfi_combo %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">Zimbabwe</td>
-<td align="right">3.2992</td>
-<td align="right">5.65</td>
-<td align="right">5.608024</td>
-<td align="right">5.69</td>
+<td align="right">3.299</td>
+<td align="right">5.650</td>
+<td align="right">5.608</td>
+<td align="right">5.690</td>
 </tr>
 <tr class="even">
 <td align="left">Rwanda</td>
-<td align="right">3.3123</td>
-<td align="right">6.82</td>
-<td align="right">6.377693</td>
-<td align="right">7.26</td>
+<td align="right">3.312</td>
+<td align="right">6.820</td>
+<td align="right">6.378</td>
+<td align="right">7.260</td>
 </tr>
 <tr class="odd">
 <td align="left">Central African Republic</td>
-<td align="right">3.4759</td>
-<td align="right">5.41</td>
-<td align="right">5.592765</td>
-<td align="right">5.23</td>
+<td align="right">3.476</td>
+<td align="right">5.410</td>
+<td align="right">5.593</td>
+<td align="right">5.230</td>
 </tr>
 <tr class="even">
 <td align="left">Tanzania</td>
-<td align="right">3.4762</td>
-<td align="right">6.26</td>
-<td align="right">5.748136</td>
-<td align="right">6.77</td>
+<td align="right">3.476</td>
+<td align="right">6.260</td>
+<td align="right">5.748</td>
+<td align="right">6.770</td>
 </tr>
 <tr class="odd">
 <td align="left">Botswana</td>
-<td align="right">3.4789</td>
-<td align="right">7.17</td>
-<td align="right">6.970084</td>
-<td align="right">7.37</td>
+<td align="right">3.479</td>
+<td align="right">7.170</td>
+<td align="right">6.970</td>
+<td align="right">7.370</td>
+</tr>
+<tr class="even">
+<td align="left">bot5_whr_average</td>
+<td align="right">3.409</td>
+<td align="right">6.262</td>
+<td align="right">6.059</td>
+<td align="right">6.464</td>
+</tr>
+<tr class="odd">
+<td align="left">bot_whr_sd</td>
+<td align="right">0.094</td>
+<td align="right">0.748</td>
+<td align="right">0.602</td>
+<td align="right">0.958</td>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>bot5_whr %&gt;% 
+select(-happiness_score) %&gt;% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = &quot;freedom_subgroup&quot;,
+    values_to = &quot;score&quot;
+  ) %&gt;% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, &quot;human_freedom_score&quot;, &quot;personal_freedom_score&quot;, 
+                     &quot;economic_freedom_score&quot;)) %&gt;% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;, position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle(&quot;Comparing Bottom 5 Countries on Freedom Subtypes&quot;) +
+  xlab(&quot;Countries&quot;)+
+  ylab(&quot;Freedom Score&quot;)+
+  labs(fill = &quot;Freedom Subgroup&quot;)+
+  theme(axis.text.x = element_text(size = 8, angle = 25, hjust = 1))</code></pre>
+<p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-13-1.png" width="90%" /></p>
 <p>Insert comments about bot 5 whr</p>
 </div>
 <div id="top-5-countries-for-happiness-scores" class="section level4">
 <h4>Top 5 Countries for Happiness Scores</h4>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="12%" />
 <col width="17%" />
-<col width="21%" />
-<col width="24%" />
-<col width="24%" />
+<col width="16%" />
+<col width="20%" />
+<col width="23%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -633,41 +757,72 @@ hfi_combo %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">Finland</td>
-<td align="right">7.8087</td>
-<td align="right">8.53</td>
-<td align="right">9.268558</td>
-<td align="right">7.80</td>
+<td align="right">7.809</td>
+<td align="right">8.530</td>
+<td align="right">9.269</td>
+<td align="right">7.800</td>
 </tr>
 <tr class="even">
 <td align="left">Denmark</td>
-<td align="right">7.6456</td>
-<td align="right">8.56</td>
-<td align="right">9.238444</td>
-<td align="right">7.89</td>
+<td align="right">7.646</td>
+<td align="right">8.560</td>
+<td align="right">9.238</td>
+<td align="right">7.890</td>
 </tr>
 <tr class="odd">
 <td align="left">Switzerland</td>
-<td align="right">7.5599</td>
-<td align="right">8.82</td>
-<td align="right">9.236934</td>
-<td align="right">8.40</td>
+<td align="right">7.560</td>
+<td align="right">8.820</td>
+<td align="right">9.237</td>
+<td align="right">8.400</td>
 </tr>
 <tr class="even">
 <td align="left">Iceland</td>
-<td align="right">7.5045</td>
-<td align="right">8.41</td>
-<td align="right">9.084634</td>
-<td align="right">7.74</td>
+<td align="right">7.504</td>
+<td align="right">8.410</td>
+<td align="right">9.085</td>
+<td align="right">7.740</td>
 </tr>
 <tr class="odd">
 <td align="left">Norway</td>
-<td align="right">7.4880</td>
-<td align="right">8.44</td>
-<td align="right">9.259625</td>
-<td align="right">7.62</td>
+<td align="right">7.488</td>
+<td align="right">8.440</td>
+<td align="right">9.260</td>
+<td align="right">7.620</td>
+</tr>
+<tr class="even">
+<td align="left">top5_whr_average</td>
+<td align="right">7.601</td>
+<td align="right">8.552</td>
+<td align="right">9.218</td>
+<td align="right">7.890</td>
+</tr>
+<tr class="odd">
+<td align="left">top5_whr_sd</td>
+<td align="right">0.131</td>
+<td align="right">0.162</td>
+<td align="right">0.076</td>
+<td align="right">0.301</td>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>top5_whr %&gt;% 
+select(-happiness_score) %&gt;% 
+  pivot_longer(
+    human_freedom_score:economic_freedom_score,
+    names_to = &quot;freedom_subgroup&quot;,
+    values_to = &quot;score&quot;
+  ) %&gt;% 
+  mutate(freedom_subgroup = fct_relevel(freedom_subgroup, &quot;human_freedom_score&quot;, &quot;personal_freedom_score&quot;, 
+                     &quot;economic_freedom_score&quot;)) %&gt;% 
+  ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;, position = position_dodge()) +
+  ylim(min = 0, max = 10) + 
+  ggtitle(&quot;Comparing Bottom 5 Countries on Freedom Subtypes&quot;) +
+  xlab(&quot;Countries&quot;)+
+  ylab(&quot;Freedom Score&quot;)+
+  labs(fill = &quot;Freedom Subgroup&quot;)</code></pre>
+<p><img src="top_5_bottom_5_files/figure-html/unnamed-chunk-15-1.png" width="90%" /></p>
 <p>Insert comments about top 5 whr</p>
 <pre class="r"><code>whr_combo = full_join(bot5_whr, top5_whr)
 
@@ -678,8 +833,8 @@ whr_combo %&gt;%
       xaxis = list(title = &quot;Happiness Score&quot;),
       yaxis = list(title = &quot;Human Freedom Score&quot;)
     )</code></pre>
-<div id="htmlwidget-a8668cc2339d8c658750" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a8668cc2339d8c658750">{"x":{"visdat":{"45e414c46f44":["function () ","plotlyVisDat"]},"cur_data":"45e414c46f44","attrs":{"45e414c46f44":{"x":{},"y":{},"mode":"markers","text":{},"color":{},"size":3,"colors":"viridis","alpha":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Comparing Top 5 and Bottom 5 Happiness Scoring Countries","xaxis":{"domain":[0,1],"automargin":true,"title":"Happiness Score"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Human Freedom Score"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[3.47889995574951],"y":[7.17],"mode":"markers","text":"Botswana<br />Happiness Score: 3.47889995574951<br />Freedom Score:7.17","type":"scatter","name":"Botswana","marker":{"color":"rgba(68,1,84,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.5)","size":55},"error_y":{"color":"rgba(68,1,84,0.5)","width":55},"error_x":{"color":"rgba(68,1,84,0.5)","width":55},"line":{"color":"rgba(68,1,84,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.47589993476868],"y":[5.41],"mode":"markers","text":"Central African Republic<br />Happiness Score: 3.47589993476868<br />Freedom Score:5.41","type":"scatter","name":"Central African Republic","marker":{"color":"rgba(72,40,120,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(72,40,120,1)"}},"textfont":{"color":"rgba(72,40,120,0.5)","size":55},"error_y":{"color":"rgba(72,40,120,0.5)","width":55},"error_x":{"color":"rgba(72,40,120,0.5)","width":55},"line":{"color":"rgba(72,40,120,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.64559984207153],"y":[8.56],"mode":"markers","text":"Denmark<br />Happiness Score: 7.64559984207153<br />Freedom Score:8.56","type":"scatter","name":"Denmark","marker":{"color":"rgba(62,74,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(62,74,137,1)"}},"textfont":{"color":"rgba(62,74,137,0.5)","size":55},"error_y":{"color":"rgba(62,74,137,0.5)","width":55},"error_x":{"color":"rgba(62,74,137,0.5)","width":55},"line":{"color":"rgba(62,74,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.80870008468628],"y":[8.53],"mode":"markers","text":"Finland<br />Happiness Score: 7.80870008468628<br />Freedom Score:8.53","type":"scatter","name":"Finland","marker":{"color":"rgba(49,104,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(49,104,142,1)"}},"textfont":{"color":"rgba(49,104,142,0.5)","size":55},"error_y":{"color":"rgba(49,104,142,0.5)","width":55},"error_x":{"color":"rgba(49,104,142,0.5)","width":55},"line":{"color":"rgba(49,104,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.50449991226196],"y":[8.41],"mode":"markers","text":"Iceland<br />Happiness Score: 7.50449991226196<br />Freedom Score:8.41","type":"scatter","name":"Iceland","marker":{"color":"rgba(38,130,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(38,130,142,1)"}},"textfont":{"color":"rgba(38,130,142,0.5)","size":55},"error_y":{"color":"rgba(38,130,142,0.5)","width":55},"error_x":{"color":"rgba(38,130,142,0.5)","width":55},"line":{"color":"rgba(38,130,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.48799991607666],"y":[8.44],"mode":"markers","text":"Norway<br />Happiness Score: 7.48799991607666<br />Freedom Score:8.44","type":"scatter","name":"Norway","marker":{"color":"rgba(31,158,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(31,158,137,1)"}},"textfont":{"color":"rgba(31,158,137,0.5)","size":55},"error_y":{"color":"rgba(31,158,137,0.5)","width":55},"error_x":{"color":"rgba(31,158,137,0.5)","width":55},"line":{"color":"rgba(31,158,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.31229996681213],"y":[6.82],"mode":"markers","text":"Rwanda<br />Happiness Score: 3.31229996681213<br />Freedom Score:6.82","type":"scatter","name":"Rwanda","marker":{"color":"rgba(53,183,121,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(53,183,121,1)"}},"textfont":{"color":"rgba(53,183,121,0.5)","size":55},"error_y":{"color":"rgba(53,183,121,0.5)","width":55},"error_x":{"color":"rgba(53,183,121,0.5)","width":55},"line":{"color":"rgba(53,183,121,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.55989980697632],"y":[8.82],"mode":"markers","text":"Switzerland<br />Happiness Score: 7.55989980697632<br />Freedom Score:8.82","type":"scatter","name":"Switzerland","marker":{"color":"rgba(109,205,89,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(109,205,89,1)"}},"textfont":{"color":"rgba(109,205,89,0.5)","size":55},"error_y":{"color":"rgba(109,205,89,0.5)","width":55},"error_x":{"color":"rgba(109,205,89,0.5)","width":55},"line":{"color":"rgba(109,205,89,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.47620010375977],"y":[6.26],"mode":"markers","text":"Tanzania<br />Happiness Score: 3.47620010375977<br />Freedom Score:6.26","type":"scatter","name":"Tanzania","marker":{"color":"rgba(180,222,44,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(180,222,44,1)"}},"textfont":{"color":"rgba(180,222,44,0.5)","size":55},"error_y":{"color":"rgba(180,222,44,0.5)","width":55},"error_x":{"color":"rgba(180,222,44,0.5)","width":55},"line":{"color":"rgba(180,222,44,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.2992000579834],"y":[5.65],"mode":"markers","text":"Zimbabwe<br />Happiness Score: 3.2992000579834<br />Freedom Score:5.65","type":"scatter","name":"Zimbabwe","marker":{"color":"rgba(253,231,37,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.5)","size":55},"error_y":{"color":"rgba(253,231,37,0.5)","width":55},"error_x":{"color":"rgba(253,231,37,0.5)","width":55},"line":{"color":"rgba(253,231,37,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-34ee295efd3f35d8e06a" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-34ee295efd3f35d8e06a">{"x":{"visdat":{"4cad76f7c452":["function () ","plotlyVisDat"]},"cur_data":"4cad76f7c452","attrs":{"4cad76f7c452":{"x":{},"y":{},"mode":"markers","text":{},"color":{},"size":3,"colors":"viridis","alpha":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Comparing Top 5 and Bottom 5 Happiness Scoring Countries","xaxis":{"domain":[0,1],"automargin":true,"title":"Happiness Score"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Human Freedom Score"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[3.47889995574951],"y":[7.17],"mode":"markers","text":"Botswana<br />Happiness Score: 3.47889995574951<br />Freedom Score:7.17","type":"scatter","name":"Botswana","marker":{"color":"rgba(68,1,84,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.5)","size":55},"error_y":{"color":"rgba(68,1,84,0.5)","width":55},"error_x":{"color":"rgba(68,1,84,0.5)","width":55},"line":{"color":"rgba(68,1,84,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.47589993476868],"y":[5.41],"mode":"markers","text":"Central African Republic<br />Happiness Score: 3.47589993476868<br />Freedom Score:5.41","type":"scatter","name":"Central African Republic","marker":{"color":"rgba(72,40,120,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(72,40,120,1)"}},"textfont":{"color":"rgba(72,40,120,0.5)","size":55},"error_y":{"color":"rgba(72,40,120,0.5)","width":55},"error_x":{"color":"rgba(72,40,120,0.5)","width":55},"line":{"color":"rgba(72,40,120,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.64559984207153],"y":[8.56],"mode":"markers","text":"Denmark<br />Happiness Score: 7.64559984207153<br />Freedom Score:8.56","type":"scatter","name":"Denmark","marker":{"color":"rgba(62,74,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(62,74,137,1)"}},"textfont":{"color":"rgba(62,74,137,0.5)","size":55},"error_y":{"color":"rgba(62,74,137,0.5)","width":55},"error_x":{"color":"rgba(62,74,137,0.5)","width":55},"line":{"color":"rgba(62,74,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.80870008468628],"y":[8.53],"mode":"markers","text":"Finland<br />Happiness Score: 7.80870008468628<br />Freedom Score:8.53","type":"scatter","name":"Finland","marker":{"color":"rgba(49,104,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(49,104,142,1)"}},"textfont":{"color":"rgba(49,104,142,0.5)","size":55},"error_y":{"color":"rgba(49,104,142,0.5)","width":55},"error_x":{"color":"rgba(49,104,142,0.5)","width":55},"line":{"color":"rgba(49,104,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.50449991226196],"y":[8.41],"mode":"markers","text":"Iceland<br />Happiness Score: 7.50449991226196<br />Freedom Score:8.41","type":"scatter","name":"Iceland","marker":{"color":"rgba(38,130,142,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(38,130,142,1)"}},"textfont":{"color":"rgba(38,130,142,0.5)","size":55},"error_y":{"color":"rgba(38,130,142,0.5)","width":55},"error_x":{"color":"rgba(38,130,142,0.5)","width":55},"line":{"color":"rgba(38,130,142,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.48799991607666],"y":[8.44],"mode":"markers","text":"Norway<br />Happiness Score: 7.48799991607666<br />Freedom Score:8.44","type":"scatter","name":"Norway","marker":{"color":"rgba(31,158,137,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(31,158,137,1)"}},"textfont":{"color":"rgba(31,158,137,0.5)","size":55},"error_y":{"color":"rgba(31,158,137,0.5)","width":55},"error_x":{"color":"rgba(31,158,137,0.5)","width":55},"line":{"color":"rgba(31,158,137,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.31229996681213],"y":[6.82],"mode":"markers","text":"Rwanda<br />Happiness Score: 3.31229996681213<br />Freedom Score:6.82","type":"scatter","name":"Rwanda","marker":{"color":"rgba(53,183,121,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(53,183,121,1)"}},"textfont":{"color":"rgba(53,183,121,0.5)","size":55},"error_y":{"color":"rgba(53,183,121,0.5)","width":55},"error_x":{"color":"rgba(53,183,121,0.5)","width":55},"line":{"color":"rgba(53,183,121,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[7.55989980697632],"y":[8.82],"mode":"markers","text":"Switzerland<br />Happiness Score: 7.55989980697632<br />Freedom Score:8.82","type":"scatter","name":"Switzerland","marker":{"color":"rgba(109,205,89,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(109,205,89,1)"}},"textfont":{"color":"rgba(109,205,89,0.5)","size":55},"error_y":{"color":"rgba(109,205,89,0.5)","width":55},"error_x":{"color":"rgba(109,205,89,0.5)","width":55},"line":{"color":"rgba(109,205,89,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.47620010375977],"y":[6.26],"mode":"markers","text":"Tanzania<br />Happiness Score: 3.47620010375977<br />Freedom Score:6.26","type":"scatter","name":"Tanzania","marker":{"color":"rgba(180,222,44,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(180,222,44,1)"}},"textfont":{"color":"rgba(180,222,44,0.5)","size":55},"error_y":{"color":"rgba(180,222,44,0.5)","width":55},"error_x":{"color":"rgba(180,222,44,0.5)","width":55},"line":{"color":"rgba(180,222,44,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.2992000579834],"y":[5.65],"mode":"markers","text":"Zimbabwe<br />Happiness Score: 3.2992000579834<br />Freedom Score:5.65","type":"scatter","name":"Zimbabwe","marker":{"color":"rgba(253,231,37,0.5)","size":[55],"sizemode":"area","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.5)","size":55},"error_y":{"color":"rgba(253,231,37,0.5)","width":55},"error_x":{"color":"rgba(253,231,37,0.5)","width":55},"line":{"color":"rgba(253,231,37,0.5)","width":55},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>Insert comments about whr plot</p>
 </div>
 </div>
