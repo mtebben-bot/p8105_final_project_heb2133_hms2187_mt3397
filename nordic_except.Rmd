@@ -212,34 +212,6 @@ plot_happy | plot_freedom
 
 From the above graph we can tell that there appears to be a greater spread of data in the 'all other countries' group for both happiness and human freedom scores. We formally assess whether our two group variances have statistically significant differences in the below section. 
 
-The count, mean, and standard deviation for happiness scores in Nordic vs other countries:
-
-```{r, warning = F, message = F}
-#Group means, counts, and SD for happiness score
-merge_df_test %>% 
-  group_by(countries) %>%
-  summarise(
-    count = n(),
-    mean = mean(happiness_score, na.rm = TRUE),
-    sd = sd(happiness_score, na.rm = TRUE)
-  ) %>% 
-  knitr::kable()
-```
-
-The count, mean, and standard deviation for human freedom scores in Nordic vs other countries:
-
-```{r, warning = F, message = F}
-#Group means, counts, and SD for freedom score
-merge_df_test %>% 
-  group_by(countries) %>%
-  summarise(
-    count = n(),
-    mean = mean(human_freedom_score, na.rm = TRUE),
-    sd = sd(human_freedom_score, na.rm = TRUE)
-  ) %>% 
-  knitr::kable()
-```
-
 ### Checking assumption of group variance homogeneity
 
 ```{r, warning = FALSE, message = FALSE}
