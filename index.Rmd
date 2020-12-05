@@ -7,6 +7,7 @@ output:
     code_folding: hide
 ---
 A project by Hannah Briggs, Megan Tebbenhoff, and Henry Stoddard
+
 ## Project Objective
 
 Using data from the World Happiness Report (WHR) and Human Freedom Index (HFI), we set out to explore how citizens' perceived happiness connects to the degree of human freedom in their corresponding countries.
