@@ -7,7 +7,8 @@ output:
     code_folding: hide
 ---
 # Final Report
-This page contains the written report for our final project.
+
+This page contains the written report for the final project by Hannah Briggs, Megan Tebbenhoff, and Henry Stoddard.
 
 ## Motivation
  In the year 2020, happiness seems to be at an all-time low. A global pandemic rages on into the new year, with cases and deaths surging to levels higher than ever seen before. Such a situation has forced many people in society to give up freedoms and individual liberties previously guaranteed in everyday life. Lockdowns, mask mandates, reduced capacity in stores and hybrid learning have all been imposed to keep people safe and healthy, yet some people see this as an infringement on their personal rights. This connection between freedom and happiness motivated our group to investigate further. 
@@ -25,7 +26,7 @@ Our primary questions were:
 
 * Does freedom have an impact on happiness/do freedom and happiness have a positive association?
 
-These questions evolved over the course of the project after we did initial mappings and exploratory analysis. We felt it would be interesting to take a closer look at the highest scoring and lowest scoring countries for each of the two metrics to discover any similarities or differences that may be present. In addition, we wanted to see how different subtypes of freedom were connected to happiness, not just overall freedom.
+These questions evolved over the course of the project after we did initial mappings and exploratory analysis. We felt it would be interesting to take a closer look at the highest scoring and lowest scoring countries for each of the two metrics to discover any similarities or differences that may be present. We also considered the idea of "Nordic exceptionalism" and wanted to investigate how these measures are similar or different within the Nordic region. In addition, we wanted to see how different subtypes of freedom were connected to happiness, not just overall freedom.
 
 ## Data
 
@@ -168,7 +169,7 @@ The final model further broke down freedom into freedom of/from assembly, religi
 ### Nordic Exceptionalism
 This analysis can be found at the following link: [Nordic Exceptionalism](nordic_except.html). Nordic countries tend to have among the happiest and most satisfied citizens. The phrase “Nordic Exceptionalism” is used to describe this phenomenon and ask what exactly it is about these nations that leads to these results. Such countries are noted to offer high levels of social support to their citizens and display lower measures of inequality - while noting that citizens pay high levels of taxes in order to support the public sector (1). We decided to examine the five Nordic countries (Denmark, Norway, Sweden, Finland, and Iceland), looking at their happiness scores from the 2019 WHR, as well as how measures of overall and sub-indicators of freedom may play into this narrative. 
 
-In addition to looking at human freedom scores (overall score) and measures of personal and economic freedom – we pulled several sub-indicators of personal and economic freedom that go into this score. Specifically, measures of freedom related to religion, association, assembly, rule of law, homicide, disappearances/conflicts/terrorism, inheritance rights, and size of government. Definitions for these indicators can be found at: [About] (index.html). 
+In addition to looking at human freedom scores (overall score) and measures of personal and economic freedom – we pulled several sub-indicators of personal and economic freedom that go into this score. Specifically, measures of freedom related to religion, association, assembly, rule of law, homicide, disappearances/conflicts/terrorism, inheritance rights, and size of government.  
 
 Based on tabular and graphical descriptive analyses, Nordic countries tended to appear fairly similar to one another on measures of happiness and the various measures of freedom we used. We note that, on average, the ‘personal freedom’ scores for Nordic countries tend to be particularly higher compared to the rest of the world. While these countries also have on average higher ‘economic freedom’ scores, the difference is less pronounced comparatively. Nordic countries also tend to be fairly homogenous when looking at these sub-indicators of freedom. Most pronounced in the data, Nordic countries tended to have on average, lower homicide scores, higher size of government scores, and rule of law scores – compared to the rest of the world. Meaning – less intentional homicides, higher degrees of government consumption and taxes, as well as higher adherence to procedural, civil, and criminal justice. 
 
