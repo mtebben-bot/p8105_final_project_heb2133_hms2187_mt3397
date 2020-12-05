@@ -432,7 +432,7 @@ div.tocify {
 <li><p><a href="https://worldhappiness.report/ed/2019/">The 2019 World Happiness Report</a></p></li>
 <li><p><a href="https://www.cato.org/human-freedom-index-new">The Human Freedom Index - 2019</a></p></li>
 </ul>
-<p>After importing these datasets, we performed some basic tidying (e.g., renaming variables) and selected a majority of the variables in each dataset in order to get a sense of which ones we wanted to include in our analyses. In addition, we ensured that each dataset was arranged by country alphabetically in order to successfully merge the two. We merged using ‘full_join’ so that all country data was represented in this final dataset. For the purpose of global maps, we wanted to include all countries available in each dataset for visualization. However, in other analyses where we planned to assess the relationship between happiness scores and human freedom scores, countries that did not have data for both indices were to be removed. Finally, we exported this final, merged dataset as a csv to use for all subsequent analysis.</p>
+<p>After importing these datasets, we performed some basic tidying (e.g., renaming variables) and selected a majority of the variables in each dataset in order to get a sense of which ones we wanted to include in our analyses. In addition, we ensured that each dataset was arranged by country alphabetically in order to successfully merge the two. We merged using ‘full_join’ so that all country data was represented in this final dataset. For the purpose of global maps, we wanted to include all countries available in each dataset for visualization. However, in other analyses where we planned to assess the relationship between happiness scores and human freedom scores, countries that did not have data for both indices were to be removed. Finally, we exported this final, merged dataset as a csv to use as a base for all subsequent analysis.</p>
 <pre class="r"><code>library(tidyverse)
 library(readxl)
 
@@ -527,7 +527,6 @@ map_df = left_join(merged_df, df)</code></pre>
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>
-<p>If you undertake formal statistical analyses, describe these in detail</p>
 <div id="linear-analysis" class="section level3">
 <h3>Linear analysis</h3>
 <p>After conducting exploratory analyses, we decided to conduct a linear analysis. This analysis can be found in further detail at the following link: <a href="Linear-Analysis.html">Linear Analysis</a>.</p>
@@ -540,15 +539,28 @@ map_df = left_join(merged_df, df)</code></pre>
 </div>
 <div id="nordic-exceptionalism" class="section level3">
 <h3>Nordic Exceptionalism</h3>
-<p>This analysis can be found at the following link: <a href="nordic_except.html">Nordic Exceptionalism</a>.</p>
+<p>This analysis can be found at the following link: <a href="nordic_except.html">Nordic Exceptionalism</a>. Nordic countries tend to have among the happiest and most satisfied citizens. The phrase “Nordic Exceptionalism” is used to describe this phenomenon and ask what exactly it is about these nations that leads to these results. Such countries are noted to offer high levels of social support to their citizens and display lower measures of inequality - while noting that citizens pay high levels of taxes in order to support the public sector (1). We decided to examine the five Nordic countries (Denmark, Norway, Sweden, Finland, and Iceland), looking at their happiness scores from the 2019 WHR, as well as how measures of overall and sub-indicators of freedom may play into this narrative.</p>
+<p>In addition to looking at human freedom scores (overall score) and measures of personal and economic freedom – we pulled several sub-indicators of personal and economic freedom that go into this score. Specifically, measures of freedom related to religion, association, assembly, rule of law, homicide, disappearances/conflicts/terrorism, inheritance rights, and size of government. Definitions for these indicators can be found at: [About] (index.html).</p>
+<p>Based on tabular and graphical descriptive analyses, Nordic countries tended to appear fairly similar to one another on measures of happiness and the various measures of freedom we used. We note that, on average, the ‘personal freedom’ scores for Nordic countries tend to be particularly higher compared to the rest of the world. While these countries also have on average higher ‘economic freedom’ scores, the difference is less pronounced comparatively. Nordic countries also tend to be fairly homogenous when looking at these sub-indicators of freedom. Most pronounced in the data, Nordic countries tended to have on average, lower homicide scores, higher size of government scores, and rule of law scores – compared to the rest of the world. Meaning – less intentional homicides, higher degrees of government consumption and taxes, as well as higher adherence to procedural, civil, and criminal justice.</p>
+<p>As we lack information in this dataset on any within country variance, we were unable to carry out statistical testing to confirm whether or not any one of the Nordic countries may statistically differ to a significant degree from the rest. After visualizing the data, we were comfortable treating the Nordic region as one group based on the observed higher degree of similarity among the five countries. We carried out two sample t-tests comparing Nordic countries to all other countries in the world to see whether mean happiness and mean human freedom scores significantly differed between these groups. After checking for homogeneity of variance in the two groups, we ran these t-tests accounting for unequal variance. Both t-tests yielded p-values of &lt; 0.05, indicating sufficient evidence to say that mean citizen happiness and human freedom between these two groups significantly differ.</p>
 </div>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
 <p>What were your findings? Are they what you expect? What insights into the data can you make? Limitations.</p>
 <p>Exploratory analysis revealed a wide variation in overall happiness and freedom scores across the globe…</p>
+<<<<<<< HEAD
 <p>Linear regression analysis revealed a strong relationship between happiness and overall freedom, especially personal freedom. This makes sense, given that human beings have fought for freedom many times over the course of history. As Patrick Henry once said: “Give me liberty, or give me death”. It would seem that greater freedom is associated with greater happiness, and (potentially even more so) less freedom is associated with less happiness.</p>
 <p>This study had a handful of limitations. One notable limitation was the use of only one year’s worth of data. This made the study essentially cross-sectional, and prevented any assessment of temporal changes. Future studies could build on this one by conducting similar analyses but with multiple years of data and looking at changes over time…</p>
+=======
+<p>Linear regression analysis reveas led a strong relationship between happiness and overall freedom, especially personal freedom. This makes sense, given that human beings have fought for freedom many times over the course of history. As Patrick Henry once said: “Give me liberty, or give me death”. It would seem that greater freedom is associated with greater happiness, and (potentially even more so) less freedom is associated with less happiness.</p>
+<p>Nordic countries appeared to be particuarly higher on measures of ‘personal freedom’ to the rest of the world. Considering that Nordic countries are known to implore higher taxes on their citizens to fund the public sector, this would be in line with what we expected to see in this data. Statstical analysis demonstrated that mean citizen happiness in Nordic countries significantly differ from mean citizen happiness in the rest of the world; and that mean human freedom in Nordic countries significantly differs from the rest of the world.</p>
+<p>This study had a handful of limitations. One notable limitation was the use of only one year’s worth of data. This made the study essentially cross-sectional, and prevented any assessment of temporal changes. Future studies could build on this one by conducting similar analyses but with multiple years of data and looking at changes over time. In addition, we would consider examining Nordic countries in reference to several different regions of the world (as opposed to an “all other” global average) in future analysis. As well as consider other potential variables to control for in investigating how measures of human freedom may be associated with these countries’ high happiness and satisfaction scores.</p>
+<p>References:</p>
+<ol style="list-style-type: decimal">
+<li>Frelle-Petersen, C., Hein, A., &amp; Christiansen, M. (2020). The Nordic social welfare model: Lessons for reform [PDF]. <em>Deloitte Insights</em>. <a href="https://www2.deloitte.com/content/dam/insights/us/articles/43149-the-nordic-social-welfare-model/DI_The-Nordic-social-welfare-model.pdf" class="uri">https://www2.deloitte.com/content/dam/insights/us/articles/43149-the-nordic-social-welfare-model/DI_The-Nordic-social-welfare-model.pdf</a></li>
+</ol>
+>>>>>>> ff2e8cbbc4f5c5c23b3c12485edaa09b41c5a767
 </div>
 </div>
 

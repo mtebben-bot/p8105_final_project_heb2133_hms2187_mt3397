@@ -32,9 +32,9 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ![](images/nordic_map.png)
 
-The Nordic Region includes five countries: Denmark, Norway, Sweden, Finland, and Iceland. "Nordic exceptionalism" is the concep that Nordic countries which tend to be....
+"Nordic exceptionalism" is a concept that seeks to describe why Nordic countries tend to be among the happiest or most satisfied in the world. Including conclusions that Nordic countries serve as examples of the successful welfare state - noting that these countries tend to offer high levels of social support to their citizens at the cost of, for example, higher taxes (1). We consider five countries when looking at the Nordic region: Denmark, Norway, Sweden, Finland, and Iceland. 
 
-On this page we'll be examining potential differences in happiness among Nordic countries, and to the rest of the world - as well as different measures of freedom. We do this via tabular and visual descriptions as well as some statistical testing. 
+On this page we'll be examining potential differences in happiness among Nordic countries, and to the rest of the world - as well as different measures of freedom, asking how measures of freedom in these countries may play into this narrative. 
 
 ## Comparing Nordic Countries' Happiness and Freedom Scores 
 
@@ -212,9 +212,9 @@ plot_happy | plot_freedom
 
 From the above graph we can tell that there appears to be a greater spread of data in the 'all other countries' group for both happiness and human freedom scores. We formally assess whether our two group variances have statistically significant differences in the below section. 
 
-The below tables summaries the count, mean, and standard deviation for 1) happiness and 2) human freedom scores for our two groups of all Nordic countries and the rest of the world.
+The count, mean, and standard deviation for happiness scores in Nordic vs other countries:
 
-```{r, include = FALSE}
+```{r, warning = F, message = F}
 #Group means, counts, and SD for happiness score
 merge_df_test %>% 
   group_by(countries) %>%
@@ -224,7 +224,11 @@ merge_df_test %>%
     sd = sd(happiness_score, na.rm = TRUE)
   ) %>% 
   knitr::kable()
+```
 
+The count, mean, and standard deviation for human freedom scores in Nordic vs other countries:
+
+```{r}
 #Group means, counts, and SD for freedom score
 merge_df_test %>% 
   group_by(countries) %>%
@@ -284,3 +288,8 @@ We have sufficient evidence to conclude:
 2. Mean human freedom in Nordic countries is significantly difference from the rest of the world. 
 
 Future analyses examining Nordic countries could consider and control for potential confounders, carry out comparisons between the Nordic region versus other regions of the globe, or look at longitudinal data.
+
+References: 
+
+1. Frelle-Petersen, C., Hein, A., & Christiansen, M. (2020). The Nordic social welfare model: Lessons for reform [PDF].
+*Deloitte Insights*. https://www2.deloitte.com/content/dam/insights/us/articles/43149-the-nordic-social-welfare-model/DI_The-Nordic-social-welfare-model.pdf
