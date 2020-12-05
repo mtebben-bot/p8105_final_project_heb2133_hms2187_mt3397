@@ -15,17 +15,18 @@ This page contains the written report for our final project.
  While we could not obtain data from 2020, we were able to obtain the most recent data possible (from 2019) surrounding global measures of happiness and freedom. Our goals were to further investigate the relationship between happiness and human freedom, with special attention towards those countries that had the actual highest and lowest scores, and countries that are colloquially thought of as the happiest and most free countries.
  
 ## Related Work
-Anything that inspired you, such as a paper, a web site, or something we discussed in class.
-Leaving this for Megan
+This exploration of two different metrics came from Megan's experience in her undergraduate courses in international relations. Jeffrey Sachs, a famous economist and policy analyst who wrote a lot about globalization and other international relations topics, is one of the lead minds on the World Happiness Report. The Human Freedom Index is a new measurement tool to describe the relative freedoms of individuals, both economic and personal, living in any given country in the world. Megan thought it could be interesting to look at happiness scores as they relate to human freedom scores, combining the two datasets that she became familiar with in other classes.
 
 ## Initial Questions
-What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
+Our primary questions were:  
 
-Our primary questions were: How does happiness vary across nations?
-How does freedom vary across nations? 
-Does freedom have an impact on happiness/do freedom and happiness have a positive association?
+* How does happiness vary across nations?  
 
-These questions evolved over the course of the project after we did initial mappings and exploratory analysis. Upon noticing certain high and low rankings, we wanted to further analyze the lowest and highest ranked countries, both for freedom and happiness. In addition, we wanted to see how different subtypes of freedom were connected to happiness, not just overall freedom.
+* How does freedom vary across nations?  
+
+* Does freedom have an impact on happiness/do freedom and happiness have a positive association?
+
+These questions evolved over the course of the project after we did initial mappings and exploratory analysis. We felt it would be interesting to take a closer look at the highest scoring and lowest scoring countries for each of the two metrics to discover any similarities or differences that may be present. In addition, we wanted to see how different subtypes of freedom were connected to happiness, not just overall freedom.
 
 ## Data
 
@@ -139,7 +140,6 @@ This analysis can be found at the following link: [Top 5 Bottom 5](top_5_bottom_
 
 As we began our exploration of the data, we wondered how countries with similar overall human freedom scores related in the subcategories of human freedom scores. We also wondered if the countries with the highest and lowest scores for each metric would be the same. We decided to explore this by looking at the 5 countries with the highest and lowest scores for human freedom and happiness to see where they were similar and where they were different.
 
-<<<<<<< HEAD
 We made individual data frames for each of the four groups (bottom/top happiness/human freedom) with four variables: human freedom score, happiness score, economic freedom score, and personal freedom score. 
 
 For the bottom 5 data frames, the data was sorted so that the lowest score would appear first, while the top 5 score data frames were sorted so the highest scores would appear first. The means and standard deviations are provided as a reference point for the viewer to understand the averages of the four scores and how spread out the data is across the countries.
@@ -147,8 +147,6 @@ For the bottom 5 data frames, the data was sorted so that the lowest score would
 The bar graphs are included to visually show the variation in freedom scores among the top 5 and bottom 5 countries. We wanted to show that, while these are the 5 countries with the lowest or highest scores, there are still differences between them.
 
 
-=======
->>>>>>> ff2e8cbbc4f5c5c23b3c12485edaa09b41c5a767
 ## Additional Analysis
 
 ### Linear analysis
