@@ -15,6 +15,12 @@ We begin by presenting a broad visual of how happiness and human freedom are dis
 
 Our process of cleaning and merging these datasets is outlined in the relevant section of our project report, under the 'Report' page. 
 
+### Screencast
+
+<video width="320" length="240" controls>
+  <source src="p8105_recording.mp4" type="video/mp4">
+</video>
+
 ## About our Data {.tabset}
 
 
