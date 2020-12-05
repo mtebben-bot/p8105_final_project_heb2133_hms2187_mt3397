@@ -228,7 +228,7 @@ merge_df_test %>%
 
 The count, mean, and standard deviation for human freedom scores in Nordic vs other countries:
 
-```{r}
+```{r, warning = F, message = F}
 #Group means, counts, and SD for freedom score
 merge_df_test %>% 
   group_by(countries) %>%
