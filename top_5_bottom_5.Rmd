@@ -56,7 +56,7 @@ bot5_whr_merge =
   rbind(bot5_whr, bot5_whr_avg, bot5_whr_sd) %>% 
   mutate(countries = as.character(countries),
     countries =  str_replace(countries, "0", "bot5_whr_average"),
-    countries = str_replace(countries, "1", "bot_whr_sd")
+    countries = str_replace(countries, "1", "bot5_whr_sd")
       )
 ```
 
@@ -226,6 +226,8 @@ This plot compares the top 5 and bottom 5 countries for human freedom scores. Yo
 bot5_whr_merge %>% knitr::kable(digits = 3)
 ```
 
+The bottom 5 countries for happiness scores are quite uniform, with a very small standard deviation and very little difference between the countries' scores. However, they are quite different across freedom scores, with Botswana scoring pretty highly overall and in the two subtypes of freedom score. Additionally, it is interesting to note that there is no overlap between the bottom 5 countries in terms of happiness and the bottom 5 countries in terms of human freedom scores.
+
 ```{r}
 bot5_whr %>% 
 select(-happiness_score) %>% 
@@ -246,13 +248,14 @@ select(-happiness_score) %>%
   theme(axis.text.x = element_text(size = 8, angle = 25, hjust = 1))
 ```
 
-
-Insert comments about bot 5 whr
+This chart shows further that the freedom scores for the countries with the lowest happiness scores are roughly similar, with the Central African Republic and Zimbabwe having lower scores than the others. Interestingly, these countries all seem to have pretty similar economic and personal freedom scores.
 
 #### Top 5 Countries for Happiness Scores
 ```{r, echo = F}
 top5_whr_merge %>% knitr::kable(digits = 3)
 ```
+
+As with the bottom 5 countries, there is a good amount of uniformity in happiness scores among the top 5 scoring countries. The human freedom scores for these countries are also quite high. The most striking similarity between the top 5 happiness countries is that they all have very high personal freedom scores.
 
 ```{r}
 top5_whr %>% 
@@ -267,14 +270,32 @@ select(-happiness_score) %>%
   ggplot(aes(x = countries, y = score, fill = freedom_subgroup)) + 
   geom_bar(stat = "identity", color = "black", position = position_dodge()) +
   ylim(min = 0, max = 10) + 
-  ggtitle("Comparing Bottom 5 Countries on Freedom Subtypes") +
+  ggtitle("Comparing Top 5 Countries on Freedom Subtypes") +
   xlab("Countries")+
   ylab("Freedom Score")+
   labs(fill = "Freedom Subgroup")
 ```
 
+This chart shows that, unlike the bottom 5 countries for happiness scores, there is less uniformity between economic and personal freedom scores. All countries have very high personal freedom scores, but there is more variation in the economic freedom scores.
 
-Insert comments about top 5 whr
+```{r}
+whr_table = 
+  rbind(top5_whr_merge, bot5_whr_merge) %>% 
+  filter(countries %in% c("top5_whr_average", "top5_whr_sd", "bot5_whr_average", "bot5_whr_sd")) %>% 
+  select(countries, human_freedom_score, happiness_score) %>% 
+  pivot_longer(human_freedom_score:happiness_score,
+    names_to = "score",
+    values_to = "aaah"
+  ) %>% 
+  pivot_wider(
+    names_from = "countries",
+    values_from = "aaah"
+  )
+
+whr_table %>% knitr::kable()
+```
+
+This table shows that the values for both human freedom scores and happiness scores among the top 5 countries for happiness are quite uniform in their distribution around the mean. On the other hand, the human freedom score standard deviation for the bottom 5 countries on happiness score is quite high, indicating that the scores are more spread out around the mean. The happiness score standard deviation for the bottom 5 countries, though, are very close to one another.
 
 ```{r, message = F, warning=F}
 whr_combo = full_join(bot5_whr, top5_whr)
@@ -288,4 +309,4 @@ whr_combo %>%
     )
 ```
 
-Insert comments about whr plot
+This plot visually shows that the bottom 5 countries for happiness score vary across human freedom scores, while the top 5 countries are clustered together with very similar scores for both happiness and human freedom.
