@@ -413,7 +413,7 @@ div.tocify {
 <p>This page contains the written report for our final project.</p>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
-<p>Provide an overview of the project goals and motivation. In the year 2020, happiness seems to be at an all-time low. A global pandemic rages on into the new year, with cases and deaths surging to levels higher than ever seen before. Such a situation has forced many people in society to give up freedoms and individual liberties previously guaranteed in everyday life. Lockdowns, mask mandates, reduced capacity in stores and hybrid learning have all been imposed to keep people safe and healthy, yet some people see this as an infringement on their personal rights. This connection between freedom and happiness motivated our group to investigate further. While we could not obtain data from 2020, we were able to obtain the most recent data possible (from 2019) surrounding global measures of happiness and freedom. Our goals were to further investigate the relationship between happiness and human freedom, with special attention towards those countries that had the actual highest and lowest scores, and countries that are colloquially thought of as the happiest and most free countries.</p>
+<p>In the year 2020, happiness seems to be at an all-time low. A global pandemic rages on into the new year, with cases and deaths surging to levels higher than ever seen before. Such a situation has forced many people in society to give up freedoms and individual liberties previously guaranteed in everyday life. Lockdowns, mask mandates, reduced capacity in stores and hybrid learning have all been imposed to keep people safe and healthy, yet some people see this as an infringement on their personal rights. This connection between freedom and happiness motivated our group to investigate further. While we could not obtain data from 2020, we were able to obtain the most recent data possible (from 2019) surrounding global measures of happiness and freedom. Our goals were to further investigate the relationship between happiness and human freedom, with special attention towards those countries that had the actual highest and lowest scores, and countries that are colloquially thought of as the happiest and most free countries.</p>
 </div>
 <div id="related-work" class="section level2">
 <h2>Related Work</h2>
@@ -470,7 +470,6 @@ write.csv(merged_df, &quot;./data/merged_df.csv&quot;)</code></pre>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2>Exploratory Analysis</h2>
-<p>Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.</p>
 <div id="world-maps" class="section level3">
 <h3>World Maps</h3>
 <p>This analysis can be found at the following link: <a href="maps_data_clean.html">World Maps</a>.</p>
@@ -553,7 +552,10 @@ map_df = left_join(merged_df, df)</code></pre>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
+<<<<<<< HEAD
 <p>What were your findings? Are they what you expect? What insights into the data can you make? Limitations.</p>
+=======
+>>>>>>> 25e4c7d53e2549a81f731952ef073644182500c2
 <p>Exploratory analysis revealed a wide variation in overall happiness and freedom scores across the globe. Additionally, it revealed that the top scoring countries on each metric were quite similar to one another on the other metric, while there was considerably more variation among the lowest scoring countries. Hong Kong was an outlier among the highest scoring countries for freedom scores, as they had quite a low happiness score relative to the rest of their group. For the lowest scoring countries on the human freedom index, the countries differed greatly in happiness scores. For the lowest scoring countries on happiness score, there was some variation between the countries on human freedom score, but more interestingly, the average human freedom score was quite high at 6.3 out of a possible 10 and the global average sitting around 6.9.</p>
 <p>Linear regression analysis revealed a strong relationship between happiness and overall freedom, especially personal freedom. This makes sense, given that human beings have fought for freedom many times over the course of history. As Patrick Henry once said: “Give me liberty, or give me death”. It would seem that greater freedom is associated with greater happiness, and (potentially even more so) less freedom is associated with less happiness.</p>
 <p>Nordic countries appeared to be particularly higher on measures of ‘personal freedom’ to the rest of the world. Considering that Nordic countries are known to implore higher taxes on their citizens to fund the public sector, this would be in line with what we expected to see in this data. Statistical analysis demonstrated that mean citizen happiness in Nordic countries significantly differ from mean citizen happiness in the rest of the world; and that mean human freedom in Nordic countries significantly differs from the rest of the world.</p>

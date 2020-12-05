@@ -109,5 +109,3 @@ hfi_map =
 ```{r}
 hfi_map
 ```
-
-
