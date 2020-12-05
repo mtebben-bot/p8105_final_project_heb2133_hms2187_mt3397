@@ -10,7 +10,6 @@ output:
 This page contains the written report for our final project.
 
 ## Motivation
- Provide an overview of the project goals and motivation.
  In the year 2020, happiness seems to be at an all-time low. A global pandemic rages on into the new year, with cases and deaths surging to levels higher than ever seen before. Such a situation has forced many people in society to give up freedoms and individual liberties previously guaranteed in everyday life. Lockdowns, mask mandates, reduced capacity in stores and hybrid learning have all been imposed to keep people safe and healthy, yet some people see this as an infringement on their personal rights. This connection between freedom and happiness motivated our group to investigate further. 
  While we could not obtain data from 2020, we were able to obtain the most recent data possible (from 2019) surrounding global measures of happiness and freedom. Our goals were to further investigate the relationship between happiness and human freedom, with special attention towards those countries that had the actual highest and lowest scores, and countries that are colloquially thought of as the happiest and most free countries.
  
@@ -73,7 +72,6 @@ write.csv(merged_df, "./data/merged_df.csv")
 ```
 
 ## Exploratory Analysis
-Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
 
 ### World Maps
 This analysis can be found at the following link: [World Maps](maps_data_clean.html). 
@@ -177,8 +175,6 @@ Based on tabular and graphical descriptive analyses, Nordic countries tended to 
 As we lack information in this dataset on any within country variance, we were unable to carry out statistical testing to confirm whether or not any one of the Nordic countries may statistically differ to a significant degree from the rest. After visualizing the data, we were comfortable treating the Nordic region as one group based on the observed higher degree of similarity among the five countries. We carried out two sample t-tests comparing Nordic countries to all other countries in the world to see whether mean happiness and mean human freedom scores significantly differed between these groups. After checking for homogeneity of variance in the two groups, we ran these t-tests accounting for unequal variance. Both t-tests yielded p-values of < 0.05, indicating sufficient evidence to say that mean citizen happiness and human freedom between these two groups significantly differ. 
 
 ## Discussion
-What were your findings? Are they what you expect? What insights into the data can you make? Limitations.
-
 Exploratory analysis revealed a wide variation in overall happiness and freedom scores across the globe. Additionally, it revealed that the top scoring countries on each metric were quite similar to one another on the other metric, while there was considerably more variation among the lowest scoring countries. Hong Kong was an outlier among the highest scoring countries for freedom scores, as they had quite a low happiness score relative to the rest of their group. For the lowest scoring countries on the human freedom index, the countries differed greatly in happiness scores. For the lowest scoring countries on happiness score, there was some variation between the countries on human freedom score, but more interestingly, the average human freedom score was quite high at 6.3 out of a possible 10 and the global average sitting around 6.9.
 
 Linear regression analysis revealed a strong relationship between happiness and overall freedom, especially personal freedom. This makes sense, given that human beings have fought for freedom many times over the course of history. As Patrick Henry once said: "Give me liberty, or give me death". It would seem that greater freedom is associated with greater happiness, and (potentially even more so) less freedom is associated with less happiness.
